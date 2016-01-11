@@ -34,6 +34,22 @@ public class MapComputer {
 		return computers;
 	}
 
+	public Computer mapcomputer(ResultSet result) {
+		try {
+			while (result.next()) {
+				computer.setId(Integer.parseInt(result.getString("id")));
+				computer.setName((result.getString("name")));
+				computer.setName((result.getString("introduced")));
+				computer.setName((result.getString("discontinued")));
+				computer.setId(Integer.parseInt(result.getString("companyId")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return computer;
+	}
+
 	synchronized public static MapComputer getInstance() {
 		if (_instance == null) {
 			_instance = new MapComputer();

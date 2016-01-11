@@ -8,6 +8,8 @@ public class SQLComputer implements Serializable {
 
 	private static SQLComputer _instance = null;
 	Connection connection;
+	Statement statement;
+	ResultSet result = null;
 
 	private SQLComputer() {
 		try {
@@ -26,8 +28,6 @@ public class SQLComputer implements Serializable {
 	}
 
 	public ResultSet recupComputers() {
-		Statement statement;
-		ResultSet result = null;
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM COMPUTER ;");
@@ -39,8 +39,6 @@ public class SQLComputer implements Serializable {
 	}
 
 	public ResultSet recupComputer(int id) {
-		Statement statement;
-		ResultSet result = null;
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM COMPUTER WHERE id = '" + id + "';");
@@ -52,8 +50,6 @@ public class SQLComputer implements Serializable {
 	}
 
 	public ResultSet recupComputer(String name) {
-		Statement statement;
-		ResultSet result = null;
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM COMPUTER WHERE name = '" + name + "';");
@@ -64,9 +60,7 @@ public class SQLComputer implements Serializable {
 		return result;
 	}
 
-	public ResultSet supprComputer(String name) {
-		Statement statement;
-		ResultSet result = null;
+	public void supprComputer(String name) {
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("DELETE * FROM COMPUTER WHERE name = '" + name + "';");
@@ -74,12 +68,9 @@ public class SQLComputer implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
 	}
 
-	public ResultSet supprComputer(int id) {
-		Statement statement;
-		ResultSet result = null;
+	public void supprComputer(int id) {
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("DELETE * FROM COMPUTER WHERE id = '" + id + "';");
@@ -87,12 +78,9 @@ public class SQLComputer implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
 	}
 
-	public ResultSet updateComputer(int id, String name, String introduced, String discontinued, int companyId) {
-		Statement statement;
-		ResultSet result = null;
+	public void updateComputer(int id, String name, String introduced, String discontinued, int companyId) {
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery(
@@ -102,7 +90,17 @@ public class SQLComputer implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+	}
+	
+	public void creerComputer(String name, String introduced, String discontinued, int companyId) {
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery(
+					"INSERT INTO COMPUTER  VALUES ('','"+ name + "', '" + introduced + "', '"+ discontinued + "', '" + companyId + "');");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void fermeConnection() {
