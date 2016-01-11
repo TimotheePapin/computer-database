@@ -13,14 +13,14 @@ public class MapCompany {
 	private Company company;
 
 	private MapCompany() {
-		company = new Company();
 	}
 
 	public List<Company> mapcompanies(ResultSet result) {
 		List<Company> companies = new ArrayList<Company>();
 		try {
 			while (result.next()) {
-				company.setId(Integer.parseInt(result.getString("id")));
+				company = new Company();
+				company.setId(result.getInt("id"));
 				company.setName((result.getString("name")));
 				companies.add(company);
 			}

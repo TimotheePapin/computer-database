@@ -2,6 +2,7 @@ package com.excilys.formation.java.computerDatabase.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,18 +14,29 @@ public class MapComputer {
 	private Computer computer;
 
 	private MapComputer() {
-		computer = new Computer();
 	}
 
 	public List<Computer> mapcomputers(ResultSet result) {
 		List<Computer> computers = new ArrayList<Computer>();
+		@SuppressWarnings("deprecation")
+		Timestamp timestamp = new Timestamp(0, 0, 0, 0, 0, 0, 0);
 		try {
 			while (result.next()) {
-				computer.setId(Integer.parseInt(result.getString("id")));
+				computer = new Computer();
+				computer.setId(result.getInt("id"));
 				computer.setName((result.getString("name")));
-				computer.setName((result.getString("introduced")));
-				computer.setName((result.getString("discontinued")));
-				computer.setId(Integer.parseInt(result.getString("companyId")));
+				if (result.getTimestamp("introduced") == null || result.getTimestamp("introduced").equals(timestamp)) {
+					computer.setIntroduced("null");
+				} else {
+					computer.setIntroduced((result.getTimestamp("introduced").toString()));
+				}
+				if (result.getTimestamp("discontinued") == null
+						|| result.getTimestamp("discontinued").equals(timestamp)) {
+					computer.setDiscontinued("null");
+				} else {
+					computer.setDiscontinued((result.getTimestamp("discontinued").toString()));
+				}
+				computer.setCompanyId(result.getInt("company_id"));
 				computers.add(computer);
 			}
 		} catch (SQLException e) {
@@ -35,14 +47,24 @@ public class MapComputer {
 	}
 
 	public Computer mapcomputer(ResultSet result) {
+		@SuppressWarnings("deprecation")
+		Timestamp timestamp = new Timestamp(0, 0, 0, 0, 0, 0, 0);
 		try {
-			while (result.next()) {
-				computer.setId(Integer.parseInt(result.getString("id")));
-				computer.setName((result.getString("name")));
-				computer.setName((result.getString("introduced")));
-				computer.setName((result.getString("discontinued")));
-				computer.setId(Integer.parseInt(result.getString("companyId")));
+			result.next();
+			computer = new Computer();
+			computer.setId(result.getInt("id"));
+			computer.setName((result.getString("name")));
+			if (result.getTimestamp("introduced") == null || result.getTimestamp("introduced").equals(timestamp)) {
+				computer.setIntroduced("null");
+			} else {
+				computer.setIntroduced((result.getTimestamp("introduced").toString()));
 			}
+			if (result.getTimestamp("discontinued") == null) {
+				computer.setDiscontinued("null");
+			} else {
+				computer.setDiscontinued((result.getTimestamp("discontinued").toString()));
+			}
+			computer.setCompanyId(result.getInt("company_id"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -30,7 +30,7 @@ public class SQLCompany implements Serializable {
 		ResultSet result = null;
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM COMPANY ;");
+			result = statement.executeQuery("SELECT * FROM company ;");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

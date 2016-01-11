@@ -30,7 +30,7 @@ public class SQLComputer implements Serializable {
 	public ResultSet recupComputers() {
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM COMPUTER ;");
+			result = statement.executeQuery("SELECT * FROM computer ;");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,7 +41,7 @@ public class SQLComputer implements Serializable {
 	public ResultSet recupComputer(int id) {
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM COMPUTER WHERE id = '" + id + "';");
+			result = statement.executeQuery("SELECT * FROM computer WHERE id = '" + id + "';");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class SQLComputer implements Serializable {
 	public ResultSet recupComputer(String name) {
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM COMPUTER WHERE name = '" + name + "';");
+			result = statement.executeQuery("SELECT * FROM computer WHERE name = '" + name + "';");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,7 +63,7 @@ public class SQLComputer implements Serializable {
 	public void supprComputer(String name) {
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("DELETE * FROM COMPUTER WHERE name = '" + name + "';");
+			statement.executeUpdate("DELETE FROM computer WHERE name = '" + name + "';");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,30 +73,30 @@ public class SQLComputer implements Serializable {
 	public void supprComputer(int id) {
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("DELETE * FROM COMPUTER WHERE id = '" + id + "';");
+			statement.executeUpdate("DELETE FROM computer WHERE id = '" + id + "';");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public void updateComputer(int id, String name, String introduced, String discontinued, int companyId) {
+	public void updateComputer(int id, String name, Timestamp introduced, Timestamp discontinued, int companyId) {
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery(
-					"UPDATE COMPUTER SET name = '" + name + "', introduced = '" + introduced + "', discontinued = '"
-							+ discontinued + "', companyId = '" + companyId + "' WHERE id = '" + id + "';");
+			statement.executeUpdate(
+					"UPDATE computer SET name = '" + name + "', introduced = '" + introduced + "', discontinued = '"
+							+ discontinued + "', company_id = '" + companyId + "' WHERE id = '" + id + "';");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void creerComputer(String name, String introduced, String discontinued, int companyId) {
+	public void creerComputer(String name, Timestamp introduced, Timestamp discontinued, int companyId) {
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery(
-					"INSERT INTO COMPUTER  VALUES ('','"+ name + "', '" + introduced + "', '"+ discontinued + "', '" + companyId + "');");
+			statement.executeUpdate(
+					"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES ('"+ name + "', '" + introduced + "', '"+ discontinued + "', " + companyId + ");");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

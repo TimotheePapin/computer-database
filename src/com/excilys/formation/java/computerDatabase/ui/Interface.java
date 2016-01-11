@@ -9,6 +9,7 @@ public class Interface {
 	private static ServiceCompany serviceCompany;
 	private static ServiceComputer serviceComputer;
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		serviceCompany = ServiceCompany.getInstance();
@@ -37,10 +38,12 @@ public class Interface {
 				serviceComputer.supprimerComputer();
 				break;
 			case 7:
+				serviceComputer.closeConnection();
+				serviceCompany.closeConnection();
 				System.exit(0);
 				break;
 			default:
-				System.out.println("Saisie Incorrecte");
+				System.out.println("Incorrect entry");
 			}
 		}
 	}

@@ -33,6 +33,10 @@ public class ServiceCompany implements Serializable {
 		return mapCompany.mapcompanies(sqlCompany.recupCompanies());
 	}
 
+	public void closeConnection() {
+		sqlCompany.fermeConnection();
+	}
+	
 	synchronized public static ServiceCompany getInstance() {
 		if (_instance == null) {
 			_instance = new ServiceCompany();
