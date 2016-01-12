@@ -1,6 +1,12 @@
 package com.excilys.formation.java.computerDatabase.model;
 
-public class Company {
+import java.io.Serializable;
+
+public class Company implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 643833417003469677L;
 	private int id;
 	private String name;
 

@@ -1,9 +1,14 @@
 package com.excilys.formation.java.computerDatabase.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Computer {
+public class Computer implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3479179590110537100L;
 	private int id;
 	private String name;
 	private LocalDate introduced;

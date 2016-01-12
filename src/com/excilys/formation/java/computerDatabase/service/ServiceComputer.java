@@ -9,21 +9,19 @@ import java.util.Scanner;
 
 import com.excilys.formation.java.computerDatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerDatabase.model.Computer;
-import com.excilys.formation.java.computerDatabase.persistence.SQLComputer;
+import com.excilys.formation.java.computerDatabase.persistence.impl.DAOComputerImpl;
 
 @SuppressWarnings("serial")
 public class ServiceComputer implements Serializable {
 
 	private static ServiceComputer _instance = null;
 
-	private static SQLComputer sqlComputer;
-	private static MapComputer mapComputer;
+	private static DAOComputerImpl sqlComputer;
 
 	Scanner sc = new Scanner(System.in);
 
 	private ServiceComputer() {
-		sqlComputer = SQLComputer.getInstance();
-		mapComputer = MapComputer.getInstance();
+		sqlComputer = DAOComputerImpl.getInstance();
 	}
 
 	public void afficherComputer(Computer computer) {

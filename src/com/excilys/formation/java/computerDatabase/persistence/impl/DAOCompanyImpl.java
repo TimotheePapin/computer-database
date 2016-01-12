@@ -1,54 +1,54 @@
-package com.excilys.formation.java.computerDatabase.persistence;
+package com.excilys.formation.java.computerDatabase.persistence.impl;
 
-import java.io.Serializable;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
-@SuppressWarnings("serial")
-public class SQLCompany implements Serializable {
+import com.excilys.formation.java.computerDatabase.mapper.MapCompany;
+import com.excilys.formation.java.computerDatabase.model.Company;
+import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
+import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnection;
 
-	private static SQLCompany _instance = null;
-	Connection connection;
+public class DAOCompanyImpl implements DaoCompany {
 
-	private SQLCompany() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String url = new String("jdbc:mysql://localhost:3306/computer-database-db");
-			this.connection = DriverManager.getConnection(url, "admincdb", "qwerty1234");
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	
+
+	private static DaoCompany _instance = null;
+	private static MapCompany mapCompany;
+	private static DatabaseConnection databaseConnection;
+
+	private DAOCompanyImpl() {
+		mapCompany = MapCompany.getInstance();
 	}
 
-	public ResultSet recupCompanies() {
-		Statement statement;
+	@Override
+	public List<Company> getAll() {
+		PreparedStatement statement=null;
 		ResultSet result = null;
 		try {
-			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM company ;");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	public void fermeConnection() {
-		try {
-			this.connection.close();
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement("SELECT * FROM company where name=?;");
+			statement.setString(1, "test");
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if(statement != null ) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
 		}
+		return mapCompany.mapcompanies(result);
 	}
 
-	synchronized public static SQLCompany getInstance() {
+	public synchronized static DaoCompany getInstance() {
 		if (_instance == null) {
-			_instance = new SQLCompany();
+			_instance = new DAOCompanyImpl();
 		}
 		return _instance;
 	}

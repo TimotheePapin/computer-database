@@ -5,18 +5,18 @@ import java.util.List;
 
 import com.excilys.formation.java.computerDatabase.mapper.MapCompany;
 import com.excilys.formation.java.computerDatabase.model.Company;
-import com.excilys.formation.java.computerDatabase.persistence.SQLCompany;
+import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
+import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompany;
+import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyImpl;
 
 @SuppressWarnings("serial")
 public class ServiceCompany implements Serializable {
 
 	private static ServiceCompany _instance = null;
-	private static SQLCompany sqlCompany;
-	private static MapCompany mapCompany;
+	private static DaoCompany sqlCompany;
 
 	private ServiceCompany() {
-		sqlCompany = SQLCompany.getInstance();
-		mapCompany = MapCompany.getInstance();
+		sqlCompany = DAOCompanyImpl.getInstance();
 	}
 
 	public void afficherCompany(Company company) {
