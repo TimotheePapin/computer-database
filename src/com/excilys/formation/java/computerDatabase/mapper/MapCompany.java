@@ -9,20 +9,11 @@ import com.excilys.formation.java.computerDatabase.model.Company;
 
 public class MapCompany {
 
-	private static MapCompany _instance = null;
-	private Company company;
-
-	private MapCompany() {
-	}
-
-	public List<Company> mapcompanies(ResultSet result) {
+	public static List<Company> mapCompanies(ResultSet result) {
 		List<Company> companies = new ArrayList<Company>();
 		try {
 			while (result.next()) {
-				company = new Company();
-				company.setId(result.getInt("id"));
-				company.setName((result.getString("name")));
-				companies.add(company);
+				companies.add(mapCompany(result));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -30,11 +21,14 @@ public class MapCompany {
 		return companies;
 	}
 
-	synchronized public static MapCompany getInstance() {
-		if (_instance == null) {
-			_instance = new MapCompany();
+	public static Company mapCompany(ResultSet result) {
+		Company company = new Company();
+		try {
+			company.setId(result.getInt("id"));
+			company.setName((result.getString("name")));
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return _instance;
+		return company;
 	}
-
 }

@@ -1,25 +1,21 @@
 package com.excilys.formation.java.computerDatabase.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Computer implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3479179590110537100L;
 	private int id;
 	private String name;
-	private LocalDate introduced;
-	private LocalDate discontinued;
-	private String company;
+	private LocalDateTime introduced;
+	private LocalDateTime discontinued;
+	private Company company;
 
 	public Computer() {
 		super();
 	}
 
-	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, String company) {
+	public Computer(int id, String name, LocalDateTime introduced, LocalDateTime discontinued, Company company) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -44,34 +40,28 @@ public class Computer implements Serializable {
 		this.name = name;
 	}
 
-	public LocalDate getIntroduced() {
+	public LocalDateTime getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(LocalDate introduced) {
+	public void setIntroduced(LocalDateTime introduced) {
 		this.introduced = introduced;
 	}
 
-	public LocalDate getDiscontinued() {
+	public LocalDateTime getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(LocalDate discontinued) {
+	public void setDiscontinued(LocalDateTime discontinued) {
 		this.discontinued = discontinued;
 	}
 
-	public String getCompany() {
+	public Company getCompany() {
 		return company;
 	}
 
-	public void setCompany(String company) {
+	public void setCompany(Company company) {
 		this.company = company;
-	}
-
-	@Override
-	public String toString() {
-		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company=" + company + "]";
 	}
 
 	@Override
@@ -119,4 +109,11 @@ public class Computer implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", company=" + company + "]";
+	}
+
 }

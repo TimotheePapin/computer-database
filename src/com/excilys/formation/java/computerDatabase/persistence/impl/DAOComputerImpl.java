@@ -15,20 +15,16 @@ import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnectio
 public class DAOComputerImpl implements DaoComputer {
 
 	private static DAOComputerImpl _instance = null;
-	private static MapComputer mapComputer;
 	private static DatabaseConnection databaseConnection;
 	private PreparedStatement statement = null;
 	private ResultSet result = null;
-
-	private DAOComputerImpl() {
-		mapComputer = MapComputer.getInstance();
-	}
 
 	@Override
 	public List<Computer> getAll() {
 		try {
 			Connection connection = databaseConnection.open();
-			statement = connection.prepareStatement("SELECT * FROM computer;");
+			statement = connection
+					.prepareStatement("SELECT * FROM computer LEFT JOIN company ON computer.company_id=comapny.id;");
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -41,14 +37,15 @@ public class DAOComputerImpl implements DaoComputer {
 			}
 			databaseConnection.close();
 		}
-		return mapComputer.mapcomputers(result);
+		return MapComputer.mapComputers(result);
 	}
 
 	@Override
 	public Computer getById(int id) {
 		try {
 			Connection connection = databaseConnection.open();
-			statement = connection.prepareStatement("SELECT * FROM computer where id='?';");
+			statement = connection.prepareStatement(
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=comapny.id WHERE id='?';");
 			statement.setInt(1, id);
 			statement.execute();
 		} catch (SQLException e) {
@@ -62,14 +59,15 @@ public class DAOComputerImpl implements DaoComputer {
 			}
 			databaseConnection.close();
 		}
-		return mapComputer.mapcomputer(result);
+		return MapComputer.mapComputer(result);
 	}
 
 	@Override
 	public Computer getByName(String name) {
 		try {
 			Connection connection = databaseConnection.open();
-			statement = connection.prepareStatement("SELECT * FROM computer where name='?';");
+			statement = connection.prepareStatement(
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=comapny.id WHERE name='?';");
 			statement.setString(1, name);
 			statement.execute();
 		} catch (SQLException e) {
@@ -83,7 +81,7 @@ public class DAOComputerImpl implements DaoComputer {
 			}
 			databaseConnection.close();
 		}
-		return mapComputer.mapcomputer(result);
+		return MapComputer.mapComputer(result);
 	}
 
 	@Override
@@ -133,9 +131,9 @@ public class DAOComputerImpl implements DaoComputer {
 			statement = connection.prepareStatement(
 					"UPDATE computer SET name = '?', introduced = '?', discontinued = '?', company_id = '?' WHERE id = '?';");
 			statement.setString(1, computer.getName());
-			statement.setTimestamp(2, mapComputer.toTimestamp(computer.getIntroduced()));
-			statement.setTimestamp(3, mapComputer.toTimestamp(computer.getDiscontinued()));
-			statement.setInt(4, mapComputer.toCompanyId(computer.getCompany()));
+			statement.setTimestamp(2, MapComputer.toTimestamp(computer.getIntroduced()));
+			statement.setTimestamp(3, MapComputer.toTimestamp(computer.getDiscontinued()));
+			statement.setInt(4, computer.getCompany().getId());
 			statement.setInt(5, computer.getId());
 			statement.execute();
 		} catch (SQLException e) {
@@ -158,9 +156,9 @@ public class DAOComputerImpl implements DaoComputer {
 			statement = connection.prepareStatement(
 					"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES ('?', '?', '?', '?');");
 			statement.setString(1, computer.getName());
-			statement.setTimestamp(2, mapComputer.toTimestamp(computer.getIntroduced()));
-			statement.setTimestamp(3, mapComputer.toTimestamp(computer.getDiscontinued()));
-			statement.setInt(4, mapComputer.toCompanyId(computer.getCompany()));
+			statement.setTimestamp(2, MapComputer.toTimestamp(computer.getIntroduced()));
+			statement.setTimestamp(3, MapComputer.toTimestamp(computer.getDiscontinued()));
+			statement.setInt(4, computer.getCompany().getId());
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

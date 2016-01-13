@@ -14,17 +14,12 @@ import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnectio
 public class DAOCompanyImpl implements DaoCompany {
 
 	private static DaoCompany _instance = null;
-	private static MapCompany mapCompany;
 	private static DatabaseConnection databaseConnection;
-
-	private DAOCompanyImpl() {
-		mapCompany = MapCompany.getInstance();
-	}
+	private PreparedStatement statement = null;
+	private ResultSet result = null;
 
 	@Override
 	public List<Company> getAll() {
-		PreparedStatement statement=null;
-		ResultSet result = null;
 		try {
 			Connection connection = databaseConnection.open();
 			statement = connection.prepareStatement("SELECT * FROM company;");
@@ -32,7 +27,7 @@ public class DAOCompanyImpl implements DaoCompany {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(statement != null ) {
+			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
@@ -40,7 +35,29 @@ public class DAOCompanyImpl implements DaoCompany {
 			}
 			databaseConnection.close();
 		}
-		return mapCompany.mapcompanies(result);
+		return MapCompany.mapCompanies(result);
+	}
+
+	@Override
+	public Company getByName(String name) {
+		try {
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement("SELECT * FROM company WHERE name='?';");
+			statement.setString(1, name);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
+		}
+		return MapCompany.mapCompany(result);
+
 	}
 
 	public synchronized static DaoCompany getInstance() {

@@ -3,89 +3,60 @@ package com.excilys.formation.java.computerDatabase.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.formation.java.computerDatabase.model.Company;
 import com.excilys.formation.java.computerDatabase.model.Computer;
 
 public class MapComputer {
 
-	private static MapComputer _instance = null;
-	private Computer computer;
-
-	private MapComputer() {
-	}
-
-	public List<Computer> mapcomputers(ResultSet result) {
+	public static List<Computer> mapComputers(ResultSet result) {
 		List<Computer> computers = new ArrayList<Computer>();
-		@SuppressWarnings("deprecation")
-		Timestamp timestamp = new Timestamp(0, 0, 0, 0, 0, 0, 0);
 		try {
 			while (result.next()) {
-				computer = new Computer();
-				computer.setId(result.getInt("id"));
-				computer.setName((result.getString("name")));
-				if (result.getTimestamp("introduced") == null || result.getTimestamp("introduced").equals(timestamp)) {
-					computer.setIntroduced("null");
-				} else {
-					computer.setIntroduced((result.getTimestamp("introduced").toString()));
-				}
-				if (result.getTimestamp("discontinued") == null
-						|| result.getTimestamp("discontinued").equals(timestamp)) {
-					computer.setDiscontinued("null");
-				} else {
-					computer.setDiscontinued((result.getTimestamp("discontinued").toString()));
-				}
-				computer.setCompanyId(result.getInt("company_id"));
-				computers.add(computer);
+				computers.add(mapComputer(result));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return computers;
 	}
 
-	public Computer mapcomputer(ResultSet result) {
+	public static Computer mapComputer(ResultSet result) {
 		@SuppressWarnings("deprecation")
 		Timestamp timestamp = new Timestamp(0, 0, 0, 0, 0, 0, 0);
+		Computer computer = new Computer();
+		Company company = new Company();
 		try {
 			result.next();
-			computer = new Computer();
 			computer.setId(result.getInt("id"));
-			computer.setName((result.getString("name")));
+			computer.setName((result.getString("computer.name")));
 			if (result.getTimestamp("introduced") == null || result.getTimestamp("introduced").equals(timestamp)) {
-				computer.setIntroduced("null");
+				computer.setIntroduced(null);
 			} else {
-				computer.setIntroduced((result.getTimestamp("introduced").toString()));
+				computer.setIntroduced((result.getTimestamp("introduced").toLocalDateTime()));
 			}
 			if (result.getTimestamp("discontinued") == null) {
-				computer.setDiscontinued("null");
+				computer.setDiscontinued(null);
 			} else {
-				computer.setDiscontinued((result.getTimestamp("discontinued").toString()));
+				computer.setDiscontinued((result.getTimestamp("discontinued").toLocalDateTime()));
 			}
-			computer.setCompanyId(result.getInt("company_id"));
+			company.setId(result.getInt("company.id"));
+			company.setName(result.getString("company.name"));
+			computer.setCompany(company);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return computer;
 	}
 
-	synchronized public static MapComputer getInstance() {
-		if (_instance == null) {
-			_instance = new MapComputer();
-		}
-		return _instance;
+	public static Timestamp toTimestamp(LocalDateTime date) {
+		int year = date.getYear() - 1900;
+		int month = date.getMonthValue() - 1;
+		int day = date.getDayOfMonth();
+		Timestamp timestamp = new Timestamp(year, month, day, 0, 0, 0, 0);
+		return timestamp;
 	}
-
-	public Timestamp toTimestamp(LocalDate introduced) {
-		return null;
-	}
-
-	public int toCompanyId(String company) {
-		return 0;
-	}
-
 }
