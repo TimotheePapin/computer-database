@@ -3,6 +3,7 @@ package com.excilys.formation.java.computerDatabase.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +78,14 @@ public class MapComputer {
 			_instance = new MapComputer();
 		}
 		return _instance;
+	}
+
+	public Timestamp toTimestamp(LocalDate introduced) {
+		return null;
+	}
+
+	public int toCompanyId(String company) {
+		return 0;
 	}
 
 }

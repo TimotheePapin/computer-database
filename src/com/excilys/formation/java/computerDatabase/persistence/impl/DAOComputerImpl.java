@@ -2,109 +2,176 @@
 package com.excilys.formation.java.computerDatabase.persistence.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.excilys.formation.java.computerDatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerDatabase.model.Computer;
+import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
+import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnection;
 
-public class DAOComputerImpl {
+public class DAOComputerImpl implements DaoComputer {
 
 	private static DAOComputerImpl _instance = null;
-	Connection connection;
-	Statement statement;
-	ResultSet result = null;
 	private static MapComputer mapComputer;
+	private static DatabaseConnection databaseConnection;
+	private PreparedStatement statement = null;
+	private ResultSet result = null;
 
 	private DAOComputerImpl() {
 		mapComputer = MapComputer.getInstance();
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String url = new String("jdbc:mysql://localhost:3306/computer-database-db");
-			this.connection = DriverManager.getConnection(url, "admincdb", "qwerty1234");
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
-	public List < Computer > getAll() {
+	@Override
+	public List<Computer> getAll() {
 		try {
-			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM computer ;");
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement("SELECT * FROM computer;");
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
 		}
 		return mapComputer.mapcomputers(result);
 	}
 
+	@Override
 	public Computer getById(int id) {
 		try {
-			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM computer WHERE id = '" + id + "';");
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement("SELECT * FROM computer where id='?';");
+			statement.setInt(1, id);
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
 		}
 		return mapComputer.mapcomputer(result);
 	}
 
+	@Override
 	public Computer getByName(String name) {
 		try {
-			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM computer WHERE name = '" + name + "';");
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement("SELECT * FROM computer where name='?';");
+			statement.setString(1, name);
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
 		}
 		return mapComputer.mapcomputer(result);
 	}
 
+	@Override
 	public void deleteByName(String name) {
 		try {
-			statement = connection.createStatement();
-			statement.executeUpdate("DELETE FROM computer WHERE name = '" + name + "';");
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement("DELETE * FROM computer where name='?';");
+			statement.setString(1, name);
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
 		}
 	}
 
+	@Override
 	public void deleteById(int id) {
 		try {
-			statement = connection.createStatement();
-			statement.executeUpdate("DELETE FROM computer WHERE id = '" + id + "';");
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement("DELETE * FROM computer where id='?';");
+			statement.setInt(1, id);
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
 		}
 	}
 
+	@Override
 	public void update(Computer computer) {
 		try {
-			statement = connection.createStatement();
-			statement.executeUpdate(
-					"UPDATE computer SET name = '" + name + "', introduced = '" + introduced + "', discontinued = '"
-							+ discontinued + "', company_id = '" + companyId + "' WHERE id = '" + id + "';");
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement(
+					"UPDATE computer SET name = '?', introduced = '?', discontinued = '?', company_id = '?' WHERE id = '?';");
+			statement.setString(1, computer.getName());
+			statement.setTimestamp(2, mapComputer.toTimestamp(computer.getIntroduced()));
+			statement.setTimestamp(3, mapComputer.toTimestamp(computer.getDiscontinued()));
+			statement.setInt(4, mapComputer.toCompanyId(computer.getCompany()));
+			statement.setInt(5, computer.getId());
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public void add(Computer computer) {
-		try {
-			statement = connection.createStatement();
-			statement.executeUpdate(
-					"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES ('"+ name + "', '" + introduced + "', '"+ discontinued + "', " + companyId + ");");
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
 		}
 	}
 
-	public void closeConnection() {
+	@Override
+	public void add(Computer computer) {
 		try {
-			this.connection.close();
+			Connection connection = databaseConnection.open();
+			statement = connection.prepareStatement(
+					"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES ('?', '?', '?', '?');");
+			statement.setString(1, computer.getName());
+			statement.setTimestamp(2, mapComputer.toTimestamp(computer.getIntroduced()));
+			statement.setTimestamp(3, mapComputer.toTimestamp(computer.getDiscontinued()));
+			statement.setInt(4, mapComputer.toCompanyId(computer.getCompany()));
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+				}
+			}
+			databaseConnection.close();
 		}
 	}
 

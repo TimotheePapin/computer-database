@@ -13,8 +13,6 @@ import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnectio
 
 public class DAOCompanyImpl implements DaoCompany {
 
-	
-
 	private static DaoCompany _instance = null;
 	private static MapCompany mapCompany;
 	private static DatabaseConnection databaseConnection;
@@ -29,8 +27,7 @@ public class DAOCompanyImpl implements DaoCompany {
 		ResultSet result = null;
 		try {
 			Connection connection = databaseConnection.open();
-			statement = connection.prepareStatement("SELECT * FROM company where name=?;");
-			statement.setString(1, "test");
+			statement = connection.prepareStatement("SELECT * FROM company;");
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
