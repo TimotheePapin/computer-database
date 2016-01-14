@@ -17,15 +17,23 @@ public class ServiceComputer implements Serializable {
 	}
 
 	public List<Computer> getAll() {
-		return daoComputer.getAll();
+		List<Computer> computers = daoComputer.getAll();
+		for (Computer computer : computers) {
+			System.out.println(computer);
+		}
+		return computers;
 	}
 
 	public Computer getByName(String name) {
-		return daoComputer.getByName(name);
+		Computer computer = daoComputer.getByName(name);
+		System.out.println(computer);
+		return computer;
 	}
 
 	public Computer getById(int id) {
-		return daoComputer.getById(id);
+		Computer computer = daoComputer.getById(id);
+		System.out.println(computer);
+		return computer;
 	}
 
 	public void deleteByName(String name) {

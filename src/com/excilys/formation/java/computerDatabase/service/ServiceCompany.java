@@ -17,8 +17,12 @@ public class ServiceCompany implements Serializable {
 		daoCompany = DAOCompanyImpl.getInstance();
 	}
 
-	public List<Company> getCompanies() {
-		return daoCompany.getAll();
+	public List<Company> getAll() {
+		List<Company> companies = daoCompany.getAll();
+		for (Company company : companies) {
+			System.out.println(company);
+		}
+		return companies;
 	}
 
 	synchronized public static ServiceCompany getInstance() {

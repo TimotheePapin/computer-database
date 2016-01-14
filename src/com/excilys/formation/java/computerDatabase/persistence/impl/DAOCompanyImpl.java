@@ -14,16 +14,23 @@ import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnectio
 public class DAOCompanyImpl implements DaoCompany {
 
 	private static DaoCompany _instance = null;
-	private static DatabaseConnection databaseConnection;
-	private PreparedStatement statement = null;
-	private ResultSet result = null;
+	private DatabaseConnection databaseConnection;
+
+	private DAOCompanyImpl() {
+		super();
+		databaseConnection = DatabaseConnection.getInstance();
+	}
 
 	@Override
 	public List<Company> getAll() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
 		try {
-			Connection connection = databaseConnection.open();
+			connection = databaseConnection.open();
 			statement = connection.prepareStatement("SELECT * FROM company;");
-			statement.execute();
+			result = statement.executeQuery();
+			return MapCompany.mapCompanies(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -33,18 +40,22 @@ public class DAOCompanyImpl implements DaoCompany {
 				} catch (SQLException e) {
 				}
 			}
-			databaseConnection.close();
+			databaseConnection.close(connection);
 		}
-		return MapCompany.mapCompanies(result);
+		return null;
 	}
 
 	@Override
 	public Company getByName(String name) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
 		try {
-			Connection connection = databaseConnection.open();
-			statement = connection.prepareStatement("SELECT * FROM company WHERE name='?';");
+			connection = databaseConnection.open();
+			statement = connection.prepareStatement("SELECT * FROM company WHERE name=?;");
 			statement.setString(1, name);
-			statement.execute();
+			result = statement.executeQuery();
+			return MapCompany.mapCompany(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -54,9 +65,9 @@ public class DAOCompanyImpl implements DaoCompany {
 				} catch (SQLException e) {
 				}
 			}
-			databaseConnection.close();
+			databaseConnection.close(connection);
 		}
-		return MapCompany.mapCompany(result);
+		return null;
 
 	}
 

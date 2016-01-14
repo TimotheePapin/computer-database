@@ -15,7 +15,7 @@ public class MapComputer {
 	public static List<Computer> mapComputers(ResultSet result) {
 		List<Computer> computers = new ArrayList<Computer>();
 		try {
-			while (result.next()) {
+			while (!result.isLast()) {
 				computers.add(mapComputer(result));
 			}
 		} catch (SQLException e) {
@@ -25,15 +25,13 @@ public class MapComputer {
 	}
 
 	public static Computer mapComputer(ResultSet result) {
-		@SuppressWarnings("deprecation")
-		Timestamp timestamp = new Timestamp(0, 0, 0, 0, 0, 0, 0);
 		Computer computer = new Computer();
 		Company company = new Company();
 		try {
 			result.next();
 			computer.setId(result.getInt("id"));
 			computer.setName((result.getString("computer.name")));
-			if (result.getTimestamp("introduced") == null || result.getTimestamp("introduced").equals(timestamp)) {
+			if (result.getTimestamp("introduced") == null) {
 				computer.setIntroduced(null);
 			} else {
 				computer.setIntroduced((result.getTimestamp("introduced").toLocalDateTime()));
@@ -53,10 +51,9 @@ public class MapComputer {
 	}
 
 	public static Timestamp toTimestamp(LocalDateTime date) {
-		int year = date.getYear() - 1900;
-		int month = date.getMonthValue() - 1;
-		int day = date.getDayOfMonth();
-		Timestamp timestamp = new Timestamp(year, month, day, 0, 0, 0, 0);
-		return timestamp;
+		if (date != null) {
+			return Timestamp.valueOf(date);
+		}
+		return null;
 	}
 }

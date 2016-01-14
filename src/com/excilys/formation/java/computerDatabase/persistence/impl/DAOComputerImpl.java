@@ -16,16 +16,23 @@ public class DAOComputerImpl implements DaoComputer {
 
 	private static DAOComputerImpl _instance = null;
 	private static DatabaseConnection databaseConnection;
-	private PreparedStatement statement = null;
-	private ResultSet result = null;
+
+	private DAOComputerImpl() {
+		super();
+		databaseConnection = DatabaseConnection.getInstance();
+	}
 
 	@Override
 	public List<Computer> getAll() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
 		try {
-			Connection connection = databaseConnection.open();
+			connection = databaseConnection.open();
 			statement = connection
-					.prepareStatement("SELECT * FROM computer LEFT JOIN company ON computer.company_id=comapny.id;");
-			statement.execute();
+					.prepareStatement("SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id;");
+			result = statement.executeQuery();
+			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -33,103 +40,94 @@ public class DAOComputerImpl implements DaoComputer {
 				try {
 					statement.close();
 				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
-			databaseConnection.close();
+			databaseConnection.close(connection);
 		}
-		return MapComputer.mapComputers(result);
+		return null;
 	}
 
 	@Override
 	public Computer getById(int id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
 		try {
-			Connection connection = databaseConnection.open();
+			connection = databaseConnection.open();
 			statement = connection.prepareStatement(
-					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=comapny.id WHERE id='?';");
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.id= ?;");
 			statement.setInt(1, id);
-			statement.execute();
+			result = statement.executeQuery();
+			return MapComputer.mapComputer(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-			}
-			databaseConnection.close();
+			close(connection, statement);
 		}
-		return MapComputer.mapComputer(result);
+		return null;
 	}
 
 	@Override
 	public Computer getByName(String name) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
 		try {
-			Connection connection = databaseConnection.open();
+			connection = databaseConnection.open();
 			statement = connection.prepareStatement(
-					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=comapny.id WHERE name='?';");
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name= ?;");
 			statement.setString(1, name);
-			statement.execute();
+			result = statement.executeQuery();
+			return MapComputer.mapComputer(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-			}
-			databaseConnection.close();
+			close(connection, statement);
 		}
-		return MapComputer.mapComputer(result);
+		return null;
 	}
 
 	@Override
 	public void deleteByName(String name) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
-			Connection connection = databaseConnection.open();
-			statement = connection.prepareStatement("DELETE * FROM computer where name='?';");
+			connection = databaseConnection.open();
+			statement = connection.prepareStatement("DELETE FROM computer where name= ?;");
 			statement.setString(1, name);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-			}
-			databaseConnection.close();
+			close(connection, statement);
 		}
 	}
 
 	@Override
 	public void deleteById(int id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
-			Connection connection = databaseConnection.open();
-			statement = connection.prepareStatement("DELETE * FROM computer where id='?';");
+			connection = databaseConnection.open();
+			statement = connection.prepareStatement("DELETE FROM computer where id= ?;");
 			statement.setInt(1, id);
-			statement.execute();
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-			}
-			databaseConnection.close();
+			close(connection, statement);
 		}
 	}
 
 	@Override
 	public void update(Computer computer) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
-			Connection connection = databaseConnection.open();
+			connection = databaseConnection.open();
 			statement = connection.prepareStatement(
-					"UPDATE computer SET name = '?', introduced = '?', discontinued = '?', company_id = '?' WHERE id = '?';");
+					"UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;");
 			statement.setString(1, computer.getName());
 			statement.setTimestamp(2, MapComputer.toTimestamp(computer.getIntroduced()));
 			statement.setTimestamp(3, MapComputer.toTimestamp(computer.getDiscontinued()));
@@ -139,22 +137,18 @@ public class DAOComputerImpl implements DaoComputer {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-			}
-			databaseConnection.close();
+			close(connection, statement);
 		}
 	}
 
 	@Override
 	public void add(Computer computer) {
+		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
-			Connection connection = databaseConnection.open();
+			connection = databaseConnection.open();
 			statement = connection.prepareStatement(
-					"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES ('?', '?', '?', '?');");
+					"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?, ?, ?, ?);");
 			statement.setString(1, computer.getName());
 			statement.setTimestamp(2, MapComputer.toTimestamp(computer.getIntroduced()));
 			statement.setTimestamp(3, MapComputer.toTimestamp(computer.getDiscontinued()));
@@ -163,16 +157,20 @@ public class DAOComputerImpl implements DaoComputer {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-			}
-			databaseConnection.close();
+			close(connection, statement);
 		}
 	}
 
+	private void close(Connection connection, PreparedStatement statement) {
+		if (statement != null) {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+			}
+		}
+		databaseConnection.close(connection);
+	}
+	
 	public synchronized static DAOComputerImpl getInstance() {
 		if (_instance == null) {
 			_instance = new DAOComputerImpl();
