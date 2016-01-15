@@ -46,12 +46,12 @@ public interface DaoComputer {
 	 * 
 	 * @return
 	 */
-	void update(Computer computer);
+	Computer update(Computer computer);
 
 	/**
 	 * Add the Computer given to the database
 	 * 
 	 * @return
 	 */
-	void add(Computer computer);
+	Computer add(Computer computer);
 }

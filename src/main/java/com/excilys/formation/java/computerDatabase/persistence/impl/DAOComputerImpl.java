@@ -121,7 +121,7 @@ public class DAOComputerImpl implements DaoComputer {
 	}
 
 	@Override
-	public void update(Computer computer) {
+	public Computer update(Computer computer) {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
@@ -134,15 +134,17 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.setInt(4, computer.getCompany().getId());
 			statement.setInt(5, computer.getId());
 			statement.execute();
+			computer = getById(computer.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(connection, statement);
 		}
+		return computer;
 	}
 
 	@Override
-	public void add(Computer computer) {
+	public Computer add(Computer computer) {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
@@ -154,11 +156,13 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.setTimestamp(3, MapComputer.toTimestamp(computer.getDiscontinued()));
 			statement.setInt(4, computer.getCompany().getId());
 			statement.execute();
+			computer = getByName(computer.getName());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(connection, statement);
 		}
+		return computer;
 	}
 
 	private void close(Connection connection, PreparedStatement statement) {

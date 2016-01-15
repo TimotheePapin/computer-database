@@ -1,6 +1,7 @@
 package com.excilys.formation.java.computerDatabase.ui;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 
 import com.excilys.formation.java.computerDatabase.model.Company;
@@ -17,24 +18,38 @@ public class CLI {
 		serviceCompany = ServiceCompany.getInstance();
 		serviceComputer = ServiceComputer.getInstance();
 		Scanner sc = new Scanner(System.in);
+		Computer computer;
 		while (true) {
 			System.out.println(
 					"Access Menu : \n 1-List computers \n 2-List companies \n 3-Show computer details \n 4-Create a computer \n 5-Update a computer \n 6-Delete a computer \n 7-Exit");
 			switch (sc.nextInt()) {
 			case 1:
-				serviceComputer.getAll();
+				List <Computer> computers = serviceComputer.getAll();
+				for (Computer comp : computers) {
+					System.out.println(comp);
+				}
 				break;
 			case 2:
-				serviceCompany.getAll();
+				List <Company> companies = serviceCompany.getAll();
+				for (Company company : companies) {
+					System.out.println(company);
+				}
 				break;
 			case 3:
-				showComputer(sc);
+				computer = showComputer(sc);
+				if (computer.getId() == 0) {
+					System.out.println("This computer isn't in the database.");
+				} else {
+					System.out.println(computer);
+				}
 				break;
 			case 4:
-				addComputer(sc);
+				 computer = addComputer(sc);
+				 System.out.println(computer);
 				break;
 			case 5:
-				updateComputer(sc);
+				computer = updateComputer(sc);
+				System.out.println(computer);
 				break;
 			case 6:
 				deleteComputer(sc);
@@ -65,7 +80,7 @@ public class CLI {
 		}
 	}
 
-	private static void updateComputer(Scanner sc) {
+	private static Computer updateComputer(Scanner sc) {
 		boolean date;
 		int rep;
 		Computer computer = null;
@@ -76,6 +91,7 @@ public class CLI {
 		if (computer.getId() == 0) {
 			System.out.println("This computer isn't in the database.");
 		} else {
+			System.out.println(computer);
 			boolean notDone =true;
 			while(notDone) {
 				System.out.println(
@@ -132,7 +148,7 @@ public class CLI {
 					computer.setCompany(company);
 					break;
 				case 5:
-					serviceComputer.update(computer);
+					computer = serviceComputer.update(computer);
 					notDone=false;
 					break;
 				default:
@@ -140,9 +156,10 @@ public class CLI {
 				}
 			}
 		}
+		return computer;
 	}
 
-	private static void addComputer(Scanner sc) {
+	private static Computer addComputer(Scanner sc) {
 		boolean date;
 		System.out.println("Enter Computer name :");
 		sc.nextLine();
@@ -188,7 +205,7 @@ public class CLI {
 		String companyName = sc.nextLine();
 		Company company = new Company(companyId, companyName);
 		Computer computer = new Computer(0, name, introduced, discontinued, company);
-		serviceComputer.create(computer);
+		return serviceComputer.create(computer);
 	}
 
 	private static Computer showComputer(Scanner sc) {

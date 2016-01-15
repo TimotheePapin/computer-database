@@ -11,18 +11,14 @@ import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyIm
 public class ServiceCompany implements Serializable {
 
 	private static ServiceCompany _instance = null;
-	private static DaoCompany daoCompany;
+	private DaoCompany daoCompany;
 
 	private ServiceCompany() {
 		daoCompany = DAOCompanyImpl.getInstance();
 	}
 
 	public List<Company> getAll() {
-		List<Company> companies = daoCompany.getAll();
-		for (Company company : companies) {
-			System.out.println(company);
-		}
-		return companies;
+		return daoCompany.getAll();
 	}
 
 	synchronized public static ServiceCompany getInstance() {
@@ -31,4 +27,13 @@ public class ServiceCompany implements Serializable {
 		}
 		return _instance;
 	}
+
+	public DaoCompany getDaoCompany() {
+		return daoCompany;
+	}
+
+	public void setDaoCompany(DaoCompany daoCompany) {
+		this.daoCompany = daoCompany;
+	}
+
 }
