@@ -47,6 +47,34 @@ public class DAOComputerImpl implements DaoComputer {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<Computer> getPart(int min, int max) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			connection = databaseConnection.open();
+			statement = connection
+					.prepareStatement("SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id LIMIT ?,?");
+			statement.setInt(1, min);
+			statement.setInt(2, max);
+			result = statement.executeQuery();
+			return MapComputer.mapComputers(result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			databaseConnection.close(connection);
+		}
+		return null;
+	}
 
 	@Override
 	public Computer getById(int id) {
@@ -163,6 +191,33 @@ public class DAOComputerImpl implements DaoComputer {
 			close(connection, statement);
 		}
 		return computer;
+	}
+	
+	@Override
+	public int getSize() {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result = null;
+		try {
+			connection = databaseConnection.open();
+			statement = connection
+					.prepareStatement("SELECT COUNT(*) AS count FROM computer;");
+			result = statement.executeQuery();
+			result.next();
+			return result.getInt("count");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			databaseConnection.close(connection);
+		}
+		return 0;
 	}
 
 	private void close(Connection connection, PreparedStatement statement) {

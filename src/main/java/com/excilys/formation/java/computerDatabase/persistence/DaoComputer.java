@@ -54,4 +54,18 @@ public interface DaoComputer {
 	 * @return
 	 */
 	Computer add(Computer computer);
+
+	/**
+	 * Return a part of the computers of the database
+	 * 
+	 * @return
+	 */
+	List<Computer> getPart(int min, int max);
+
+	/**
+	 * Return the computer table's size
+	 * 
+	 * @return
+	 */
+	int getSize();
 }

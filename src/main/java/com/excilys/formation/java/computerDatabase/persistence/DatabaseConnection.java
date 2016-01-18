@@ -16,7 +16,6 @@ public class DatabaseConnection {
 	public Connection open() {
 		try {
 			InputStream ips = new FileInputStream("/home/excilys/Documents/Workspace/computer-database/src/main/resources/properties");
-			//InputStream ips = DatabaseConnection.class.getClassLoader().getResourceAsStream("properties");
 			Properties prop = new Properties();
 			try {
 				prop.load(ips);

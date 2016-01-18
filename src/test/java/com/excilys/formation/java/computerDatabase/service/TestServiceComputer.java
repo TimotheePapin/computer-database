@@ -75,4 +75,24 @@ public class TestServiceComputer {
 		serviceComputer.setDaoComputer(daoComputer);
 		assertEquals(computer, serviceComputer.getById(1));
 	}
+	
+	@Test
+	public void testUpdate() {
+		LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
+		Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
+
+		when(daoComputer.update(computer)).thenReturn(computer);
+		serviceComputer.setDaoComputer(daoComputer);
+		assertEquals(computer, serviceComputer.update(computer));
+	}
+	
+	@Test
+	public void testAdd() {
+		LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
+		Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
+
+		when(daoComputer.add(computer)).thenReturn(computer);
+		serviceComputer.setDaoComputer(daoComputer);
+		assertEquals(computer, serviceComputer.create(computer));
+	}
 }
