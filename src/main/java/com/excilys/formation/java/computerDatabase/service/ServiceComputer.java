@@ -20,9 +20,9 @@ public class ServiceComputer implements Serializable {
 	public List<Computer> getAll() {
 		return daoComputer.getAll();
 	}
-	
-	public List<Computer> getPart(int min,int max) {
-		return daoComputer.getPart(min,max);
+
+	public List<Computer> getPart(int size, int min) {
+		return daoComputer.getPart(size, min);
 	}
 
 	public Computer getByName(String name) {
@@ -54,7 +54,7 @@ public class ServiceComputer implements Serializable {
 			_instance = new ServiceComputer();
 		}
 		return _instance;
-	}	
+	}
 
 	public DaoComputer getDaoComputer() {
 		return daoComputer;
@@ -63,7 +63,7 @@ public class ServiceComputer implements Serializable {
 	public void setDaoComputer(DaoComputer daoComputer) {
 		this.daoComputer = daoComputer;
 	}
-	
+
 	public int getSize() {
 		return daoComputer.getSize();
 	}

@@ -49,16 +49,16 @@ public class DAOComputerImpl implements DaoComputer {
 	}
 	
 	@Override
-	public List<Computer> getPart(int min, int max) {
+	public List<Computer> getPart(int size, int min) {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
 			connection = databaseConnection.open();
 			statement = connection
-					.prepareStatement("SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id LIMIT ?,?");
-			statement.setInt(1, min);
-			statement.setInt(2, max);
+					.prepareStatement("SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id LIMIT ? OFFSET ?");
+			statement.setInt(1, size);
+			statement.setInt(2, min);
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {

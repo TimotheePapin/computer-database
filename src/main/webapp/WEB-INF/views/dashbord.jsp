@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,7 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                <c:out value="${reqComp.sizeTab}"/> Computers found
+                <c:out value="${reqComp.dbSize}"/> Computers found
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -77,7 +78,7 @@
                 <!-- Browse attribute computers -->
                 <tbody id="results">
                 
-	                <c:forEach items="${reqComp.computers}" var="computer">
+	                <c:forEach items="${reqComp.computersDTO}" var="computer">
 	                    <tr>
 	                        <td class="editMode">
 	                            <input type="checkbox" name="cb" class="cb" value="0">
@@ -87,7 +88,7 @@
 	                        </td>
 	                        <td><c:out value="${computer.introduced}"/></td>
 	                        <td><c:out value="${computer.discontinued}"/></td>
-	                        <td><c:out value="${computer.company.name}"/></td>
+	                        <td><c:out value="${computer.company}"/></td>
 	                    </tr>
 	       			</c:forEach>
                     
@@ -97,32 +98,7 @@
     </section>
 
     <footer class="navbar-fixed-bottom">
-        <div class="container text-center">
-            <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
-              </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            	</li>
-        	</ul>
-        </div>
-
-        <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
-        </div>
-
+    	<mylib:pagination page="${reqComp}" />
     </footer>
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
