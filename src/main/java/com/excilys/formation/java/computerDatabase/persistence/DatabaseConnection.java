@@ -9,9 +9,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyImpl;
+
 public class DatabaseConnection {
 
 	private static DatabaseConnection _instance = null;
+	final Logger logger = LoggerFactory.getLogger(DAOCompanyImpl.class);
 
 	public Connection open() {
 		try {
@@ -20,14 +26,13 @@ public class DatabaseConnection {
 			try {
 				prop.load(ips);
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("Fail to load properties");
 			}
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			String url = new String(prop.getProperty("url"));
 			return DriverManager.getConnection(url, prop.getProperty("log"), prop.getProperty("psw"));
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException | FileNotFoundException e) {
-			System.out.println("test");
-			e.printStackTrace();
+			logger.error("Fail to open connection");
 		}
 		return null;
 	}
@@ -38,7 +43,7 @@ public class DatabaseConnection {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to close connection");
 		}
 	}
 

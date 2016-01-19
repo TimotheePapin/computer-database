@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.java.computerDatabase.mapper.MapCompany;
 import com.excilys.formation.java.computerDatabase.model.Company;
 import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
@@ -15,6 +18,7 @@ public class DAOCompanyImpl implements DaoCompany {
 
 	private static DaoCompany _instance = null;
 	private DatabaseConnection databaseConnection;
+	final Logger logger = LoggerFactory.getLogger(DAOCompanyImpl.class);
 
 	private DAOCompanyImpl() {
 		super();
@@ -32,15 +36,9 @@ public class DAOCompanyImpl implements DaoCompany {
 			result = statement.executeQuery();
 			return MapCompany.mapCompanies(result);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the getAll Query");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-			}
-			databaseConnection.close(connection);
+			close(connection, statement);
 		}
 		return null;
 	}
@@ -57,18 +55,23 @@ public class DAOCompanyImpl implements DaoCompany {
 			result = statement.executeQuery();
 			return MapCompany.mapCompany(result);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the getByName Query");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-				}
-			}
-			databaseConnection.close(connection);
+			close(connection, statement);
 		}
 		return null;
 
+	}
+
+	private void close(Connection connection, PreparedStatement statement) {
+		if (statement != null) {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				logger.error("Fail to close statement");
+			}
+		}
+		databaseConnection.close(connection);
 	}
 
 	public synchronized static DaoCompany getInstance() {

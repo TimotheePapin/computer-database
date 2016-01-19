@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.formation.java.computerDatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
@@ -16,6 +19,7 @@ public class DAOComputerImpl implements DaoComputer {
 
 	private static DAOComputerImpl _instance = null;
 	private static DatabaseConnection databaseConnection;
+	final Logger logger = LoggerFactory.getLogger(DAOCompanyImpl.class);
 
 	private DAOComputerImpl() {
 		super();
@@ -34,16 +38,9 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the getAll Query");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			databaseConnection.close(connection);
+			close(connection, statement);
 		}
 		return null;
 	}
@@ -62,16 +59,9 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the getPart Query");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			databaseConnection.close(connection);
+			close(connection, statement);
 		}
 		return null;
 	}
@@ -89,7 +79,7 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputer(result);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the getById Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -109,7 +99,7 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputer(result);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the getByName Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -126,7 +116,7 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.setString(1, name);
 			statement.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the deleteByName Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -142,7 +132,7 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.setInt(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the deleteById Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -164,7 +154,7 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.execute();
 			computer = getById(computer.getId());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the update Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -186,7 +176,7 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.execute();
 			computer = getByName(computer.getName());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the add Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -206,16 +196,9 @@ public class DAOComputerImpl implements DaoComputer {
 			result.next();
 			return result.getInt("count");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Fail to execute the getSize Query");
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			databaseConnection.close(connection);
+			close(connection, statement);
 		}
 		return 0;
 	}
@@ -225,6 +208,7 @@ public class DAOComputerImpl implements DaoComputer {
 			try {
 				statement.close();
 			} catch (SQLException e) {
+				logger.error("Fail to close Connection");
 			}
 		}
 		databaseConnection.close(connection);
