@@ -24,13 +24,13 @@ public class CLI {
 					"Access Menu : \n 1-List computers \n 2-List companies \n 3-Show computer details \n 4-Create a computer \n 5-Update a computer \n 6-Delete a computer \n 7-Exit");
 			switch (sc.nextInt()) {
 			case 1:
-				List <Computer> computers = serviceComputer.getAll();
+				List<Computer> computers = serviceComputer.getAll();
 				for (Computer comp : computers) {
 					System.out.println(comp);
 				}
 				break;
 			case 2:
-				List <Company> companies = serviceCompany.getAll();
+				List<Company> companies = serviceCompany.getAll();
 				for (Company company : companies) {
 					System.out.println(company);
 				}
@@ -44,8 +44,8 @@ public class CLI {
 				}
 				break;
 			case 4:
-				 computer = addComputer(sc);
-				 System.out.println(computer);
+				computer = addComputer(sc);
+				System.out.println(computer);
 				break;
 			case 5:
 				computer = updateComputer(sc);
@@ -92,8 +92,8 @@ public class CLI {
 			System.out.println("This computer isn't in the database.");
 		} else {
 			System.out.println(computer);
-			boolean notDone =true;
-			while(notDone) {
+			boolean notDone = true;
+			while (notDone) {
 				System.out.println(
 						"Update : \n 1-Name \n 2-Introduced \n 3-Discontinued \n 4-ComapnyId \n 5-Finish the update");
 				rep = sc.nextInt();
@@ -149,7 +149,7 @@ public class CLI {
 					break;
 				case 5:
 					computer = serviceComputer.update(computer);
-					notDone=false;
+					notDone = false;
 					break;
 				default:
 					System.out.println("Incorrect entry");
@@ -172,8 +172,9 @@ public class CLI {
 				System.out.println("Enter Computer introduced (yyyy-mm-dd) (empty if null) :");
 				String introducedString = sc.nextLine();
 				if (!introducedString.isEmpty()) {
-					//DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-					//dateTimeFormatter.parse(introducedString);
+					// DateTimeFormatter dateTimeFormatter =
+					// DateTimeFormatter.ofPattern("yyyy-mm-dd");
+					// dateTimeFormatter.parse(introducedString);
 					String[] temp = introducedString.split("-");
 					introduced = LocalDateTime.of(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]),
 							Integer.parseInt(temp[2]), 0, 0, 0, 0);

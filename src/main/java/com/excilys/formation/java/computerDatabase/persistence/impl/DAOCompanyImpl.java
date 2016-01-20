@@ -18,7 +18,7 @@ public class DAOCompanyImpl implements DaoCompany {
 
 	private static DaoCompany _instance = null;
 	private DatabaseConnection databaseConnection;
-	final Logger logger = LoggerFactory.getLogger(DAOCompanyImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DAOCompanyImpl.class);
 
 	private DAOCompanyImpl() {
 		super();
@@ -36,11 +36,11 @@ public class DAOCompanyImpl implements DaoCompany {
 			result = statement.executeQuery();
 			return MapCompany.mapCompanies(result);
 		} catch (SQLException e) {
-			logger.error("Fail to execute the getAll Query");
+			LOGGER.error("Fail to execute the getAll Query");
 		} finally {
 			close(connection, statement);
 		}
-		return null;
+		throw new RuntimeException();
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class DAOCompanyImpl implements DaoCompany {
 			result = statement.executeQuery();
 			return MapCompany.mapCompany(result);
 		} catch (SQLException e) {
-			logger.error("Fail to execute the getByName Query");
+			LOGGER.error("Fail to execute the getByName Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -68,7 +68,7 @@ public class DAOCompanyImpl implements DaoCompany {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				logger.error("Fail to close statement");
+				LOGGER.error("Fail to close statement");
 			}
 		}
 		databaseConnection.close(connection);

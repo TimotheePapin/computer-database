@@ -29,7 +29,7 @@ public class DashbordServlet extends HttpServlet {
 			min = ((page - 1) * size);
 		}
 		serviceComputer = ServiceComputer.getInstance();
-		if(page <= (int)serviceComputer.getSize()/size+1) {
+		if (page <= (int) serviceComputer.getSize() / size + 1) {
 			RequestComputer reqComp = new RequestComputer(serviceComputer.getPart(size, min), serviceComputer.getSize(),
 					page, size);
 			request.setAttribute("reqComp", reqComp);

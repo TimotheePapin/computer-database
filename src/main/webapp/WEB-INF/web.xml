@@ -5,13 +5,21 @@
          version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 
 	<servlet>
-		<servlet-name>Servlet</servlet-name>
+		<servlet-name>Dashboard</servlet-name>
 		<servlet-class>com.excilys.formation.java.computerDatabase.web.DashbordServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AddComputer</servlet-name>
+		<servlet-class>com.excilys.formation.java.computerDatabase.web.AddComputerServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>Servlet</servlet-name>
+		<servlet-name>Dashboard</servlet-name>
 		<url-pattern>/dashboard</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddComputer</servlet-name>
+		<url-pattern>/addComputer</url-pattern>
 	</servlet-mapping>
 
 </web-app>

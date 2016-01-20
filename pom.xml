@@ -6,64 +6,106 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+
+	<properties>
+		<mySQLVersion>5.1.6</mySQLVersion>
+		<junitVersion>4.12</junitVersion>
+		<mockitoVersion>1.10.19</mockitoVersion>
+		<dbunitVersion>2.5.1</dbunitVersion>
+		<slf4jVersion>1.7.13</slf4jVersion>
+		<h2DatabaseVersion>1.4.190</h2DatabaseVersion>
+		<javax.servletVersion>3.1.0</javax.servletVersion>
+		<jstlVersion>1.2</jstlVersion>
+		<taglibsVersion>1.1.2</taglibsVersion>
+		<checkstyleVersion>5.0</checkstyleVersion>
+		<seleniumVersion>2.49.0</seleniumVersion>
+		<mavenCompilerVersion>3.3</mavenCompilerVersion>
+		<coberturaVersion>2.7</coberturaVersion>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.6</version>
+			<version>${mySQLVersion}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junitVersion}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
+			<version>${mockitoVersion}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
-			<version>2.5.1</version>
+			<version>${dbunitVersion}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.13</version>
+			<version>${slf4jVersion}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4jVersion}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.190</version>
+			<version>${h2DatabaseVersion}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+			<version>${javax.servletVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>${jstlVersion}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>1.1.2</version>
+			<version>${taglibsVersion}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>checkstyle</groupId>
+			<artifactId>checkstyle</artifactId>
+			<version>${checkstyleVersion}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>${seleniumVersion}</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
@@ -74,7 +116,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<version>${mavenCompilerVersion}</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -84,7 +126,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
+				<version>${coberturaVersion}</version>
 				<configuration>
 					<formats>
 						<format>html</format>

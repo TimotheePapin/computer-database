@@ -17,22 +17,24 @@ import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyIm
 public class DatabaseConnection {
 
 	private static DatabaseConnection _instance = null;
-	final Logger logger = LoggerFactory.getLogger(DAOCompanyImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DAOCompanyImpl.class);
 
 	public Connection open() {
 		try {
-			InputStream ips = new FileInputStream("/home/excilys/Documents/Workspace/computer-database/src/main/resources/properties");
+			InputStream ips = new FileInputStream(
+					"/home/excilys/Documents/Workspace/computer-database/src/main/resources/properties");
 			Properties prop = new Properties();
 			try {
 				prop.load(ips);
 			} catch (IOException e) {
-				logger.error("Fail to load properties");
+				LOGGER.error("Fail to load properties");
 			}
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			String url = new String(prop.getProperty("url"));
 			return DriverManager.getConnection(url, prop.getProperty("log"), prop.getProperty("psw"));
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException | FileNotFoundException e) {
-			logger.error("Fail to open connection");
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException
+				| FileNotFoundException e) {
+			LOGGER.error("Fail to open connection");
 		}
 		return null;
 	}
@@ -43,7 +45,7 @@ public class DatabaseConnection {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			logger.error("Fail to close connection");
+			LOGGER.error("Fail to close connection");
 		}
 	}
 
