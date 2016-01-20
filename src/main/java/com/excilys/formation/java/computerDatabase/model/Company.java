@@ -2,15 +2,39 @@ package com.excilys.formation.java.computerDatabase.model;
 
 import java.io.Serializable;
 
+/**
+ * The Class Company.
+ */
 public class Company implements Serializable {
+
+	/**
+	 * The Constant serialVersionUID.
+	 */
 	private static final long serialVersionUID = 643833417003469677L;
+
+	/**
+	 * The id.
+	 */
 	private int id;
+
+	/**
+	 * The name.
+	 */
 	private String name;
 
+	/**
+	 * Instantiates a new company.
+	 */
 	public Company() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new company.
+	 *
+	 * @param id the id
+	 * @param name the name
+	 */
 	public Company(int id, String name) {
 		super();
 		this.id = id;

@@ -2,18 +2,53 @@ package com.excilys.formation.java.computerDatabase.model;
 
 import java.io.Serializable;
 
+/**
+ * The Class ComputerDTO.
+ */
 public class ComputerDTO implements Serializable {
+
+	/**
+	 * The Constant serialVersionUID.
+	 */
 	private static final long serialVersionUID = -230506813682769315L;
+
+	/**
+	 * The id.
+	 */
 	private int id;
+
+	/**
+	 * The name.
+	 */
 	private String name;
+
+	/**
+	 * The introduced.
+	 */
 	private String introduced;
+
+	/**
+	 * The discontinued.
+	 */
 	private String discontinued;
+
+	/**
+	 * The company.
+	 */
 	private String company;
 
+	/**
+	 * Instantiates a new computer dto.
+	 */
 	public ComputerDTO() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new computer dto.
+	 *
+	 * @param computer the computer
+	 */
 	public ComputerDTO(Computer computer) {
 		super();
 		this.id = computer.getId();
@@ -35,42 +70,92 @@ public class ComputerDTO implements Serializable {
 		this.company = computer.getCompany().getName();
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the introduced.
+	 *
+	 * @return the introduced
+	 */
 	public String getIntroduced() {
 		return introduced;
 	}
 
+	/**
+	 * Sets the introduced.
+	 *
+	 * @param introduced the new introduced
+	 */
 	public void setIntroduced(String introduced) {
 		this.introduced = introduced;
 	}
 
+	/**
+	 * Gets the discontinued.
+	 *
+	 * @return the discontinued
+	 */
 	public String getDiscontinued() {
 		return discontinued;
 	}
 
+	/**
+	 * Sets the discontinued.
+	 *
+	 * @param discontinued the new discontinued
+	 */
 	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
 
+	/**
+	 * Gets the company.
+	 *
+	 * @return the company
+	 */
 	public String getCompany() {
 		return company;
 	}
 
+	/**
+	 * Sets the company.
+	 *
+	 * @param company the new company
+	 */
 	public void setCompany(String company) {
 		this.company = company;
 	}

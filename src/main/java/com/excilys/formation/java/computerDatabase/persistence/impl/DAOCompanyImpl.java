@@ -14,12 +14,29 @@ import com.excilys.formation.java.computerDatabase.model.Company;
 import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
 import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnection;
 
+/**
+ * The Class DAOCompanyImpl.
+ */
 public class DAOCompanyImpl implements DaoCompany {
 
+	/**
+	 * The _instance.
+	 */
 	private static DaoCompany _instance = null;
+
+	/**
+	 * The database connection.
+	 */
 	private DatabaseConnection databaseConnection;
+
+	/**
+	 * The Constant LOGGER.
+	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DAOCompanyImpl.class);
 
+	/**
+	 * Instantiates a new DAO company impl.
+	 */
 	private DAOCompanyImpl() {
 		super();
 		databaseConnection = DatabaseConnection.getInstance();
@@ -40,7 +57,7 @@ public class DAOCompanyImpl implements DaoCompany {
 		} finally {
 			close(connection, statement);
 		}
-		throw new RuntimeException();
+		return null;
 	}
 
 	@Override
@@ -60,9 +77,14 @@ public class DAOCompanyImpl implements DaoCompany {
 			close(connection, statement);
 		}
 		return null;
-
 	}
 
+	/**
+	 * Close.
+	 *
+	 * @param connection the connection
+	 * @param statement the statement
+	 */
 	private void close(Connection connection, PreparedStatement statement) {
 		if (statement != null) {
 			try {
@@ -74,6 +96,11 @@ public class DAOCompanyImpl implements DaoCompany {
 		databaseConnection.close(connection);
 	}
 
+	/**
+	 * Gets the single instance of DAOCompanyImpl.
+	 *
+	 * @return single instance of DAOCompanyImpl
+	 */
 	public synchronized static DaoCompany getInstance() {
 		if (_instance == null) {
 			_instance = new DAOCompanyImpl();

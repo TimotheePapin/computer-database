@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLType;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,12 +15,29 @@ import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
 import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnection;
 
+/**
+ * The Class DAOComputerImpl.
+ */
 public class DAOComputerImpl implements DaoComputer {
 
+	/**
+	 * The _instance.
+	 */
 	private static DAOComputerImpl _instance = null;
+
+	/**
+	 * The database connection.
+	 */
 	private static DatabaseConnection databaseConnection;
+
+	/**
+	 * The Constant LOGGER.
+	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DAOCompanyImpl.class);
 
+	/**
+	 * Instantiates a new DAO computer impl.
+	 */
 	private DAOComputerImpl() {
 		super();
 		databaseConnection = DatabaseConnection.getInstance();
@@ -174,9 +190,9 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.setTimestamp(2, MapComputer.toTimestamp(computer.getIntroduced()));
 			statement.setTimestamp(3, MapComputer.toTimestamp(computer.getDiscontinued()));
 			System.out.println(computer);
-			if(computer.getCompany().getId()==0) {
-				statement.setNull(4,java.sql.Types.BIGINT);
-			}else {
+			if (computer.getCompany().getId() == 0) {
+				statement.setNull(4, java.sql.Types.BIGINT);
+			} else {
 				statement.setInt(4, computer.getCompany().getId());
 			}
 			statement.execute();
@@ -208,6 +224,12 @@ public class DAOComputerImpl implements DaoComputer {
 		return 0;
 	}
 
+	/**
+	 * Close.
+	 *
+	 * @param connection the connection
+	 * @param statement the statement
+	 */
 	private void close(Connection connection, PreparedStatement statement) {
 		if (statement != null) {
 			try {
@@ -219,6 +241,11 @@ public class DAOComputerImpl implements DaoComputer {
 		databaseConnection.close(connection);
 	}
 
+	/**
+	 * Gets the single instance of DAOComputerImpl.
+	 *
+	 * @return single instance of DAOComputerImpl
+	 */
 	public synchronized static DAOComputerImpl getInstance() {
 		if (_instance == null) {
 			_instance = new DAOComputerImpl();

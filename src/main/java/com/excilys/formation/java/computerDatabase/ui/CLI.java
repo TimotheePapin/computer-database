@@ -9,11 +9,22 @@ import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.service.ServiceCompany;
 import com.excilys.formation.java.computerDatabase.service.ServiceComputer;
 
+/**
+ * The Class CLI.
+ */
 public class CLI {
 
+	/** The service company. */
 	private static ServiceCompany serviceCompany;
+
+	/** The service computer. */
 	private static ServiceComputer serviceComputer;
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		serviceCompany = ServiceCompany.getInstance();
 		serviceComputer = ServiceComputer.getInstance();
@@ -64,6 +75,11 @@ public class CLI {
 		}
 	}
 
+	/**
+	 * Delete computer.
+	 *
+	 * @param sc the sc
+	 */
 	private static void deleteComputer(Scanner sc) {
 		int rep;
 		System.out.println("Delete Computer : \n 1-By name \n 2-By id");
@@ -80,6 +96,12 @@ public class CLI {
 		}
 	}
 
+	/**
+	 * Update computer.
+	 *
+	 * @param sc the sc
+	 * @return the computer
+	 */
 	private static Computer updateComputer(Scanner sc) {
 		boolean date;
 		int rep;
@@ -159,6 +181,12 @@ public class CLI {
 		return computer;
 	}
 
+	/**
+	 * Adds the computer.
+	 *
+	 * @param sc the sc
+	 * @return the computer
+	 */
 	private static Computer addComputer(Scanner sc) {
 		boolean date;
 		System.out.println("Enter Computer name :");
@@ -209,6 +237,12 @@ public class CLI {
 		return serviceComputer.create(computer);
 	}
 
+	/**
+	 * Show computer.
+	 *
+	 * @param sc the sc
+	 * @return the computer
+	 */
 	private static Computer showComputer(Scanner sc) {
 		int rep;
 		System.out.println("Get Computer : \n 1-By name \n 2-By id");

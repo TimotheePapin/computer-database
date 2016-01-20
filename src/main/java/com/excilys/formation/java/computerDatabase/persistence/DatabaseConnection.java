@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.excilys.formation.java.computerDatabase.persistence;
 
 import java.io.FileInputStream;
@@ -9,16 +12,23 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.excilys.formation.java.computerDatabase.exception.DatabaseException;
 
-import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyImpl;
-
+/**
+ * The Class DatabaseConnection.
+ */
 public class DatabaseConnection {
 
+	/**
+	 * The _instance.
+	 */
 	private static DatabaseConnection _instance = null;
-	private static final Logger LOGGER = LoggerFactory.getLogger(DAOCompanyImpl.class);
 
+	/**
+	 * Open.
+	 *
+	 * @return the connection
+	 */
 	public Connection open() {
 		try {
 			InputStream ips = new FileInputStream(
@@ -27,28 +37,37 @@ public class DatabaseConnection {
 			try {
 				prop.load(ips);
 			} catch (IOException e) {
-				LOGGER.error("Fail to load properties");
+				throw new DatabaseException("Fail to load properties", e);
 			}
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			String url = new String(prop.getProperty("url"));
 			return DriverManager.getConnection(url, prop.getProperty("log"), prop.getProperty("psw"));
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException
 				| FileNotFoundException e) {
-			LOGGER.error("Fail to open connection");
+			throw new DatabaseException("Fail to open connection", e);
 		}
-		return null;
 	}
 
+	/**
+	 * Close.
+	 *
+	 * @param connection the connection
+	 */
 	public void close(Connection connection) {
 		try {
 			if (connection != null) {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			LOGGER.error("Fail to close connection");
+			throw new DatabaseException("Fail to close connection", e);
 		}
 	}
 
+	/**
+	 * Gets the single instance of DatabaseConnection.
+	 *
+	 * @return single instance of DatabaseConnection
+	 */
 	public synchronized static DatabaseConnection getInstance() {
 		if (_instance == null) {
 			_instance = new DatabaseConnection();

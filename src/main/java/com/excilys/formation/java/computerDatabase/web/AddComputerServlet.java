@@ -13,9 +13,24 @@ import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.service.ServiceCompany;
 import com.excilys.formation.java.computerDatabase.service.ServiceComputer;
 
+/**
+ * The Class AddComputerServlet.
+ */
 public class AddComputerServlet extends HttpServlet {
+
+	/**
+	 * The Constant serialVersionUID.
+	 */
 	private static final long serialVersionUID = -1084282215550710682L;
+
+	/**
+	 * The service computer.
+	 */
 	private ServiceComputer serviceComputer = ServiceComputer.getInstance();
+
+	/**
+	 * The service company.
+	 */
 	private ServiceCompany serviceCompany = ServiceCompany.getInstance();
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,14 +48,30 @@ public class AddComputerServlet extends HttpServlet {
 		response.sendRedirect("dashboard");
 	}
 
+	/**
+	 * Gets the service computer.
+	 *
+	 * @return the service computer
+	 */
 	public ServiceComputer getServiceComputer() {
 		return serviceComputer;
 	}
 
+	/**
+	 * Sets the service computer.
+	 *
+	 * @param serviceComputer the new service computer
+	 */
 	public void setServiceComputer(ServiceComputer serviceComputer) {
 		this.serviceComputer = serviceComputer;
 	}
 
+	/**
+	 * To date.
+	 *
+	 * @param date the date
+	 * @return the local date time
+	 */
 	private LocalDateTime toDate(String date) {
 		if (date == null || date.isEmpty()) {
 			return null;

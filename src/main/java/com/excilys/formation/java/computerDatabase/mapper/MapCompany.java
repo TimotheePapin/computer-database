@@ -5,10 +5,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.formation.java.computerDatabase.exception.MappingException;
 import com.excilys.formation.java.computerDatabase.model.Company;
 
+/**
+ * The Class MapCompany.
+ */
 public class MapCompany {
 
+	/**
+	 * Map companies.
+	 *
+	 * @param result the result
+	 * @return the list
+	 */
 	public static List<Company> mapCompanies(ResultSet result) {
 		List<Company> companies = new ArrayList<Company>();
 		try {
@@ -16,18 +26,24 @@ public class MapCompany {
 				companies.add(mapCompany(result));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new MappingException("Failed to Map Companies", e);
 		}
 		return companies;
 	}
 
+	/**
+	 * Map company.
+	 *
+	 * @param result the result
+	 * @return the company
+	 */
 	public static Company mapCompany(ResultSet result) {
 		Company company = new Company();
 		try {
 			company.setId(result.getInt("id"));
 			company.setName((result.getString("name")));
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new MappingException("Failed to Map a Company", e);
 		}
 		return company;
 	}
