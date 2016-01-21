@@ -33,7 +33,8 @@ public class DAOComputerImpl implements DaoComputer {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(DAOCompanyImpl.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DAOCompanyImpl.class);
 
 	/**
 	 * Instantiates a new DAO computer impl.
@@ -50,8 +51,8 @@ public class DAOComputerImpl implements DaoComputer {
 		ResultSet result = null;
 		try {
 			connection = databaseConnection.open();
-			statement = connection
-					.prepareStatement("SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id;");
+			statement = connection.prepareStatement(
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id;");
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
@@ -129,7 +130,8 @@ public class DAOComputerImpl implements DaoComputer {
 		PreparedStatement statement = null;
 		try {
 			connection = databaseConnection.open();
-			statement = connection.prepareStatement("DELETE FROM computer where name= ?;");
+			statement = connection
+					.prepareStatement("DELETE FROM computer where name= ?;");
 			statement.setString(1, name);
 			statement.execute();
 		} catch (SQLException e) {
@@ -145,7 +147,8 @@ public class DAOComputerImpl implements DaoComputer {
 		PreparedStatement statement = null;
 		try {
 			connection = databaseConnection.open();
-			statement = connection.prepareStatement("DELETE FROM computer where id= ?;");
+			statement = connection
+					.prepareStatement("DELETE FROM computer where id= ?;");
 			statement.setInt(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -164,8 +167,10 @@ public class DAOComputerImpl implements DaoComputer {
 			statement = connection.prepareStatement(
 					"UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;");
 			statement.setString(1, computer.getName());
-			statement.setTimestamp(2, MapComputer.toTimestamp(computer.getIntroduced()));
-			statement.setTimestamp(3, MapComputer.toTimestamp(computer.getDiscontinued()));
+			statement.setTimestamp(2,
+					MapComputer.toTimestamp(computer.getIntroduced()));
+			statement.setTimestamp(3,
+					MapComputer.toTimestamp(computer.getDiscontinued()));
 			statement.setInt(4, computer.getCompany().getId());
 			statement.setInt(5, computer.getId());
 			statement.execute();
@@ -187,9 +192,10 @@ public class DAOComputerImpl implements DaoComputer {
 			statement = connection.prepareStatement(
 					"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?, ?, ?, ?);");
 			statement.setString(1, computer.getName());
-			statement.setTimestamp(2, MapComputer.toTimestamp(computer.getIntroduced()));
-			statement.setTimestamp(3, MapComputer.toTimestamp(computer.getDiscontinued()));
-			System.out.println(computer);
+			statement.setTimestamp(2,
+					MapComputer.toTimestamp(computer.getIntroduced()));
+			statement.setTimestamp(3,
+					MapComputer.toTimestamp(computer.getDiscontinued()));
 			if (computer.getCompany().getId() == 0) {
 				statement.setNull(4, java.sql.Types.BIGINT);
 			} else {
@@ -212,7 +218,8 @@ public class DAOComputerImpl implements DaoComputer {
 		ResultSet result = null;
 		try {
 			connection = databaseConnection.open();
-			statement = connection.prepareStatement("SELECT COUNT(*) AS count FROM computer;");
+			statement = connection.prepareStatement(
+					"SELECT COUNT(*) AS count FROM computer;");
 			result = statement.executeQuery();
 			result.next();
 			return result.getInt("count");
@@ -246,7 +253,7 @@ public class DAOComputerImpl implements DaoComputer {
 	 *
 	 * @return single instance of DAOComputerImpl
 	 */
-	public synchronized static DAOComputerImpl getInstance() {
+	public static synchronized DAOComputerImpl getInstance() {
 		if (_instance == null) {
 			_instance = new DAOComputerImpl();
 		}

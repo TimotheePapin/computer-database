@@ -32,7 +32,8 @@ public class DAOCompanyImpl implements DaoCompany {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(DAOCompanyImpl.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DAOCompanyImpl.class);
 
 	/**
 	 * Instantiates a new DAO company impl.
@@ -67,7 +68,8 @@ public class DAOCompanyImpl implements DaoCompany {
 		ResultSet result = null;
 		try {
 			connection = databaseConnection.open();
-			statement = connection.prepareStatement("SELECT * FROM company WHERE name=?;");
+			statement = connection
+					.prepareStatement("SELECT * FROM company WHERE name=?;");
 			statement.setString(1, name);
 			result = statement.executeQuery();
 			return MapCompany.mapCompany(result);
@@ -101,7 +103,7 @@ public class DAOCompanyImpl implements DaoCompany {
 	 *
 	 * @return single instance of DAOCompanyImpl
 	 */
-	public synchronized static DaoCompany getInstance() {
+	public static synchronized  DaoCompany getInstance() {
 		if (_instance == null) {
 			_instance = new DAOCompanyImpl();
 		}

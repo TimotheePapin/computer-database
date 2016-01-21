@@ -14,7 +14,7 @@
 		<dbunitVersion>2.5.1</dbunitVersion>
 		<slf4jVersion>1.7.13</slf4jVersion>
 		<h2DatabaseVersion>1.4.190</h2DatabaseVersion>
-		<javax.servletVersion>3.1.0</javax.servletVersion>
+		<servletVersion>3.1.0</servletVersion>
 		<jstlVersion>1.2</jstlVersion>
 		<taglibsVersion>1.1.2</taglibsVersion>
 		<checkstyleVersion>5.0</checkstyleVersion>
@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>${javax.servletVersion}</version>
+			<version>${servletVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -84,7 +84,7 @@
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstlVersion}</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>

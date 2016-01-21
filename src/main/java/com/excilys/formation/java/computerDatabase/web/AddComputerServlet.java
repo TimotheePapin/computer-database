@@ -33,17 +33,22 @@ public class AddComputerServlet extends HttpServlet {
 	 */
 	private ServiceCompany serviceCompany = ServiceCompany.getInstance();
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setAttribute("Companies", serviceCompany.getAll());
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
+		this.getServletContext()
+				.getRequestDispatcher("/WEB-INF/views/addComputer.jsp")
+				.forward(request, response);
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		Computer computer = new Computer();
 		computer.setName(request.getParameter("computerName"));
 		computer.setIntroduced(toDate(request.getParameter("introduced")));
 		computer.setDiscontinued(toDate(request.getParameter("discontinued")));
-		computer.setCompany(new Company(Integer.parseInt(request.getParameter("companyId")), ""));
+		computer.setCompany(new Company(
+				Integer.parseInt(request.getParameter("companyId")), ""));
 		serviceComputer.create(computer);
 		response.sendRedirect("dashboard");
 	}
@@ -77,8 +82,9 @@ public class AddComputerServlet extends HttpServlet {
 			return null;
 		} else {
 			String[] temp = date.split("/");
-			return LocalDateTime.of(Integer.parseInt(temp[2]), Integer.parseInt(temp[1]), Integer.parseInt(temp[0]), 0,
-					0, 0, 0);
+			return LocalDateTime.of(Integer.parseInt(temp[2]),
+					Integer.parseInt(temp[1]), Integer.parseInt(temp[0]), 0, 0,
+					0, 0);
 		}
 	}
 }

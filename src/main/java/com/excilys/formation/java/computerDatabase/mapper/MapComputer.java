@@ -29,7 +29,7 @@ public class MapComputer {
 				computers.add(mapComputer(result));
 			}
 		} catch (SQLException e) {
-			throw new MappingException("Failed to Map Computers",e);
+			throw new MappingException("Failed to Map Computers", e);
 		}
 		return computers;
 	}
@@ -50,18 +50,20 @@ public class MapComputer {
 			if (result.getTimestamp("introduced") == null) {
 				computer.setIntroduced(null);
 			} else {
-				computer.setIntroduced((result.getTimestamp("introduced").toLocalDateTime()));
+				computer.setIntroduced(
+						(result.getTimestamp("introduced").toLocalDateTime()));
 			}
 			if (result.getTimestamp("discontinued") == null) {
 				computer.setDiscontinued(null);
 			} else {
-				computer.setDiscontinued((result.getTimestamp("discontinued").toLocalDateTime()));
+				computer.setDiscontinued((result.getTimestamp("discontinued")
+						.toLocalDateTime()));
 			}
 			company.setId(result.getInt("company.id"));
 			company.setName(result.getString("company.name"));
 			computer.setCompany(company);
 		} catch (SQLException e) {
-			throw new MappingException("Failed to Map a Computer",e);
+			throw new MappingException("Failed to Map a Computer", e);
 		}
 		return computer;
 	}

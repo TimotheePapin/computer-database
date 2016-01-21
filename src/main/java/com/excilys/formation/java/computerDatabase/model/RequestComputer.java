@@ -54,7 +54,8 @@ public class RequestComputer implements Serializable {
 	 * @param page the page
 	 * @param listSize the list size
 	 */
-	public RequestComputer(List<Computer> computers, int dbSize, int page, int listSize) {
+	public RequestComputer(List<Computer> computers, int dbSize, int page,
+			int listSize) {
 		super();
 		this.computersDTO = new ArrayList<ComputerDTO>();
 		for (Computer computer : computers) {
@@ -161,7 +162,8 @@ public class RequestComputer implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((computersDTO == null) ? 0 : computersDTO.hashCode());
+		result = prime * result
+				+ ((computersDTO == null) ? 0 : computersDTO.hashCode());
 		result = prime * result + dbSize;
 		result = prime * result + page;
 		result = prime * result + pageMax;
@@ -171,33 +173,43 @@ public class RequestComputer implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		RequestComputer other = (RequestComputer) obj;
 		if (computersDTO == null) {
-			if (other.computersDTO != null)
+			if (other.computersDTO != null) {
 				return false;
-		} else if (!computersDTO.equals(other.computersDTO))
+			}
+		} else if (!computersDTO.equals(other.computersDTO)) {
 			return false;
-		if (dbSize != other.dbSize)
+		}
+		if (dbSize != other.dbSize) {
 			return false;
-		if (page != other.page)
+		}
+		if (page != other.page) {
 			return false;
-		if (pageMax != other.pageMax)
+		}
+		if (pageMax != other.pageMax) {
 			return false;
-		if (listSize != other.listSize)
+		}
+		if (listSize != other.listSize) {
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "RequestComputer [computersDTO=" + computersDTO + ", listSize=" + listSize + ", page=" + page
-				+ ", dbSize=" + dbSize + ", pageMax=" + pageMax + "]";
+		return "RequestComputer [computersDTO=" + computersDTO + ", listSize="
+				+ listSize + ", page=" + page + ", dbSize=" + dbSize
+				+ ", pageMax=" + pageMax + "]";
 	}
 
 }

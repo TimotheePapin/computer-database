@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.excilys.formation.java.computerDatabase.model.Computer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface DaoComputer.
  */

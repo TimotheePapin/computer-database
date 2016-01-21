@@ -129,12 +129,15 @@ public class CLI {
 					date = false;
 					do {
 						try {
-							System.out.println("Enter Computer introduced (yyyy-mm-dd) (empty if null) :");
+							System.out.println(
+									"Enter Computer introduced (yyyy-mm-dd) (empty if null) :");
 							sc.nextLine();
 							String introducedString = sc.nextLine();
 							if (!introducedString.isEmpty()) {
 								String[] temp = introducedString.split("-");
-								introduced = LocalDateTime.of(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]),
+								introduced = LocalDateTime.of(
+										Integer.parseInt(temp[0]),
+										Integer.parseInt(temp[1]),
 										Integer.parseInt(temp[2]), 0, 0, 0, 0);
 							}
 							computer.setIntroduced(introduced);
@@ -148,12 +151,15 @@ public class CLI {
 					date = false;
 					do {
 						try {
-							System.out.println("Enter Computer discontinued (yyyy-mm-dd) (empty if null) :");
+							System.out.println(
+									"Enter Computer discontinued (yyyy-mm-dd) (empty if null) :");
 							sc.nextLine();
 							String discontinuedString = sc.nextLine();
 							if (!discontinuedString.isEmpty()) {
 								String[] temp = discontinuedString.split("-");
-								discontinued = LocalDateTime.of(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]),
+								discontinued = LocalDateTime.of(
+										Integer.parseInt(temp[0]),
+										Integer.parseInt(temp[1]),
 										Integer.parseInt(temp[2]), 0, 0, 0, 0);
 							}
 							computer.setDiscontinued(discontinued);
@@ -197,14 +203,16 @@ public class CLI {
 		date = false;
 		do {
 			try {
-				System.out.println("Enter Computer introduced (yyyy-mm-dd) (empty if null) :");
+				System.out.println(
+						"Enter Computer introduced (yyyy-mm-dd) (empty if null) :");
 				String introducedString = sc.nextLine();
 				if (!introducedString.isEmpty()) {
 					// DateTimeFormatter dateTimeFormatter =
 					// DateTimeFormatter.ofPattern("yyyy-mm-dd");
 					// dateTimeFormatter.parse(introducedString);
 					String[] temp = introducedString.split("-");
-					introduced = LocalDateTime.of(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]),
+					introduced = LocalDateTime.of(Integer.parseInt(temp[0]),
+							Integer.parseInt(temp[1]),
 							Integer.parseInt(temp[2]), 0, 0, 0, 0);
 				}
 				date = true;
@@ -215,11 +223,13 @@ public class CLI {
 		date = false;
 		do {
 			try {
-				System.out.println("Enter Computer discontinued (yyyy-mm-dd) (empty if null) :");
+				System.out.println(
+						"Enter Computer discontinued (yyyy-mm-dd) (empty if null) :");
 				String discontinuedString = sc.nextLine();
 				if (!discontinuedString.isEmpty()) {
 					String[] temp = discontinuedString.split("-");
-					discontinued = LocalDateTime.of(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]),
+					discontinued = LocalDateTime.of(Integer.parseInt(temp[0]),
+							Integer.parseInt(temp[1]),
 							Integer.parseInt(temp[2]), 0, 0, 0, 0);
 				}
 				date = true;
@@ -233,7 +243,8 @@ public class CLI {
 		sc.nextLine();
 		String companyName = sc.nextLine();
 		Company company = new Company(companyId, companyName);
-		Computer computer = new Computer(0, name, introduced, discontinued, company);
+		Computer computer = new Computer(0, name, introduced, discontinued,
+				company);
 		return serviceComputer.create(computer);
 	}
 

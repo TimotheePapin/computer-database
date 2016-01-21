@@ -41,8 +41,10 @@ public class DatabaseConnection {
 			}
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			String url = new String(prop.getProperty("url"));
-			return DriverManager.getConnection(url, prop.getProperty("log"), prop.getProperty("psw"));
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException
+			return DriverManager.getConnection(url, prop.getProperty("log"),
+					prop.getProperty("psw"));
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException | SQLException
 				| FileNotFoundException e) {
 			throw new DatabaseException("Fail to open connection", e);
 		}
@@ -68,7 +70,7 @@ public class DatabaseConnection {
 	 *
 	 * @return single instance of DatabaseConnection
 	 */
-	public synchronized static DatabaseConnection getInstance() {
+	public static synchronized DatabaseConnection getInstance() {
 		if (_instance == null) {
 			_instance = new DatabaseConnection();
 		}
