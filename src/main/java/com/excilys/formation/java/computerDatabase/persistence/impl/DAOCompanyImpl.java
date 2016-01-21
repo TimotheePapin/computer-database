@@ -49,12 +49,12 @@ public class DAOCompanyImpl implements DaoCompany {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement("SELECT * FROM company;");
 			result = statement.executeQuery();
 			return MapCompany.mapCompanies(result);
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getAll Query");
+			LOGGER.error("Failed to execute the getAll Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -67,14 +67,14 @@ public class DAOCompanyImpl implements DaoCompany {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection
 					.prepareStatement("SELECT * FROM company WHERE name=?;");
 			statement.setString(1, name);
 			result = statement.executeQuery();
 			return MapCompany.mapCompany(result);
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getByName Query");
+			LOGGER.error("Failed to execute the getByName Query");
 		} finally {
 			close(connection, statement);
 		}
@@ -92,10 +92,14 @@ public class DAOCompanyImpl implements DaoCompany {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				LOGGER.error("Fail to close statement");
+				LOGGER.error("Failed to close statement");
 			}
 		}
-		databaseConnection.close(connection);
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			LOGGER.error("Failed to close connection");
+		}
 	}
 
 	/**
@@ -103,7 +107,7 @@ public class DAOCompanyImpl implements DaoCompany {
 	 *
 	 * @return single instance of DAOCompanyImpl
 	 */
-	public static synchronized  DaoCompany getInstance() {
+	public static synchronized DaoCompany getInstance() {
 		if (_instance == null) {
 			_instance = new DAOCompanyImpl();
 		}

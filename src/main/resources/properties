@@ -1,3 +1,4 @@
 url=jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull
+driver=com.mysql.jdbc.Driver
 log=admincdb
 psw=qwerty1234

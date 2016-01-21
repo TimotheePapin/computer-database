@@ -21,6 +21,8 @@
 		<seleniumVersion>2.49.0</seleniumVersion>
 		<mavenCompilerVersion>3.3</mavenCompilerVersion>
 		<coberturaVersion>2.7</coberturaVersion>
+		<boneCpVersion>0.8.0.RELEASE</boneCpVersion>
+		<guavaVersion>19.0</guavaVersion>
 	</properties>
 
 	<dependencies>
@@ -106,6 +108,20 @@
 			<artifactId>selenium-firefox-driver</artifactId>
 			<version>${seleniumVersion}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>${boneCpVersion}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guavaVersion}</version>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>

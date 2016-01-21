@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.excilys.formation.java.computerDatabase.persistence;
 
 import java.io.FileInputStream;
@@ -8,14 +5,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import com.excilys.formation.java.computerDatabase.exception.DatabaseException;
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 
 /**
  * The Class DatabaseConnection.
+ */
+/**
+ * @author excilys
+ *
  */
 public class DatabaseConnection {
 
@@ -25,11 +27,17 @@ public class DatabaseConnection {
 	private static DatabaseConnection _instance = null;
 
 	/**
-	 * Open.
-	 *
-	 * @return the connection
+	 * The connection pool.
 	 */
-	public Connection open() {
+	private BoneCP connectionPool = null;
+
+	/**
+	 * Instantiates a new database connection.
+	 */
+	private DatabaseConnection() {
+		String url;
+		String log;
+		String psw;
 		try {
 			InputStream ips = new FileInputStream(
 					"/home/excilys/Documents/Workspace/computer-database/src/main/resources/properties");
@@ -37,32 +45,40 @@ public class DatabaseConnection {
 			try {
 				prop.load(ips);
 			} catch (IOException e) {
-				throw new DatabaseException("Fail to load properties", e);
+				throw new DatabaseException("Couldn't reach properties", e);
 			}
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String url = new String(prop.getProperty("url"));
-			return DriverManager.getConnection(url, prop.getProperty("log"),
-					prop.getProperty("psw"));
+			Class.forName(prop.getProperty("driver")).newInstance();
+			url = new String(prop.getProperty("url"));
+			log = new String(prop.getProperty("log"));
+			psw = new String(prop.getProperty("psw"));
 		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException | SQLException
-				| FileNotFoundException e) {
-			throw new DatabaseException("Fail to open connection", e);
+				| ClassNotFoundException | FileNotFoundException e) {
+			throw new DatabaseException("Failed to load properties", e);
+		}
+		try {
+			BoneCPConfig config = new BoneCPConfig();
+			config.setJdbcUrl(url);
+			config.setUsername(log);
+			config.setPassword(psw);
+			config.setMinConnectionsPerPartition(5);
+			config.setMaxConnectionsPerPartition(10);
+			config.setPartitionCount(2);
+			connectionPool = new BoneCP(config);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatabaseException(
+					"Configuration error of the connection pool.", e);
 		}
 	}
 
 	/**
-	 * Close.
+	 * Gets the connection.
 	 *
-	 * @param connection the connection
+	 * @return the connection
+	 * @throws SQLException the SQL exception
 	 */
-	public void close(Connection connection) {
-		try {
-			if (connection != null) {
-				connection.close();
-			}
-		} catch (SQLException e) {
-			throw new DatabaseException("Fail to close connection", e);
-		}
+	public Connection getConnection() throws SQLException {
+		return connectionPool.getConnection();
 	}
 
 	/**

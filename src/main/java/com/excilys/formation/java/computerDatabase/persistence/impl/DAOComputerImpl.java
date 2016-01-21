@@ -1,4 +1,3 @@
-
 package com.excilys.formation.java.computerDatabase.persistence.impl;
 
 import java.sql.Connection;
@@ -50,7 +49,7 @@ public class DAOComputerImpl implements DaoComputer {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
 					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id;");
 			result = statement.executeQuery();
@@ -69,7 +68,7 @@ public class DAOComputerImpl implements DaoComputer {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
 					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id LIMIT ? OFFSET ?");
 			statement.setInt(1, size);
@@ -90,7 +89,7 @@ public class DAOComputerImpl implements DaoComputer {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
 					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.id= ?;");
 			statement.setInt(1, id);
@@ -110,7 +109,7 @@ public class DAOComputerImpl implements DaoComputer {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
 					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name= ?;");
 			statement.setString(1, name);
@@ -129,7 +128,7 @@ public class DAOComputerImpl implements DaoComputer {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection
 					.prepareStatement("DELETE FROM computer where name= ?;");
 			statement.setString(1, name);
@@ -146,7 +145,7 @@ public class DAOComputerImpl implements DaoComputer {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection
 					.prepareStatement("DELETE FROM computer where id= ?;");
 			statement.setInt(1, id);
@@ -163,7 +162,7 @@ public class DAOComputerImpl implements DaoComputer {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
 					"UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;");
 			statement.setString(1, computer.getName());
@@ -188,7 +187,7 @@ public class DAOComputerImpl implements DaoComputer {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
 					"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?, ?, ?, ?);");
 			statement.setString(1, computer.getName());
@@ -217,7 +216,7 @@ public class DAOComputerImpl implements DaoComputer {
 		PreparedStatement statement = null;
 		ResultSet result = null;
 		try {
-			connection = databaseConnection.open();
+			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
 					"SELECT COUNT(*) AS count FROM computer;");
 			result = statement.executeQuery();
@@ -245,7 +244,11 @@ public class DAOComputerImpl implements DaoComputer {
 				LOGGER.error("Fail to close Connection");
 			}
 		}
-		databaseConnection.close(connection);
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
