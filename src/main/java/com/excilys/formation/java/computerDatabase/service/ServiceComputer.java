@@ -14,9 +14,9 @@ import com.excilys.formation.java.computerDatabase.persistence.impl.DAOComputerI
 public class ServiceComputer implements Serializable {
 
 	/**
-	 * The _instance.
+	 * The instance.
 	 */
-	private static ServiceComputer _instance = null;
+	private static ServiceComputer instance = null;
 
 	/**
 	 * The dao computer.
@@ -114,10 +114,10 @@ public class ServiceComputer implements Serializable {
 	 * @return single instance of ServiceComputer
 	 */
 	synchronized public static ServiceComputer getInstance() {
-		if (_instance == null) {
-			_instance = new ServiceComputer();
+		if (instance == null) {
+			instance = new ServiceComputer();
 		}
-		return _instance;
+		return instance;
 	}
 
 	/**

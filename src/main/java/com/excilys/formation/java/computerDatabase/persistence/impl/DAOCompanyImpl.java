@@ -20,9 +20,9 @@ import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnectio
 public class DAOCompanyImpl implements DaoCompany {
 
 	/**
-	 * The _instance.
+	 * The instance.
 	 */
-	private static DaoCompany _instance = null;
+	private static DaoCompany instance = null;
 
 	/**
 	 * The database connection.
@@ -65,7 +65,7 @@ public class DAOCompanyImpl implements DaoCompany {
 	public Company getByName(String name) {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet result = null;
+		ResultSet result;
 		try {
 			connection = databaseConnection.getConnection();
 			statement = connection
@@ -108,10 +108,10 @@ public class DAOCompanyImpl implements DaoCompany {
 	 * @return single instance of DAOCompanyImpl
 	 */
 	public static synchronized DaoCompany getInstance() {
-		if (_instance == null) {
-			_instance = new DAOCompanyImpl();
+		if (instance == null) {
+			instance = new DAOCompanyImpl();
 		}
-		return _instance;
+		return instance;
 	}
 
 }

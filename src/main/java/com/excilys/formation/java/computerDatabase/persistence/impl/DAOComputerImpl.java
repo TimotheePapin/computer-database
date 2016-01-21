@@ -20,9 +20,9 @@ import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnectio
 public class DAOComputerImpl implements DaoComputer {
 
 	/**
-	 * The _instance.
+	 * The instance.
 	 */
-	private static DAOComputerImpl _instance = null;
+	private static DAOComputerImpl instance = null;
 
 	/**
 	 * The database connection.
@@ -66,7 +66,7 @@ public class DAOComputerImpl implements DaoComputer {
 	public List<Computer> getPart(int size, int min) {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet result = null;
+		ResultSet result;
 		try {
 			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
@@ -87,7 +87,7 @@ public class DAOComputerImpl implements DaoComputer {
 	public Computer getById(int id) {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet result = null;
+		ResultSet result;
 		try {
 			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
@@ -107,7 +107,7 @@ public class DAOComputerImpl implements DaoComputer {
 	public Computer getByName(String name) {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet result = null;
+		ResultSet result;
 		try {
 			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
@@ -214,7 +214,7 @@ public class DAOComputerImpl implements DaoComputer {
 	public int getSize() {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet result = null;
+		ResultSet result;
 		try {
 			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
@@ -257,10 +257,10 @@ public class DAOComputerImpl implements DaoComputer {
 	 * @return single instance of DAOComputerImpl
 	 */
 	public static synchronized DAOComputerImpl getInstance() {
-		if (_instance == null) {
-			_instance = new DAOComputerImpl();
+		if (instance == null) {
+			instance = new DAOComputerImpl();
 		}
-		return _instance;
+		return instance;
 	}
 
 }

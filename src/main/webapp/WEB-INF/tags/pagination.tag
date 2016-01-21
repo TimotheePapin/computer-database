@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 
-<%@ attribute name="page"
+<%@ attribute name="reqComp"
 	description="Contains all the information of the page"%>
 
 

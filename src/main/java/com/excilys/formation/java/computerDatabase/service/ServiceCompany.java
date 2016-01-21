@@ -14,9 +14,9 @@ import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyIm
 public class ServiceCompany implements Serializable {
 
 	/**
-	 * The _instance.
+	 * The instance.
 	 */
-	private static ServiceCompany _instance = null;
+	private static ServiceCompany instance = null;
 
 	/**
 	 * The dao company.
@@ -45,10 +45,10 @@ public class ServiceCompany implements Serializable {
 	 * @return single instance of ServiceCompany
 	 */
 	synchronized public static ServiceCompany getInstance() {
-		if (_instance == null) {
-			_instance = new ServiceCompany();
+		if (instance == null) {
+			instance = new ServiceCompany();
 		}
-		return _instance;
+		return instance;
 	}
 
 	/**

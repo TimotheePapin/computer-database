@@ -6,6 +6,8 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -14,17 +16,28 @@ import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
 
 public class TestServiceCompany {
 	private ServiceCompany serviceCompany;
+	private DaoCompany daoCompany;
+	private List<Company> list;
 
 	public TestServiceCompany() {
 		this.serviceCompany = ServiceCompany.getInstance();
 	}
 
+
+	@Before
+	public void setUp() {
+		daoCompany = Mockito.mock(DaoCompany.class);
+		list = new ArrayList<Company>();
+	}
+
+	@After
+	public void tearDown() {
+		daoCompany = null;
+	}
+	
 	@Test
 	public void testGetAll() {
-
-		DaoCompany daoCompany = Mockito.mock(DaoCompany.class);
-
-		List<Company> list = new ArrayList<>();
+		
 		list.add(new Company(1, "test"));
 		list.add(new Company(2, ""));
 
@@ -37,8 +50,6 @@ public class TestServiceCompany {
 	public void testGetAllNull() {
 
 		DaoCompany daoCompany = Mockito.mock(DaoCompany.class);
-
-		List<Company> list = new ArrayList<>();
 
 		when(daoCompany.getAll()).thenReturn(list);
 		serviceCompany.setDaoCompany(daoCompany);

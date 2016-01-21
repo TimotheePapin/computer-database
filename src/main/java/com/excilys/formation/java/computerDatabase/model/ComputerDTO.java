@@ -1,6 +1,7 @@
 package com.excilys.formation.java.computerDatabase.model;
 
 import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The Class ComputerDTO.
@@ -53,21 +54,17 @@ public class ComputerDTO implements Serializable {
 		super();
 		this.id = computer.getId();
 		this.name = computer.getName();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
 		if (computer.getIntroduced() == null) {
 			this.introduced = null;
 		} else {
-			this.introduced = computer.getIntroduced().toString();
-			introduced = introduced.substring(8, 10) + "/"
-					+ introduced.substring(5, 7) + "/"
-					+ introduced.substring(0, 4);
+			introduced = computer.getIntroduced().format(formatter);
 		}
 		if (computer.getDiscontinued() == null) {
 			this.discontinued = null;
 		} else {
 			this.discontinued = computer.getDiscontinued().toString();
-			discontinued = discontinued.substring(8, 10) + "/"
-					+ discontinued.substring(5, 7) + "/"
-					+ discontinued.substring(0, 4);
+			discontinued = computer.getDiscontinued().format(formatter);
 		}
 		this.company = computer.getCompany().getName();
 	}

@@ -2,6 +2,7 @@ package com.excilys.formation.java.computerDatabase.web;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -81,10 +82,8 @@ public class AddComputerServlet extends HttpServlet {
 		if (date == null || date.isEmpty()) {
 			return null;
 		} else {
-			String[] temp = date.split("/");
-			return LocalDateTime.of(Integer.parseInt(temp[2]),
-					Integer.parseInt(temp[1]), Integer.parseInt(temp[0]), 0, 0,
-					0, 0);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+			return LocalDateTime.parse(date,formatter);
 		}
 	}
 }

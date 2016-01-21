@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
-
+	<display-name>Computer Database</display-name>
 	<servlet>
 		<servlet-name>Dashboard</servlet-name>
 		<servlet-class>com.excilys.formation.java.computerDatabase.web.DashbordServlet
@@ -31,5 +31,17 @@
 		<servlet-name>EditComputer</servlet-name>
 		<url-pattern>/editComputer</url-pattern>
 	</servlet-mapping>
-
+	
+	<error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/views/403.html</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/404.html</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/500.html</location>
+    </error-page>
 </web-app>

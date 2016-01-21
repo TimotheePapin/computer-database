@@ -1,7 +1,5 @@
 package com.excilys.formation.java.computerDatabase.persistence;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -15,16 +13,12 @@ import com.jolbox.bonecp.BoneCPConfig;
 /**
  * The Class DatabaseConnection.
  */
-/**
- * @author excilys
- *
- */
 public class DatabaseConnection {
 
 	/**
-	 * The _instance.
+	 * The instance.
 	 */
-	private static DatabaseConnection _instance = null;
+	private static DatabaseConnection instance = null;
 
 	/**
 	 * The connection pool.
@@ -32,34 +26,56 @@ public class DatabaseConnection {
 	private BoneCP connectionPool = null;
 
 	/**
-	 * Instantiates a new database connection.
+	 * The Constant URL.
 	 */
-	private DatabaseConnection() {
-		String url;
-		String log;
-		String psw;
+	private static final String URL;
+
+	/**
+	 * The Constant LOG.
+	 */
+	private static final String LOG;
+
+	/**
+	 * The Constant PSW.
+	 */
+	private static final String PSW;
+
+	static {
+		InputStream ips = null;
 		try {
-			InputStream ips = new FileInputStream(
-					"/home/excilys/Documents/Workspace/computer-database/src/main/resources/properties");
 			Properties prop = new Properties();
+			ips = DatabaseConnection.class.getClassLoader()
+					.getResourceAsStream("sql.properties");
 			try {
 				prop.load(ips);
 			} catch (IOException e) {
 				throw new DatabaseException("Couldn't reach properties", e);
 			}
 			Class.forName(prop.getProperty("driver")).newInstance();
-			url = new String(prop.getProperty("url"));
-			log = new String(prop.getProperty("log"));
-			psw = new String(prop.getProperty("psw"));
+			URL = new String(prop.getProperty("url"));
+			LOG = new String(prop.getProperty("log"));
+			PSW = new String(prop.getProperty("psw"));
 		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException | FileNotFoundException e) {
+				| ClassNotFoundException e) {
 			throw new DatabaseException("Failed to load properties", e);
+		} finally {
+			try {
+				ips.close();
+			} catch (IOException e) {
+				throw new DatabaseException("Failed to close the Stream", e);
+			}
 		}
+	}
+
+	/**
+	 * Instantiates a new database connection.
+	 */
+	private DatabaseConnection() {
 		try {
 			BoneCPConfig config = new BoneCPConfig();
-			config.setJdbcUrl(url);
-			config.setUsername(log);
-			config.setPassword(psw);
+			config.setJdbcUrl(URL);
+			config.setUsername(LOG);
+			config.setPassword(PSW);
 			config.setMinConnectionsPerPartition(5);
 			config.setMaxConnectionsPerPartition(10);
 			config.setPartitionCount(2);
@@ -87,9 +103,9 @@ public class DatabaseConnection {
 	 * @return single instance of DatabaseConnection
 	 */
 	public static synchronized DatabaseConnection getInstance() {
-		if (_instance == null) {
-			_instance = new DatabaseConnection();
+		if (instance == null) {
+			instance = new DatabaseConnection();
 		}
-		return _instance;
+		return instance;
 	}
 }

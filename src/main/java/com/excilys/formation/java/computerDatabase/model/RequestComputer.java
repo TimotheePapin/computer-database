@@ -65,7 +65,7 @@ public class RequestComputer implements Serializable {
 		this.listSize = listSize;
 		this.page = page;
 		this.dbSize = dbSize;
-		pageMax = (int) (dbSize / listSize) + 1;
+		pageMax =(dbSize / listSize) + 1;
 	}
 
 	/**

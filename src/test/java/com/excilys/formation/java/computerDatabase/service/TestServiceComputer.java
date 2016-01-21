@@ -19,7 +19,10 @@ import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
 public class TestServiceComputer {
 	private ServiceComputer serviceComputer;
 	private DaoComputer daoComputer;
-
+	private List<Computer> list;
+	private LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
+	private Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
+	
 	public TestServiceComputer() {
 		this.serviceComputer = ServiceComputer.getInstance();
 	}
@@ -27,6 +30,7 @@ public class TestServiceComputer {
 	@Before
 	public void setUp() {
 		daoComputer = Mockito.mock(DaoComputer.class);
+		list = new ArrayList<>();
 	}
 
 	@After
@@ -36,8 +40,6 @@ public class TestServiceComputer {
 
 	@Test
 	public void testGetAll() {
-		LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
-		List<Computer> list = new ArrayList<>();
 		list.add(new Computer(1, "test", null, date, new Company(1, "test")));
 		list.add(new Computer(2, "", date, null, new Company(2, "")));
 
@@ -48,9 +50,6 @@ public class TestServiceComputer {
 
 	@Test
 	public void testGetAllNull() {
-
-		List<Computer> list = new ArrayList<>();
-
 		when(daoComputer.getAll()).thenReturn(list);
 		serviceComputer.setDaoComputer(daoComputer);
 		assertEquals(list, serviceComputer.getAll());
@@ -58,9 +57,6 @@ public class TestServiceComputer {
 
 	@Test
 	public void testGetByName() {
-		LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
-		Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
-
 		when(daoComputer.getByName("test")).thenReturn(computer);
 		serviceComputer.setDaoComputer(daoComputer);
 		assertEquals(computer, serviceComputer.getByName("test"));
@@ -68,9 +64,6 @@ public class TestServiceComputer {
 
 	@Test
 	public void testGetById() {
-		LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
-		Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
-
 		when(daoComputer.getById(1)).thenReturn(computer);
 		serviceComputer.setDaoComputer(daoComputer);
 		assertEquals(computer, serviceComputer.getById(1));
@@ -78,9 +71,6 @@ public class TestServiceComputer {
 	
 	@Test
 	public void testUpdate() {
-		LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
-		Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
-
 		when(daoComputer.update(computer)).thenReturn(computer);
 		serviceComputer.setDaoComputer(daoComputer);
 		assertEquals(computer, serviceComputer.update(computer));
@@ -88,9 +78,6 @@ public class TestServiceComputer {
 	
 	@Test
 	public void testAdd() {
-		LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
-		Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
-
 		when(daoComputer.add(computer)).thenReturn(computer);
 		serviceComputer.setDaoComputer(daoComputer);
 		assertEquals(computer, serviceComputer.create(computer));
