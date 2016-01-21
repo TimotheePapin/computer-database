@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee" 
-         xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-         version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 
 	<servlet>
 		<servlet-name>Dashboard</servlet-name>
-		<servlet-class>com.excilys.formation.java.computerDatabase.web.DashbordServlet</servlet-class>
+		<servlet-class>com.excilys.formation.java.computerDatabase.web.DashbordServlet
+		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>AddComputer</servlet-name>
-		<servlet-class>com.excilys.formation.java.computerDatabase.web.AddComputerServlet</servlet-class>
+		<servlet-class>com.excilys.formation.java.computerDatabase.web.AddComputerServlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EditComputer</servlet-name>
+		<servlet-class>com.excilys.formation.java.computerDatabase.web.EditComputerServlet
+		</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -20,6 +26,10 @@
 	<servlet-mapping>
 		<servlet-name>AddComputer</servlet-name>
 		<url-pattern>/addComputer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EditComputer</servlet-name>
+		<url-pattern>/editComputer</url-pattern>
 	</servlet-mapping>
 
 </web-app>
