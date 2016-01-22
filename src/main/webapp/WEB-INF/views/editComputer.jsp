@@ -12,6 +12,7 @@
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
+    	<script type="text/javascript" src="js/validation.js"></script>
         <div class="container">
             <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
         </div>
@@ -24,7 +25,7 @@
                         id: 0
                     </div>
                     <h1>Edit Computer</h1>
-                    <form action="editComputer" method="POST">
+                    <form action="editComputer" method="POST" onsubmit="return validation(this)">
                         <input type="hidden" value="0"/>
                         <input type="hidden" name="id" value="${Computer.id}">
                         <fieldset>
@@ -32,17 +33,17 @@
 								<label for="computerName">Computer name</label> 
 								<input type="text" name="computerName"
 									class="form-control" id="computerName"
-									value="${Computer.name}">
+									value="${Computer.name}" onblur="checkName(this)">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date (dd/mm/yyyy)</label> 
 								<input type="text" class="form-control" id="introduced"
-									value="${Computer.introduced}" name="introduced">
+									value="${Computer.introduced}" name="introduced" onblur="checkIntroduced(this)">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date (dd/mm/yyyy)</label> 
 								<input type="text" class="form-control" id="discontinued"
-									value="${Computer.discontinued}" name="discontinued">
+									value="${Computer.discontinued}" name="discontinued" onblur="checkDiscontinued(this)">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> 
