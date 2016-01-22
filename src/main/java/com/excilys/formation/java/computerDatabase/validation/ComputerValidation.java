@@ -41,12 +41,12 @@ public class ComputerValidation {
 			}
 		}
 		if (name == null || name.isEmpty()) {
-			name = "Unnamed Computer";
+			throw new ValidationException("Comuter's Name missing");
 		}
 		if (!(strIntroduced == null || strIntroduced.isEmpty())) {
 			try {
 				DateTimeFormatter formatter = DateTimeFormatter
-						.ofPattern("dd/mm/yyyy");
+						.ofPattern("dd/MM/yyyy");
 				LocalDateTime.parse(strIntroduced, formatter);
 			} catch (Exception e) {
 				throw new ValidationException("Incorrect Introduced Date", e);
@@ -55,7 +55,7 @@ public class ComputerValidation {
 		if (!(strDiscontinued == null || strDiscontinued.isEmpty())) {
 			try {
 				DateTimeFormatter formatter = DateTimeFormatter
-						.ofPattern("dd/mm/yyyy");
+						.ofPattern("dd/MM/yyyy");
 				LocalDateTime.parse(strDiscontinued, formatter);
 			} catch (Exception e) {
 				throw new ValidationException("Incorrect Discontinued Date", e);

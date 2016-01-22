@@ -54,7 +54,7 @@ public class ComputerDTO implements Serializable {
 		super();
 		this.id = computer.getId();
 		this.name = computer.getName();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		if (computer.getIntroduced() == null) {
 			this.introduced = null;
 		} else {
