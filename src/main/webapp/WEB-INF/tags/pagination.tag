@@ -1,8 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 
-<%@ attribute name="reqComp"
-	description="Contains all the information of the page"%>
+<%@ attribute name="reqComp" type="com.excilys.formation.java.computerDatabase.model.RequestComputer" description="Contains all the information of the page"%>
 
 
 <div class="container text-center">
@@ -52,6 +51,6 @@
 		<button type="button" class="btn btn-default"
 			<c:if test="${reqComp.listSize == 100}">style="background:#D8D8D8" </c:if>
 			onclick="document.location.href='dashboard?size=100&page=1'">100</button>
-</div>
+	</div>
 </div>
 

@@ -1,28 +1,38 @@
 package com.excilys.formation.java.computerDatabase.web;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.excilys.formation.java.computerDatabase.model.Company;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.formation.java.computerDatabase.exception.ValidationException;
 import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.model.ComputerDTO;
+import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyImpl;
 import com.excilys.formation.java.computerDatabase.service.ServiceCompany;
 import com.excilys.formation.java.computerDatabase.service.ServiceComputer;
+import com.excilys.formation.java.computerDatabase.validation.ComputerValidation;
 
 /**
  * The Class EditComputerServlet.
  */
 public class EditComputerServlet extends HttpServlet {
+
 	/**
 	 * The Constant serialVersionUID.
 	 */
 	private static final long serialVersionUID = 4387176304859389447L;
+
+	/**
+	 * The Constant LOGGER.
+	 */
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(DAOCompanyImpl.class);
 
 	/**
 	 * The service computer.
@@ -38,7 +48,8 @@ public class EditComputerServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String strId = request.getParameter("id");
 		int id = Integer.valueOf(strId);
-		request.setAttribute("Computer",new ComputerDTO(serviceComputer.getById(id)));
+		request.setAttribute("Computer",
+				new ComputerDTO(serviceComputer.getById(id)));
 		request.setAttribute("Companies", serviceCompany.getAll());
 		this.getServletContext()
 				.getRequestDispatcher("/WEB-INF/views/editComputer.jsp")
@@ -47,14 +58,17 @@ public class EditComputerServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Computer computer = new Computer();
-		computer.setId(Integer.parseInt(request.getParameter("id")));
-		computer.setName(request.getParameter("computerName"));
-		computer.setIntroduced(toDate(request.getParameter("introduced")));
-		computer.setDiscontinued(toDate(request.getParameter("discontinued")));
-		computer.setCompany(new Company(
-				Integer.parseInt(request.getParameter("companyId")), ""));
-		serviceComputer.update(computer);
+		try {
+			Computer computer = ComputerValidation.Validation(
+					request.getParameter("id"),
+					request.getParameter("computerName"),
+					request.getParameter("introduced"),
+					request.getParameter("discontinued"),
+					request.getParameter("companyId"));
+			serviceComputer.update(computer);
+		} catch (ValidationException e) {
+			LOGGER.error("\n"+e.getMessage()+"\nFailed to Edit the Computer;");
+		}
 		response.sendRedirect("dashboard");
 	}
 
@@ -74,20 +88,5 @@ public class EditComputerServlet extends HttpServlet {
 	 */
 	public void setServiceComputer(ServiceComputer serviceComputer) {
 		this.serviceComputer = serviceComputer;
-	}
-
-	/**
-	 * To date.
-	 *
-	 * @param date the date
-	 * @return the local date time
-	 */
-	private LocalDateTime toDate(String date) {
-		if (date == null || date.isEmpty()) {
-			return null;
-		} else {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-			return LocalDateTime.parse(date,formatter);
-		}
 	}
 }

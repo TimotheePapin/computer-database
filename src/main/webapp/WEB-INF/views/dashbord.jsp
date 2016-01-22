@@ -91,7 +91,7 @@
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<mylib:pagination page="${reqComp}" />
+		<mylib:pagination reqComp="${reqComp}" />
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
