@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.formation.java.computerDatabase.exception.ValidationException;
+import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.model.RequestComputer;
 import com.excilys.formation.java.computerDatabase.service.ServiceComputer;
+import com.excilys.formation.java.computerDatabase.validation.ComputerValidation;
 
 /**
  * The Class DashbordServlet.
@@ -50,6 +53,16 @@ public class DashbordServlet extends HttpServlet {
 					.getRequestDispatcher("/WEB-INF/views/dashbord.jsp")
 					.forward(request, response);
 		}
+	}
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String selection = request.getParameter("selection");
+		String[] ids = selection.split(",");
+		for (String id : ids) {
+			serviceComputer.deleteById(Integer.parseInt(id));
+		}
+		response.sendRedirect("dashboard");
 	}
 
 	/**
