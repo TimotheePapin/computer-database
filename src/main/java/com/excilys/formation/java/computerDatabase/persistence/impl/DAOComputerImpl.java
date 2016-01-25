@@ -63,16 +63,18 @@ public class DAOComputerImpl implements DaoComputer {
 	}
 
 	@Override
-	public List<Computer> getPart(int size, int min) {
+	public List<Computer> getPart(int size, int min, String order, String by) {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result;
 		try {
 			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
-					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id LIMIT ? OFFSET ?");
-			statement.setInt(1, size);
-			statement.setInt(2, min);
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY ? ? LIMIT ? OFFSET ?");
+			statement.setString(1, by);
+			statement.setString(2, order);
+			statement.setInt(3, size);
+			statement.setInt(4, min);
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
@@ -83,6 +85,31 @@ public class DAOComputerImpl implements DaoComputer {
 		return null;
 	}
 
+	@Override
+	public List<Computer> getSearchPart(int size, int min,String search, String order, String by) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result;
+		try {
+			connection = databaseConnection.getConnection();
+			statement = connection.prepareStatement(
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ? ORDER BY ? ? LIMIT ? OFFSET ?");
+			statement.setString(1, "%"+search+"%");
+			statement.setString(2, "%"+search+"%");
+			statement.setString(3, by);
+			statement.setString(4, order);
+			statement.setInt(5, size);
+			statement.setInt(6, min);
+			result = statement.executeQuery();
+			return MapComputer.mapComputers(result);
+		} catch (SQLException e) {
+			LOGGER.error("Fail to execute the getSearchPart Query");
+		} finally {
+			close(connection, statement);
+		}
+		return null;
+	}
+	
 	@Override
 	public Computer getById(int id) {
 		Connection connection = null;
@@ -224,6 +251,28 @@ public class DAOComputerImpl implements DaoComputer {
 			return result.getInt("count");
 		} catch (SQLException e) {
 			LOGGER.error("Fail to execute the getSize Query");
+		} finally {
+			close(connection, statement);
+		}
+		return 0;
+	}
+	
+	@Override
+	public int getSearchSize(String search) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet result;
+		try {
+			connection = databaseConnection.getConnection();
+			statement = connection.prepareStatement(
+					"SELECT COUNT(*) AS count FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ?;");
+			statement.setString(1, "%"+search+"%");
+			statement.setString(2, "%"+search+"%");
+			result = statement.executeQuery();
+			result.next();
+			return result.getInt("count");
+		} catch (SQLException e) {
+			LOGGER.error("Fail to execute the getSearchSize Query");
 		} finally {
 			close(connection, statement);
 		}

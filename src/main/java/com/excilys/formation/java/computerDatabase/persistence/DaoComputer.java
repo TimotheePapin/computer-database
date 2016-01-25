@@ -10,79 +10,93 @@ import com.excilys.formation.java.computerDatabase.model.Computer;
 public interface DaoComputer {
 
 	/**
-	 * Return a list of Computer containing all the computers of the database.
+	 * Gets the all.
 	 *
-	 * @return list of Computer
+	 * @return the all
 	 */
 	List<Computer> getAll();
 
 	/**
-	 * Return the Computer with this Id in the database.
+	 * Gets the by id.
 	 *
-	 * @param id
-	 *            the id
-	 * @return Computer
+	 * @param id the id
+	 * @return the by id
 	 */
 	Computer getById(int id);
 
 	/**
-	 * Return the Computer with this Name in the database.
+	 * Gets the by name.
 	 *
-	 * @param name
-	 *            the name
-	 * @return Computer
+	 * @param name the name
+	 * @return the by name
 	 */
 	Computer getByName(String name);
 
 	/**
-	 * Delete the Computer with this Name in the database.
+	 * Delete by name.
 	 *
-	 * @param name
-	 *            the name
+	 * @param name the name
 	 */
 	void deleteByName(String name);
 
 	/**
-	 * Delete the Computer with this Id in the database.
+	 * Delete by id.
 	 *
-	 * @param id
-	 *            the id
+	 * @param id the id
 	 */
 	void deleteById(int id);
 
 	/**
-	 * Update the Computer with this Id in the database.
+	 * Update.
 	 *
-	 * @param computer
-	 *            the computer
+	 * @param computer the computer
 	 * @return the computer
 	 */
 	Computer update(Computer computer);
 
 	/**
-	 * Add the Computer given to the database.
+	 * Adds the.
 	 *
-	 * @param computer
-	 *            the computer
+	 * @param computer the computer
 	 * @return the computer
 	 */
 	Computer add(Computer computer);
 
 	/**
-	 * Return a part of the computers of the database.
+	 * Gets the part.
 	 *
-	 * @param min
-	 *            the min
-	 * @param max
-	 *            the max
+	 * @param min the min
+	 * @param max the max
+	 * @param order the order
+	 * @param by the by
 	 * @return the part
 	 */
-	List<Computer> getPart(int min, int max);
+	List<Computer> getPart(int min, int max, String order, String by);
+	
+	/**
+	 * Gets the search part.
+	 *
+	 * @param min the min
+	 * @param max the max
+	 * @param search the search
+	 * @param order the order
+	 * @param by the by
+	 * @return the search part
+	 */
+	List<Computer> getSearchPart(int min, int max,String search, String order, String by);
 
 	/**
-	 * Return the computer table's size.
+	 * Gets the size.
 	 *
 	 * @return the size
 	 */
 	int getSize();
+
+	/**
+	 * Gets the search size.
+	 *
+	 * @param search the search
+	 * @return the search size
+	 */
+	int getSearchSize(String search);
 }

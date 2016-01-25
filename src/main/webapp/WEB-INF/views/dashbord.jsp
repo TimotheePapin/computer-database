@@ -23,16 +23,15 @@
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
-				<c:out value="${reqComp.dbSize}" />
+				<c:out value="${requestComp.dbSize}" />
 				Computers found
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="" method="GET" class="form-inline">
-						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
-							class="btn btn-primary" />
+						
+						<input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" /> 
+						<input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
@@ -43,7 +42,7 @@
 			</div>
 		</div>
 
-		<form id="deleteForm" action="# " method="POST">
+		<form id="deleteForm" action="#" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -73,7 +72,7 @@
 				<!-- Browse attribute computers -->
 				<tbody id="results">
 
-					<c:forEach items="${reqComp.computersDTO}" var="computer">
+					<c:forEach items="${requestComp.computersDTO}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
@@ -91,7 +90,7 @@
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<mylib:pagination reqComp="${reqComp}" />
+		<mylib:pagination requestComp="${requestComp}" />
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

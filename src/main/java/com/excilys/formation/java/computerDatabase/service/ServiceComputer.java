@@ -44,10 +44,26 @@ public class ServiceComputer implements Serializable {
 	 *
 	 * @param size the size
 	 * @param min the min
+	 * @param order the order
+	 * @param by the by
 	 * @return the part
 	 */
-	public List<Computer> getPart(int size, int min) {
-		return daoComputer.getPart(size, min);
+	public List<Computer> getPart(int size, int min, String order, String by) {
+		return daoComputer.getPart(size, min, order, by);
+	}
+	
+	/**
+	 * Gets the search part.
+	 *
+	 * @param size the size
+	 * @param min the min
+	 * @param search the search
+	 * @param order the order
+	 * @param by the by
+	 * @return the search part
+	 */
+	public List<Computer> getSearchPart(int size, int min,String search, String order, String by) {
+		return daoComputer.getSearchPart(size, min,search, order, by);
 	}
 
 	/**
@@ -145,5 +161,15 @@ public class ServiceComputer implements Serializable {
 	 */
 	public int getSize() {
 		return daoComputer.getSize();
+	}
+	
+	/**
+	 * Gets the search size.
+	 *
+	 * @param search the search
+	 * @return the search size
+	 */
+	public int getSearchSize(String search) {
+		return daoComputer.getSearchSize(search);
 	}
 }
