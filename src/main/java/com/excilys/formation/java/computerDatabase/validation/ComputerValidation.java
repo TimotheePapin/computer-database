@@ -67,7 +67,7 @@ public class ComputerValidation {
 		}
 		if (strCompanyId != null) {
 			try {
-				id = Integer.parseInt(strCompanyId);
+				companyId = Integer.parseInt(strCompanyId);
 			} catch (Exception e) {
 				throw new ValidationException("Incorrect Company Id", e);
 			}
