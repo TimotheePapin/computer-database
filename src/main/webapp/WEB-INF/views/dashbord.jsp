@@ -60,13 +60,58 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer name</th>
-						<th>Introduced date</th>
-						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date</th>
-						<!-- Table header for Company -->
-						<th>Company</th>
-
+						<th>
+							<c:if test="${requestComp.by eq \"computer.name\"}">
+								<c:if test="${requestComp.order eq \"ASC\"}">
+									<a id="orderComputerName" href="dashboard?search=${requestComp.search}&by=computer.name&order=DESC">Computer name</a>
+								</c:if>
+								<c:if test="${requestComp.order eq \"DESC\"}">
+									<a id="orderComputerName" href="dashboard?search=${requestComp.search}&by=computer.name&order=ASC">Computer name</a>
+								</c:if>
+							</c:if>
+							<c:if test="${requestComp.by ne \"computer.name\"}">
+							<a id="orderComputerName" href="dashboard?search=${requestComp.search}&by=computer.name&order=ASC">Computer name</a>
+							</c:if>
+						</th>
+						<th>
+							<c:if test="${requestComp.by eq \"computer.introduced\"}">
+								<c:if test="${requestComp.order eq \"ASC\"}">
+									<a id="orderComputerIntroduced" href="dashboard?search=${requestComp.search}&by=computer.introduced&order=DESC">Introduced date</a>
+								</c:if>
+								<c:if test="${requestComp.order eq \"DESC\"}">
+									<a id="orderComputerIntroduced" href="dashboard?search=${requestComp.search}&by=computer.introduced&order=ASC">Introduced date</a>
+								</c:if>
+							</c:if>
+							<c:if test="${requestComp.by ne \"computer.introduced\"}">
+							<a id="orderComputerIntroduced" href="dashboard?search=${requestComp.search}&by=computer.introduced&order=ASC">Introduced date</a>
+							</c:if>
+						</th>
+						<th>
+							<c:if test="${requestComp.by eq \"computer.discontinued\"}">
+								<c:if test="${requestComp.order eq \"ASC\"}">
+									<a id="orderComputerDiscontinued" href="dashboard?search=${requestComp.search}&by=computer.discontinued&order=DESC">Discontinued date</a>
+								</c:if>
+								<c:if test="${requestComp.order eq \"DESC\"}">
+									<a id="orderComputerDiscontinued" href="dashboard?search=${requestComp.search}&by=computer.discontinued&order=ASC">Discontinued date</a>
+								</c:if>
+							</c:if>
+							<c:if test="${requestComp.by ne \"computer.discontinued\"}">
+							<a id="orderComputerDiscontinued" href="dashboard?search=${requestComp.search}&by=computer.discontinued&order=ASC">Discontinued date</a>
+							</c:if>
+						</th>
+						<th>
+							<c:if test="${requestComp.by eq \"company.name\"}">
+								<c:if test="${requestComp.order eq \"ASC\"}">
+									<a id="orderCompanyName" href="dashboard?search=${requestComp.search}&by=company.name&order=DESC">Company</a>
+								</c:if>
+								<c:if test="${requestComp.order eq \"DESC\"}">
+									<a id="orderCompanyName" href="dashboard?search=${requestComp.search}&by=company.name&order=ASC">Company</a>
+								</c:if>
+							</c:if>
+							<c:if test="${requestComp.by ne \"company.name\"}">
+							<a id="orderCompanyName" href="dashboard?search=${requestComp.search}&by=company.name&order=ASC">Company</a>
+							</c:if>
+						</th>
 					</tr>
 				</thead>
 				<!-- Browse attribute computers -->

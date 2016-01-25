@@ -3,6 +3,8 @@ package com.excilys.formation.java.computerDatabase.service;
 import java.io.Serializable;
 import java.util.List;
 
+import com.excilys.formation.java.computerDatabase.enumeration.By;
+import com.excilys.formation.java.computerDatabase.enumeration.Order;
 import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
 import com.excilys.formation.java.computerDatabase.persistence.impl.DAOComputerImpl;
@@ -48,7 +50,7 @@ public class ServiceComputer implements Serializable {
 	 * @param by the by
 	 * @return the part
 	 */
-	public List<Computer> getPart(int size, int min, String order, String by) {
+	public List<Computer> getPart(int size, int min, Order order, By by) {
 		return daoComputer.getPart(size, min, order, by);
 	}
 	
@@ -62,7 +64,7 @@ public class ServiceComputer implements Serializable {
 	 * @param by the by
 	 * @return the search part
 	 */
-	public List<Computer> getSearchPart(int size, int min,String search, String order, String by) {
+	public List<Computer> getSearchPart(int size, int min,String search, Order order, By by) {
 		return daoComputer.getSearchPart(size, min,search, order, by);
 	}
 

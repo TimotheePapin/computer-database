@@ -2,6 +2,8 @@ package com.excilys.formation.java.computerDatabase.persistence;
 
 import java.util.List;
 
+import com.excilys.formation.java.computerDatabase.enumeration.By;
+import com.excilys.formation.java.computerDatabase.enumeration.Order;
 import com.excilys.formation.java.computerDatabase.model.Computer;
 
 /**
@@ -71,7 +73,7 @@ public interface DaoComputer {
 	 * @param by the by
 	 * @return the part
 	 */
-	List<Computer> getPart(int min, int max, String order, String by);
+	List<Computer> getPart(int min, int max, Order order, By by);
 	
 	/**
 	 * Gets the search part.
@@ -83,7 +85,7 @@ public interface DaoComputer {
 	 * @param by the by
 	 * @return the search part
 	 */
-	List<Computer> getSearchPart(int min, int max,String search, String order, String by);
+	List<Computer> getSearchPart(int min, int max,String search, Order order, By by);
 
 	/**
 	 * Gets the size.

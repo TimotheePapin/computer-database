@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.formation.java.computerDatabase.mapper.MapEnum;
 import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.model.RequestComputer;
 import com.excilys.formation.java.computerDatabase.service.ServiceComputer;
@@ -39,7 +40,7 @@ public class DashbordServlet extends HttpServlet {
 		String strSize = request.getParameter("size");
 		String search = request.getParameter("search");
 		String order = request.getParameter("order");
-		String by = request.getParameter("order");
+		String by = request.getParameter("by");
 		if (strPage != null) {
 			page = Integer.valueOf(strPage);
 			min = ((page - 1) * size);
@@ -53,16 +54,17 @@ public class DashbordServlet extends HttpServlet {
 			by = "computer.id";
 		}
 		if (search == null || search.isEmpty()) {
-			computers = serviceComputer.getPart(size, min, order, by);
+			computers = serviceComputer.getPart(size, min,
+					MapEnum.toOrder(order), MapEnum.toBy(by));
 			dbSize = serviceComputer.getSize();
 		} else {
-			computers = serviceComputer.getSearchPart(size, min, search, order,
-					by);
+			computers = serviceComputer.getSearchPart(size, min, search,
+					MapEnum.toOrder(order), MapEnum.toBy(by));
 			dbSize = serviceComputer.getSearchSize(search);
 		}
 		if (page <= serviceComputer.getSize() / size + 1) {
-			RequestComputer requestComp = new RequestComputer(computers,
-					dbSize, page, size, search, order, by);
+			RequestComputer requestComp = new RequestComputer(computers, dbSize,
+					page, size, search, order, by);
 			request.setAttribute("requestComp", requestComp);
 			this.getServletContext()
 					.getRequestDispatcher("/WEB-INF/views/dashbord.jsp")

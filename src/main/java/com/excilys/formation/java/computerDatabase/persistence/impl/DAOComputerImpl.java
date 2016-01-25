@@ -9,6 +9,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.formation.java.computerDatabase.enumeration.By;
+import com.excilys.formation.java.computerDatabase.enumeration.Order;
 import com.excilys.formation.java.computerDatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerDatabase.model.Computer;
 import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
@@ -63,18 +65,16 @@ public class DAOComputerImpl implements DaoComputer {
 	}
 
 	@Override
-	public List<Computer> getPart(int size, int min, String order, String by) {
+	public List<Computer> getPart(int size, int min, Order order, By by) {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result;
 		try {
 			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
-					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY ? ? LIMIT ? OFFSET ?");
-			statement.setString(1, by);
-			statement.setString(2, order);
-			statement.setInt(3, size);
-			statement.setInt(4, min);
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY " + by + " " + order + " LIMIT ? OFFSET ?");
+			statement.setInt(1, size);
+			statement.setInt(2, min);
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
@@ -86,20 +86,18 @@ public class DAOComputerImpl implements DaoComputer {
 	}
 
 	@Override
-	public List<Computer> getSearchPart(int size, int min,String search, String order, String by) {
+	public List<Computer> getSearchPart(int size, int min,String search, Order order, By by) {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet result;
 		try {
 			connection = databaseConnection.getConnection();
 			statement = connection.prepareStatement(
-					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ? ORDER BY ? ? LIMIT ? OFFSET ?");
+					"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ? ORDER BY " + by + " " + order + " LIMIT ? OFFSET ?");
 			statement.setString(1, "%"+search+"%");
 			statement.setString(2, "%"+search+"%");
-			statement.setString(3, by);
-			statement.setString(4, order);
-			statement.setInt(5, size);
-			statement.setInt(6, min);
+			statement.setInt(3, size);
+			statement.setInt(4, min);
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
