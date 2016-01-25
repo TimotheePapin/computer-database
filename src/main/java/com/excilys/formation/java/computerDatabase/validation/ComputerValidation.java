@@ -2,6 +2,7 @@ package com.excilys.formation.java.computerDatabase.validation;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import com.excilys.formation.java.computerDatabase.exception.ValidationException;
 import com.excilys.formation.java.computerDatabase.model.Company;
@@ -41,22 +42,25 @@ public class ComputerValidation {
 			}
 		}
 		if (name == null || name.isEmpty()) {
-			throw new ValidationException("Comuter's Name missing");
+			throw new ValidationException("Computer's Name missing");
 		}
 		if (!(strIntroduced == null || strIntroduced.isEmpty())) {
 			try {
-				DateTimeFormatter formatter = DateTimeFormatter
-						.ofPattern("dd/MM/yyyy");
-				LocalDateTime.parse(strIntroduced, formatter);
+				strIntroduced += " 00:00:00";
+				DateTimeFormatter formatter =DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss",
+						new Locale("fr"));
+				introduced = LocalDateTime.parse(strIntroduced.trim(), formatter);
 			} catch (Exception e) {
 				throw new ValidationException("Incorrect Introduced Date", e);
 			}
 		}
 		if (!(strDiscontinued == null || strDiscontinued.isEmpty())) {
 			try {
+				strDiscontinued += " 00:00:00";
 				DateTimeFormatter formatter = DateTimeFormatter
-						.ofPattern("dd/MM/yyyy");
-				LocalDateTime.parse(strDiscontinued, formatter);
+						.ofPattern("dd/MM/yyyy HH:mm:ss",
+								new Locale("fr"));
+				discontinued = LocalDateTime.parse(strDiscontinued, formatter);
 			} catch (Exception e) {
 				throw new ValidationException("Incorrect Discontinued Date", e);
 			}

@@ -28,8 +28,8 @@ function checkIntroduced(champ) {
 }
 
 function checkDiscontinued(champ) {
-	var regex = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-	if (regex.test(champ)|| champ.value.length == 0) {
+	var regex = new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/);
+	if (regex.exec(champ.value) || champ.value.length == 0) {
 		highlite(champ, false);
 		return true;
 	} else {
