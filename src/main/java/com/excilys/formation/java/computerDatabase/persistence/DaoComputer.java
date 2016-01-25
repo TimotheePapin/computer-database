@@ -101,4 +101,11 @@ public interface DaoComputer {
 	 * @return the search size
 	 */
 	int getSearchSize(String search);
+
+	/**
+	 * Delete by company id.
+	 *
+	 * @param companyId the company id
+	 */
+	void deleteByCompanyId(int companyId);
 }

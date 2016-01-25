@@ -32,7 +32,7 @@ public class CLI {
 		Computer computer;
 		while (true) {
 			System.out.println(
-					"Access Menu : \n 1-List computers \n 2-List companies \n 3-Show computer details \n 4-Create a computer \n 5-Update a computer \n 6-Delete a computer \n 7-Exit");
+					"Access Menu : \n 1-List computers \n 2-List companies \n 3-Show computer details \n 4-Create a computer \n 5-Update a computer \n 6-Delete a computer \n 7-Delete everything linked to a company \n 8-Exit");
 			switch (sc.nextInt()) {
 			case 1:
 				List<Computer> computers = serviceComputer.getAll();
@@ -66,6 +66,9 @@ public class CLI {
 				deleteComputer(sc);
 				break;
 			case 7:
+				deleteByCompany(sc);
+				break;
+			case 8:
 				sc.close();
 				System.exit(0);
 				break;
@@ -73,6 +76,13 @@ public class CLI {
 				System.out.println("Incorrect entry");
 			}
 		}
+	}
+
+	private static void deleteByCompany(Scanner sc) {
+		System.out.println("Enter the id of the company :");
+		int rep = sc.nextInt();
+		serviceComputer.deleteByCompanyId(rep);
+		serviceCompany.deleteById(rep);
 	}
 
 	/**

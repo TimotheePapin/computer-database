@@ -23,4 +23,11 @@ public interface DaoCompany {
 	 * @return Company
 	 */
 	Company getByName(String name);
+
+	/**
+	 * Delete by id.
+	 *
+	 * @param id the id
+	 */
+	void deleteById(int id);
 }

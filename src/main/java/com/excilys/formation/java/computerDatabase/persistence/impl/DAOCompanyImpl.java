@@ -80,6 +80,23 @@ public class DAOCompanyImpl implements DaoCompany {
 		}
 		return null;
 	}
+	
+	@Override
+	public void deleteById(int id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = databaseConnection.getConnection();
+			statement = connection
+					.prepareStatement("DELETE FROM company where id= ?;");
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error("Fail to execute the deleteById Query");
+		} finally {
+			close(connection, statement);
+		}
+	}
 
 	/**
 	 * Close.

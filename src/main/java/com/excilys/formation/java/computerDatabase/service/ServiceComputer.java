@@ -125,6 +125,15 @@ public class ServiceComputer implements Serializable {
 	public Computer update(Computer computer) {
 		return daoComputer.update(computer);
 	}
+	
+	/**
+	 * Delete by company id.
+	 *
+	 * @param companyId the company id
+	 */
+	public void deleteByCompanyId(int companyId) {
+		daoComputer.deleteByCompanyId(companyId);
+	}
 
 	/**
 	 * Gets the single instance of ServiceComputer.

@@ -276,6 +276,23 @@ public class DAOComputerImpl implements DaoComputer {
 		}
 		return 0;
 	}
+	
+	@Override
+	public void deleteByCompanyId(int companyId) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		try {
+			connection = databaseConnection.getConnection();
+			statement = connection
+					.prepareStatement("DELETE FROM computer where company_id= ?;");
+			statement.setInt(1, companyId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error("Fail to execute the deleteById Query");
+		} finally {
+			close(connection, statement);
+		}
+	}
 
 	/**
 	 * Close.

@@ -38,6 +38,10 @@ public class ServiceCompany implements Serializable {
 	public List<Company> getAll() {
 		return daoCompany.getAll();
 	}
+	
+	public void deleteById(int id) {
+		daoCompany.deleteById(id);
+	}
 
 	/**
 	 * Gets the single instance of ServiceCompany.
