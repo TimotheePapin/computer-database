@@ -81,7 +81,6 @@ public class CLI {
 	private static void deleteByCompany(Scanner sc) {
 		System.out.println("Enter the id of the company :");
 		int rep = sc.nextInt();
-		serviceComputer.deleteByCompanyId(rep);
 		serviceCompany.deleteById(rep);
 	}
 

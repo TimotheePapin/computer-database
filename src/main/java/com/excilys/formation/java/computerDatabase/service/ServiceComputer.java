@@ -1,13 +1,14 @@
 package com.excilys.formation.java.computerDatabase.service;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.formation.java.computerDatabase.enumeration.By;
 import com.excilys.formation.java.computerDatabase.enumeration.Order;
 import com.excilys.formation.java.computerDatabase.model.Computer;
-import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
-import com.excilys.formation.java.computerDatabase.persistence.impl.DAOComputerImpl;
+import com.excilys.formation.java.computerDatabase.persistence.ComputerDAO;
+import com.excilys.formation.java.computerDatabase.persistence.impl.ComputerDAOImpl;
 
 /**
  * The Class ServiceComputer.
@@ -18,18 +19,18 @@ public class ServiceComputer implements Serializable {
 	/**
 	 * The instance.
 	 */
-	private static ServiceComputer instance = null;
+	private static ServiceComputer instance = new ServiceComputer();;
 
 	/**
 	 * The dao computer.
 	 */
-	private DaoComputer daoComputer;
+	private ComputerDAO computerDAO;
 
 	/**
 	 * Instantiates a new service computer.
 	 */
 	private ServiceComputer() {
-		daoComputer = DAOComputerImpl.getInstance();
+		computerDAO = ComputerDAOImpl.getInstance();
 	}
 
 	/**
@@ -38,7 +39,7 @@ public class ServiceComputer implements Serializable {
 	 * @return the all
 	 */
 	public List<Computer> getAll() {
-		return daoComputer.getAll();
+		return computerDAO.getAll();
 	}
 
 	/**
@@ -51,7 +52,7 @@ public class ServiceComputer implements Serializable {
 	 * @return the part
 	 */
 	public List<Computer> getPart(int size, int min, Order order, By by) {
-		return daoComputer.getPart(size, min, order, by);
+		return computerDAO.getPart(size, min, order, by);
 	}
 	
 	/**
@@ -65,7 +66,7 @@ public class ServiceComputer implements Serializable {
 	 * @return the search part
 	 */
 	public List<Computer> getSearchPart(int size, int min,String search, Order order, By by) {
-		return daoComputer.getSearchPart(size, min,search, order, by);
+		return computerDAO.getSearchPart(size, min,search, order, by);
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class ServiceComputer implements Serializable {
 	 * @return the by name
 	 */
 	public Computer getByName(String name) {
-		return daoComputer.getByName(name);
+		return computerDAO.getByName(name);
 	}
 
 	/**
@@ -85,7 +86,7 @@ public class ServiceComputer implements Serializable {
 	 * @return the by id
 	 */
 	public Computer getById(int id) {
-		return daoComputer.getById(id);
+		return computerDAO.getById(id);
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class ServiceComputer implements Serializable {
 	 * @param name the name
 	 */
 	public void deleteByName(String name) {
-		daoComputer.deleteByName(name);
+		computerDAO.deleteByName(name);
 	}
 
 	/**
@@ -103,7 +104,7 @@ public class ServiceComputer implements Serializable {
 	 * @param id the id
 	 */
 	public void deleteById(int id) {
-		daoComputer.deleteById(id);
+		computerDAO.deleteById(id);
 	}
 
 	/**
@@ -113,7 +114,7 @@ public class ServiceComputer implements Serializable {
 	 * @return the computer
 	 */
 	public Computer create(Computer computer) {
-		return daoComputer.add(computer);
+		return computerDAO.add(computer);
 	}
 
 	/**
@@ -123,7 +124,7 @@ public class ServiceComputer implements Serializable {
 	 * @return the computer
 	 */
 	public Computer update(Computer computer) {
-		return daoComputer.update(computer);
+		return computerDAO.update(computer);
 	}
 	
 	/**
@@ -131,8 +132,8 @@ public class ServiceComputer implements Serializable {
 	 *
 	 * @param companyId the company id
 	 */
-	public void deleteByCompanyId(int companyId) {
-		daoComputer.deleteByCompanyId(companyId);
+	public void deleteByCompanyId(int companyId, Connection connection) {
+		computerDAO.deleteByCompanyId(companyId, connection);
 	}
 
 	/**
@@ -140,10 +141,7 @@ public class ServiceComputer implements Serializable {
 	 *
 	 * @return single instance of ServiceComputer
 	 */
-	synchronized public static ServiceComputer getInstance() {
-		if (instance == null) {
-			instance = new ServiceComputer();
-		}
+	public static ServiceComputer getInstance() {
 		return instance;
 	}
 
@@ -152,8 +150,8 @@ public class ServiceComputer implements Serializable {
 	 *
 	 * @return the dao computer
 	 */
-	public DaoComputer getDaoComputer() {
-		return daoComputer;
+	public ComputerDAO getDaoComputer() {
+		return computerDAO;
 	}
 
 	/**
@@ -161,8 +159,8 @@ public class ServiceComputer implements Serializable {
 	 *
 	 * @param daoComputer the new dao computer
 	 */
-	public void setDaoComputer(DaoComputer daoComputer) {
-		this.daoComputer = daoComputer;
+	public void setDaoComputer(ComputerDAO daoComputer) {
+		this.computerDAO = daoComputer;
 	}
 
 	/**
@@ -171,7 +169,7 @@ public class ServiceComputer implements Serializable {
 	 * @return the size
 	 */
 	public int getSize() {
-		return daoComputer.getSize();
+		return computerDAO.getSize();
 	}
 	
 	/**
@@ -181,6 +179,6 @@ public class ServiceComputer implements Serializable {
 	 * @return the search size
 	 */
 	public int getSearchSize(String search) {
-		return daoComputer.getSearchSize(search);
+		return computerDAO.getSearchSize(search);
 	}
 }

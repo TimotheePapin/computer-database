@@ -8,123 +8,131 @@
 
 
 	<properties>
-		<java-Version>1.8</java-Version>
-		<mySQL-Version>5.1.6</mySQL-Version>
-		<junit-Version>4.12</junit-Version>
-		<mockito-Version>1.10.19</mockito-Version>
-		<dbunit-Version>2.5.1</dbunit-Version>
-		<slf4j-Version>1.7.13</slf4j-Version>
-		<h2Database-Version>1.4.190</h2Database-Version>
-		<servlet-Version>3.1.0</servlet-Version>
-		<jstl-Version>1.2</jstl-Version>
-		<taglibs-Version>1.1.2</taglibs-Version>
-		<checkstyle-Version>5.0</checkstyle-Version>
-		<selenium-Version>2.49.0</selenium-Version>
-		<mavenCompiler-Version>3.3</mavenCompiler-Version>
-		<cobertura-Version>2.7</cobertura-Version>
-		<boneCp-Version>0.8.0.RELEASE</boneCp-Version>
-		<guava-Version>19.0</guava-Version>
+		<java-version>1.8</java-version>
+		<mySQL-version>5.1.6</mySQL-version>
+		<slf4j-version>1.7.13</slf4j-version>
+		<servlet-version>3.1.0</servlet-version>
+		<jstl-version>1.2</jstl-version>
+		<taglibs-version>1.1.2</taglibs-version>
+		<boneCp-version>0.8.0.RELEASE</boneCp-version>
+		<guava-version>19.0</guava-version>
+		<!-- Tests -->
+		<junit-version>4.12</junit-version>
+		<mockito-version>1.10.19</mockito-version>
+		<dbunit-version>2.5.1</dbunit-version>
+		<h2Database-version>1.4.190</h2Database-version>
+		<checkstyle-version>5.0</checkstyle-version>
+		<seleniumfirefox-version>2.49.1</seleniumfirefox-version>
+		<seleniumJCD-version>1.0.2</seleniumJCD-version>
+		<!-- Plugins -->
+		<mavenCompiler-version>3.3</mavenCompiler-version>
+		<cobertura-version>2.7</cobertura-version>
 	</properties>
 
 	<dependencies>
+		<!-- Driver MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>${mySQL-Version}</version>
-			<scope>compile</scope>
+			<version>${mySQL-version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit-Version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito-Version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.dbunit</groupId>
-			<artifactId>dbunit</artifactId>
-			<version>${dbunit-Version}</version>
-			<scope>test</scope>
-		</dependency>
-
+		<!-- API and Implementation of Logs -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j-Version}</version>
-			<scope>compile</scope>
+			<version>${slf4j-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j-Version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>${h2Database-Version}</version>
-			<scope>test</scope>
+			<version>${slf4j-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet-Version}</version>
+			<version>${servlet-version}</version>
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Tags Management -->
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
-			<version>${jstl-Version}</version>
-			<scope>compile</scope>
+			<version>${jstl-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>${taglibs-Version}</version>
+			<version>${taglibs-version}</version>
 			<scope>compile</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>checkstyle</groupId>
-			<artifactId>checkstyle</artifactId>
-			<version>${checkstyle-Version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-firefox-driver</artifactId>
-			<version>${selenium-Version}</version>
-			<scope>test</scope>
-		</dependency>
-
+		<!-- Connection Pool -->
 		<dependency>
 			<groupId>com.jolbox</groupId>
 			<artifactId>bonecp</artifactId>
-			<version>${boneCp-Version}</version>
-			<scope>compile</scope>
+			<version>${boneCp-version}</version>
+		</dependency>
+
+		<!-- Test dependencies -->
+		<!-- Unit Testing -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit-version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Objects simulation -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito-version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Database simulation dependencies -->
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>${dbunit-version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava-Version}</version>
-			<scope>compile</scope>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2Database-version}</version>
+			<scope>test</scope>
 		</dependency>
 
+		<!-- Checking coding standards -->
+		<dependency>
+			<groupId>checkstyle</groupId>
+			<artifactId>checkstyle</artifactId>
+			<version>${checkstyle-version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- WebApp Testing -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>${seleniumfirefox-version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
+			<artifactId>selenium-java-client-driver</artifactId>
+			<version>${seleniumJCD-version}</version>
+		</dependency>
+	
 	</dependencies>
 
 
@@ -133,23 +141,31 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${mavenCompiler-Version}</version>
+				<version>${mavenCompiler-version}</version>
 				<configuration>
-					<source>${java-Version}</source>
-					<target>${java-Version}</target>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
 				</configuration>
 			</plugin>
 
+			<!-- Testing coverage Plugin -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>${cobertura-Version}</version>
+				<version>${cobertura-version}</version>
 				<configuration>
 					<formats>
 						<format>html</format>
 						<format>xml</format>
 					</formats>
 				</configuration>
+			</plugin>
+
+			<!-- Selenium Plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>selenium-maven-plugin</artifactId>
+				<version>1.0.1</version>
 			</plugin>
 		</plugins>
 

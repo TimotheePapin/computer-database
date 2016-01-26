@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.excilys.formation.java.computerDatabase.mapper.MapCompany;
-import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
+import com.excilys.formation.java.computerDatabase.persistence.CompanyDAO;
 
 public class TestDAOCompanyImpl {
 	
@@ -30,11 +30,11 @@ public class TestDAOCompanyImpl {
 	private static final String USER = "sa";
 	private static final String PASSWORD = "";
 	
-	private DaoCompany daoCompanyImpl;
+	private CompanyDAO daoCompanyImpl;
 	private MapCompany mapCompany;
 	
 	public TestDAOCompanyImpl() {
-		this.daoCompanyImpl = DAOCompanyImpl.getInstance();
+		this.daoCompanyImpl = CompanyDAOImpl.getInstance();
 	}
 	
 

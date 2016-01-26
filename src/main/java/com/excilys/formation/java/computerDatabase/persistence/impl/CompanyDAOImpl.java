@@ -9,20 +9,21 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.formation.java.computerDatabase.exception.DatabaseException;
 import com.excilys.formation.java.computerDatabase.mapper.MapCompany;
 import com.excilys.formation.java.computerDatabase.model.Company;
-import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
+import com.excilys.formation.java.computerDatabase.persistence.CompanyDAO;
 import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnection;
 
 /**
  * The Class DAOCompanyImpl.
  */
-public class DAOCompanyImpl implements DaoCompany {
+public class CompanyDAOImpl implements CompanyDAO {
 
 	/**
 	 * The instance.
 	 */
-	private static DaoCompany instance = null;
+	private static CompanyDAO instance = new CompanyDAOImpl();
 
 	/**
 	 * The database connection.
@@ -33,13 +34,12 @@ public class DAOCompanyImpl implements DaoCompany {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DAOCompanyImpl.class);
+			.getLogger(CompanyDAOImpl.class);
 
 	/**
 	 * Instantiates a new DAO company impl.
 	 */
-	private DAOCompanyImpl() {
-		super();
+	private CompanyDAOImpl() {
 		databaseConnection = DatabaseConnection.getInstance();
 	}
 
@@ -55,10 +55,10 @@ public class DAOCompanyImpl implements DaoCompany {
 			return MapCompany.mapCompanies(result);
 		} catch (SQLException e) {
 			LOGGER.error("Failed to execute the getAll Query");
+			throw new DatabaseException("Failed to execute the getAll Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return null;
 	}
 
 	@Override
@@ -75,47 +75,32 @@ public class DAOCompanyImpl implements DaoCompany {
 			return MapCompany.mapCompany(result);
 		} catch (SQLException e) {
 			LOGGER.error("Failed to execute the getByName Query");
+			throw new DatabaseException("Failed to execute the getByName Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return null;
 	}
 	
 	@Override
-	public void deleteById(int id) {
-		Connection connection = null;
+	public void deleteById(int id, Connection connection) {
 		PreparedStatement statement = null;
 		try {
-			connection = databaseConnection.getConnection();
 			statement = connection
 					.prepareStatement("DELETE FROM company where id= ?;");
 			statement.setInt(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the deleteById Query");
+			LOGGER.error("Failed to execute the deleteById Query");
+			throw new DatabaseException("Failed to execute the deleteById Query", e);
 		} finally {
-			close(connection, statement);
-		}
-	}
-
-	/**
-	 * Close.
-	 *
-	 * @param connection the connection
-	 * @param statement the statement
-	 */
-	private void close(Connection connection, PreparedStatement statement) {
-		if (statement != null) {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				LOGGER.error("Failed to close statement");
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					LOGGER.error("Failed to close statement");
+					throw new DatabaseException("Failed to close statement", e);
+				}
 			}
-		}
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			LOGGER.error("Failed to close connection");
 		}
 	}
 
@@ -124,10 +109,7 @@ public class DAOCompanyImpl implements DaoCompany {
 	 *
 	 * @return single instance of DAOCompanyImpl
 	 */
-	public static synchronized DaoCompany getInstance() {
-		if (instance == null) {
-			instance = new DAOCompanyImpl();
-		}
+	public static CompanyDAO getInstance() {
 		return instance;
 	}
 

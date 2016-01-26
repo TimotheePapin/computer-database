@@ -1,5 +1,6 @@
 package com.excilys.formation.java.computerDatabase.persistence;
 
+import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.formation.java.computerDatabase.model.Company;
@@ -7,7 +8,7 @@ import com.excilys.formation.java.computerDatabase.model.Company;
 /**
  * The Interface DaoCompany.
  */
-public interface DaoCompany {
+public interface CompanyDAO {
 
 	/**
 	 * Return a list of Company containing all the companies of the database.
@@ -29,5 +30,5 @@ public interface DaoCompany {
 	 *
 	 * @param id the id
 	 */
-	void deleteById(int id);
+	void deleteById(int id, Connection connection);
 }

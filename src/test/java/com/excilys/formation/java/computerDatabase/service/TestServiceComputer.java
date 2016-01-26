@@ -14,11 +14,11 @@ import org.mockito.Mockito;
 
 import com.excilys.formation.java.computerDatabase.model.Company;
 import com.excilys.formation.java.computerDatabase.model.Computer;
-import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
+import com.excilys.formation.java.computerDatabase.persistence.ComputerDAO;
 
 public class TestServiceComputer {
 	private ServiceComputer serviceComputer;
-	private DaoComputer daoComputer;
+	private ComputerDAO daoComputer;
 	private List<Computer> list;
 	private LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
 	private Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
@@ -29,7 +29,7 @@ public class TestServiceComputer {
 
 	@Before
 	public void setUp() {
-		daoComputer = Mockito.mock(DaoComputer.class);
+		daoComputer = Mockito.mock(ComputerDAO.class);
 		list = new ArrayList<>();
 	}
 

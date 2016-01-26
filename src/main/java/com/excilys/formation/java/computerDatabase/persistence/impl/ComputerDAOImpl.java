@@ -11,20 +11,21 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerDatabase.enumeration.By;
 import com.excilys.formation.java.computerDatabase.enumeration.Order;
+import com.excilys.formation.java.computerDatabase.exception.DatabaseException;
 import com.excilys.formation.java.computerDatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerDatabase.model.Computer;
-import com.excilys.formation.java.computerDatabase.persistence.DaoComputer;
+import com.excilys.formation.java.computerDatabase.persistence.ComputerDAO;
 import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnection;
 
 /**
  * The Class DAOComputerImpl.
  */
-public class DAOComputerImpl implements DaoComputer {
+public class ComputerDAOImpl implements ComputerDAO {
 
 	/**
 	 * The instance.
 	 */
-	private static DAOComputerImpl instance = null;
+	private static ComputerDAOImpl instance = new ComputerDAOImpl();
 
 	/**
 	 * The database connection.
@@ -35,13 +36,12 @@ public class DAOComputerImpl implements DaoComputer {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DAOCompanyImpl.class);
+			.getLogger(CompanyDAOImpl.class);
 
 	/**
 	 * Instantiates a new DAO computer impl.
 	 */
-	private DAOComputerImpl() {
-		super();
+	private ComputerDAOImpl() {
 		databaseConnection = DatabaseConnection.getInstance();
 	}
 
@@ -57,11 +57,11 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getAll Query");
+			LOGGER.error("Failed to execute the getAll Query");
+			throw new DatabaseException("Failed to execute the getAll Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return null;
 	}
 
 	@Override
@@ -78,11 +78,11 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getPart Query");
+			LOGGER.error("Failed to execute the getPart Query");
+			throw new DatabaseException("Failed to execute the getPart Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return null;
 	}
 
 	@Override
@@ -101,11 +101,11 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputers(result);
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getSearchPart Query");
+			LOGGER.error("Failed to execute the getSearchPart Query");
+			throw new DatabaseException("Failed to execute the getSearchPart Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return null;
 	}
 	
 	@Override
@@ -121,11 +121,11 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputer(result);
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getById Query");
+			LOGGER.error("Failed to execute the getById Query");
+			throw new DatabaseException("Failed to execute the getById Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return null;
 	}
 
 	@Override
@@ -141,11 +141,11 @@ public class DAOComputerImpl implements DaoComputer {
 			result = statement.executeQuery();
 			return MapComputer.mapComputer(result);
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getByName Query");
+			LOGGER.error("Failed to execute the getByName Query");
+			throw new DatabaseException("Failed to execute the getByName Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return null;
 	}
 
 	@Override
@@ -159,9 +159,10 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.setString(1, name);
 			statement.execute();
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the deleteByName Query");
+			LOGGER.error("Failed to execute the deleteByName Query");
+			throw new DatabaseException("Failed to execute the deleteByName Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
 	}
 
@@ -176,9 +177,10 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.setInt(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the deleteById Query");
+			LOGGER.error("Failed to execute the deleteById Query");
+			throw new DatabaseException("Failed to execute the deleteById Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
 	}
 
@@ -199,12 +201,13 @@ public class DAOComputerImpl implements DaoComputer {
 			statement.setInt(5, computer.getId());
 			statement.execute();
 			computer = getById(computer.getId());
+			return computer;
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the update Query");
+			LOGGER.error("Failed to execute the update Query");
+			throw new DatabaseException("Failed to execute the update Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return computer;
 	}
 
 	@Override
@@ -227,12 +230,13 @@ public class DAOComputerImpl implements DaoComputer {
 			}
 			statement.execute();
 			computer = getByName(computer.getName());
+			return computer;
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the add Query");
+			LOGGER.error("Failed to execute the add Query");
+			throw new DatabaseException("Failed to execute the add Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return computer;
 	}
 
 	@Override
@@ -248,11 +252,11 @@ public class DAOComputerImpl implements DaoComputer {
 			result.next();
 			return result.getInt("count");
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getSize Query");
+			LOGGER.error("Failed to execute the getSize Query");
+			throw new DatabaseException("Failed to execute the getSize Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return 0;
 	}
 	
 	@Override
@@ -270,48 +274,33 @@ public class DAOComputerImpl implements DaoComputer {
 			result.next();
 			return result.getInt("count");
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the getSearchSize Query");
+			LOGGER.error("Failed to execute the getSearchSize Query");
+			throw new DatabaseException("Failed to execute the getSearchSize Query", e);
 		} finally {
-			close(connection, statement);
+			databaseConnection.close(connection, statement);
 		}
-		return 0;
 	}
 	
 	@Override
-	public void deleteByCompanyId(int companyId) {
-		Connection connection = null;
+	public void deleteByCompanyId(int companyId, Connection connection) {
 		PreparedStatement statement = null;
 		try {
-			connection = databaseConnection.getConnection();
 			statement = connection
 					.prepareStatement("DELETE FROM computer where company_id= ?;");
 			statement.setInt(1, companyId);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			LOGGER.error("Fail to execute the deleteById Query");
+			LOGGER.error("Failed to execute the deleteByCompanyId Query");
+			throw new DatabaseException("Failed to execute the deleteByCompanyId Query", e);
 		} finally {
-			close(connection, statement);
-		}
-	}
-
-	/**
-	 * Close.
-	 *
-	 * @param connection the connection
-	 * @param statement the statement
-	 */
-	private void close(Connection connection, PreparedStatement statement) {
-		if (statement != null) {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				LOGGER.error("Fail to close Connection");
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					LOGGER.error("Failed to close Statement");
+					throw new DatabaseException("Failed to close statement", e);
+				}
 			}
-		}
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -320,10 +309,7 @@ public class DAOComputerImpl implements DaoComputer {
 	 *
 	 * @return single instance of DAOComputerImpl
 	 */
-	public static synchronized DAOComputerImpl getInstance() {
-		if (instance == null) {
-			instance = new DAOComputerImpl();
-		}
+	public static ComputerDAOImpl getInstance() {
 		return instance;
 	}
 

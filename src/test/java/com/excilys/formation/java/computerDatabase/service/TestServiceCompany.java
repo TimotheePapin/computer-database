@@ -12,11 +12,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.excilys.formation.java.computerDatabase.model.Company;
-import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
+import com.excilys.formation.java.computerDatabase.persistence.CompanyDAO;
 
 public class TestServiceCompany {
 	private ServiceCompany serviceCompany;
-	private DaoCompany daoCompany;
+	private CompanyDAO daoCompany;
 	private List<Company> list;
 
 	public TestServiceCompany() {
@@ -26,7 +26,7 @@ public class TestServiceCompany {
 
 	@Before
 	public void setUp() {
-		daoCompany = Mockito.mock(DaoCompany.class);
+		daoCompany = Mockito.mock(CompanyDAO.class);
 		list = new ArrayList<Company>();
 	}
 
@@ -49,7 +49,7 @@ public class TestServiceCompany {
 	@Test
 	public void testGetAllNull() {
 
-		DaoCompany daoCompany = Mockito.mock(DaoCompany.class);
+		CompanyDAO daoCompany = Mockito.mock(CompanyDAO.class);
 
 		when(daoCompany.getAll()).thenReturn(list);
 		serviceCompany.setDaoCompany(daoCompany);

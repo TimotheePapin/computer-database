@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerDatabase.exception.ValidationException;
 import com.excilys.formation.java.computerDatabase.model.Computer;
-import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyImpl;
+import com.excilys.formation.java.computerDatabase.persistence.impl.CompanyDAOImpl;
 import com.excilys.formation.java.computerDatabase.service.ServiceCompany;
 import com.excilys.formation.java.computerDatabase.service.ServiceComputer;
 import com.excilys.formation.java.computerDatabase.validation.ComputerValidation;
@@ -31,7 +31,7 @@ public class AddComputerServlet extends HttpServlet {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DAOCompanyImpl.class);
+			.getLogger(CompanyDAOImpl.class);
 
 	/**
 	 * The service computer.

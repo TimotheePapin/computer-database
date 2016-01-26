@@ -1,11 +1,18 @@
 package com.excilys.formation.java.computerDatabase.service;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.formation.java.computerDatabase.exception.DatabaseException;
 import com.excilys.formation.java.computerDatabase.model.Company;
-import com.excilys.formation.java.computerDatabase.persistence.DaoCompany;
-import com.excilys.formation.java.computerDatabase.persistence.impl.DAOCompanyImpl;
+import com.excilys.formation.java.computerDatabase.persistence.CompanyDAO;
+import com.excilys.formation.java.computerDatabase.persistence.DatabaseConnection;
+import com.excilys.formation.java.computerDatabase.persistence.impl.CompanyDAOImpl;
 
 /**
  * The Class ServiceCompany.
@@ -16,18 +23,27 @@ public class ServiceCompany implements Serializable {
 	/**
 	 * The instance.
 	 */
-	private static ServiceCompany instance = null;
+	private static ServiceCompany instance = new ServiceCompany();;
+
+	private DatabaseConnection databaseConnection;
+
+	private static ServiceComputer serviceComputer;
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CompanyDAOImpl.class);
 
 	/**
 	 * The dao company.
 	 */
-	private DaoCompany daoCompany;
+	private CompanyDAO companyDAO;
 
 	/**
 	 * Instantiates a new service company.
 	 */
 	private ServiceCompany() {
-		daoCompany = DAOCompanyImpl.getInstance();
+		companyDAO = CompanyDAOImpl.getInstance();
+		serviceComputer = ServiceComputer.getInstance();
+		databaseConnection = DatabaseConnection.getInstance();
 	}
 
 	/**
@@ -36,11 +52,41 @@ public class ServiceCompany implements Serializable {
 	 * @return the all
 	 */
 	public List<Company> getAll() {
-		return daoCompany.getAll();
+		return companyDAO.getAll();
 	}
-	
+
 	public void deleteById(int id) {
-		daoCompany.deleteById(id);
+		Connection connection = null;
+		try {
+			connection = databaseConnection.getConnection();
+			connection.setAutoCommit(false);
+			serviceComputer.deleteByCompanyId(id, connection);
+			companyDAO.deleteById(id, connection);
+			connection.commit();
+		} catch (SQLException | DatabaseException e) {
+			if (connection != null) {
+				try {
+					connection.rollback();
+					LOGGER.error("Failed to execute the Delete by Company Id");
+					throw new DatabaseException(
+							"Failed to execute the Delete by Company Id", e);
+				} catch (SQLException excep) {
+					LOGGER.error("Failed to rollback");
+					throw new DatabaseException("Failed to rollback", e);
+				}
+			}
+		} finally {
+			try {
+				connection.setAutoCommit(true);
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				LOGGER.error("Failed to set back the autoCommit");
+				throw new DatabaseException("Failed to set back the autoCommit",
+						e);
+			}
+		}
 	}
 
 	/**
@@ -48,10 +94,7 @@ public class ServiceCompany implements Serializable {
 	 *
 	 * @return single instance of ServiceCompany
 	 */
-	synchronized public static ServiceCompany getInstance() {
-		if (instance == null) {
-			instance = new ServiceCompany();
-		}
+	public static ServiceCompany getInstance() {
 		return instance;
 	}
 
@@ -60,8 +103,8 @@ public class ServiceCompany implements Serializable {
 	 *
 	 * @return the dao company
 	 */
-	public DaoCompany getDaoCompany() {
-		return daoCompany;
+	public CompanyDAO getDaoCompany() {
+		return companyDAO;
 	}
 
 	/**
@@ -69,8 +112,8 @@ public class ServiceCompany implements Serializable {
 	 *
 	 * @param daoCompany the new dao company
 	 */
-	public void setDaoCompany(DaoCompany daoCompany) {
-		this.daoCompany = daoCompany;
+	public void setDaoCompany(CompanyDAO daoCompany) {
+		this.companyDAO = daoCompany;
 	}
 
 }
