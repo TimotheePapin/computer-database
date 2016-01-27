@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>c-db</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-REALEASE</version>
 	<packaging>war</packaging>
 
 
@@ -22,7 +22,7 @@
 		<dbunit-version>2.5.1</dbunit-version>
 		<h2Database-version>1.4.190</h2Database-version>
 		<checkstyle-version>5.0</checkstyle-version>
-		<seleniumfirefox-version>2.49.1</seleniumfirefox-version>
+		<seleniumjava-version>2.49.1</seleniumjava-version>
 		<seleniumJCD-version>1.0.2</seleniumJCD-version>
 		<!-- Plugins -->
 		<mavenCompiler-version>3.3</mavenCompiler-version>
@@ -122,8 +122,8 @@
 		<!-- WebApp Testing -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-firefox-driver</artifactId>
-			<version>${seleniumfirefox-version}</version>
+			<artifactId>selenium-java</artifactId>
+			<version>${seleniumjava-version}</version>
 			<scope>test</scope>
 		</dependency>
 		
