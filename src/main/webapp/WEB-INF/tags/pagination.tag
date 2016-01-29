@@ -1,55 +1,66 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 
-<%@ attribute name="requestComp" type="com.excilys.formation.java.computerDatabase.model.RequestComputer" description="Contains all the information of the page"%>
+<%@ attribute name="webPage"
+	type="com.excilys.formation.java.computerdatabase.web.DTO.Page"
+	description="Contains all the information of the page"%>
 
 
 <div class="container text-center">
 	<ul class="pagination">
-		<c:if test="${requestComp.page != 1}">
-			<li><a
-				href="<mylib:link target="dashboard" page="${requestComp.page-1}" size="${requestComp.listSize}" search="${requestComp.search}" by="${requestComp.by}" order="${requestComp.order}"/>"aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+		<c:if test="${webPage.page == 1}">
+			<li><a id="previousPage" style="background: #D8D8D8" href="#" aria-label="Previous"><span
+					aria-hidden="true">&laquo;</span></a></li>
+		</c:if>
+		<c:if test="${webPage.page != 1}">
+			<li><a id="previousPage"
+				href="<mylib:link target="dashboard" page="${webPage.page-1}" size="${webPage.listSize}" search="${webPage.search}" by="${webPage.by}" order="${webPage.order}"/>"
+				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 			</a></li>
 		</c:if>
-		<c:if test="${requestComp.page-2 > 0}">
+		<c:if test="${webPage.page-2 > 0}">
 			<li><a id="switchPageMalus2"
-				href="<mylib:link target="dashboard" page="${requestComp.page-2}" size="${requestComp.listSize}" search="${requestComp.search}" by="${requestComp.by}" order="${requestComp.order}"/>">${requestComp.page-2}</a></li>
+				href="<mylib:link target="dashboard" page="${webPage.page-2}" size="${webPage.listSize}" search="${webPage.search}" by="${webPage.by}" order="${webPage.order}"/>">${webPage.page-2}</a></li>
 		</c:if>
-		<c:if test="${requestComp.page-1 > 0}">
+		<c:if test="${webPage.page-1 > 0}">
 			<li><a id="switchPageMalus1"
-				href="<mylib:link target="dashboard" page="${requestComp.page-1}" size="${requestComp.listSize}" search="${requestComp.search}" by="${requestComp.by}" order="${requestComp.order}"/>">${requestComp.page-1}</a></li>
+				href="<mylib:link target="dashboard" page="${webPage.page-1}" size="${webPage.listSize}" search="${webPage.search}" by="${webPage.by}" order="${webPage.order}"/>">${webPage.page-1}</a></li>
 		</c:if>
 		<li><a id="switchCurrentPage" style="background: #D8D8D8"
-			href="#">${requestComp.page}</a></li>
-		<c:if test="${requestComp.page+1 <= requestComp.pageMax}">
+			href="#">${webPage.page}</a></li>
+		<c:if test="${webPage.page+1 <= webPage.pageMax}">
 			<li><a id="switchPageAdd1"
-				href="<mylib:link target="dashboard" page="${requestComp.page+1}" size="${requestComp.listSize}" search="${requestComp.search}" by="${requestComp.by}" order="${requestComp.order}"/>">${requestComp.page+1}</a>
+				href="<mylib:link target="dashboard" page="${webPage.page+1}" size="${webPage.listSize}" search="${webPage.search}" by="${webPage.by}" order="${webPage.order}"/>">${webPage.page+1}</a>
 			</li>
 		</c:if>
-		<c:if test="${requestComp.page+2 <= requestComp.pageMax}">
+		<c:if test="${webPage.page+2 <= webPage.pageMax}">
 			<li><a id="switchPageAdd2"
-				href="<mylib:link target="dashboard" page="${requestComp.page+2}" size="${requestComp.listSize}" search="${requestComp.search}" by="${requestComp.by}" order="${requestComp.order}"/>">${requestComp.page+2}</a></li>
+				href="<mylib:link target="dashboard" page="${webPage.page+2}" size="${webPage.listSize}" search="${webPage.search}" by="${webPage.by}" order="${webPage.order}"/>">${webPage.page+2}</a></li>
 		</c:if>
-
-		<c:if test="${requestComp.page != requestComp.pageMax}">
-			<li><a href="<mylib:link target="dashboard" page="${requestComp.page+1}" size="${requestComp.listSize}" search="${requestComp.search}" by="${requestComp.by}" order="${requestComp.order}"/>" aria-label="Next"> <span
-					aria-hidden="true">&raquo;</span>
+		<c:if test="${webPage.page == webPage.pageMax}">
+			<li><a id="nextPage" style="background: #D8D8D8" href="#" aria-label="Next"><span
+					aria-hidden="true">&raquo;</span></a></li>
+		</c:if>
+		<c:if test="${webPage.page != webPage.pageMax}">
+			<li><a id="nextPage"
+				href="<mylib:link target="dashboard" page="${webPage.page+1}" size="${webPage.listSize}" search="${webPage.search}" by="${webPage.by}" order="${webPage.order}"/>"
+				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</c:if>
 	</ul>
 
 	<div class="btn-group btn-group-sm pull-right" role="group">
-		<button type="button" class="btn btn-default" 
-			<c:if test="${requestComp.listSize == 10}">	style="background:#D8D8D8" 
+		<button type="button" class="btn btn-default"
+			<c:if test="${webPage.listSize == 10}">	style="background:#D8D8D8" 
 		</c:if>
-		onclick="document.location.href='dashboard?size=10&page=1&search=${requestComp.search}&by=${requestComp.by}&order=${requestComp.order}'">10
+			onclick="document.location.href='dashboard?size=10&page=1&search=${webPage.search}&by=${webPage.by}&order=${webPage.order}'">10
 		</button>
 		<button type="button" class="btn btn-default"
-			<c:if test="${requestComp.listSize == 50}">	style="background:#D8D8D8" </c:if>
-			onclick="document.location.href='dashboard?size=50&page=1&search=${requestComp.search}&by=${requestComp.by}&order=${requestComp.order}'">50</button>
+			<c:if test="${webPage.listSize == 50}">	style="background:#D8D8D8" </c:if>
+			onclick="document.location.href='dashboard?size=50&page=1&search=${webPage.search}&by=${webPage.by}&order=${webPage.order}'">50</button>
 		<button type="button" class="btn btn-default"
-			<c:if test="${requestComp.listSize == 100}">style="background:#D8D8D8" </c:if>
-			onclick="document.location.href='dashboard?size=100&page=1&search=${requestComp.search}&by=${requestComp.by}&order=${requestComp.order}'">100</button>
+			<c:if test="${webPage.listSize == 100}">style="background:#D8D8D8" </c:if>
+			onclick="document.location.href='dashboard?size=100&page=1&search=${webPage.search}&by=${webPage.by}&order=${webPage.order}'">100</button>
 	</div>
 </div>
 

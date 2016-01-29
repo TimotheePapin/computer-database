@@ -11,16 +11,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.excilys.formation.java.computerDatabase.model.Company;
-import com.excilys.formation.java.computerDatabase.persistence.CompanyDAO;
+import com.excilys.formation.java.computerdatabase.model.Company;
+import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
+import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
 
 public class TestServiceCompany {
-	private ServiceCompany serviceCompany;
+	private CompanyServiceImpl serviceCompany;
 	private CompanyDAO daoCompany;
 	private List<Company> list;
 
 	public TestServiceCompany() {
-		this.serviceCompany = ServiceCompany.getInstance();
+		this.serviceCompany = CompanyServiceImpl.getInstance();
 	}
 
 

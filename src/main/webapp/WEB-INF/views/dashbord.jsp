@@ -15,23 +15,25 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard"> Application - Computer
+				Database </a>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
-				<c:out value="${requestComp.dbSize}" />
+				<c:out value="${webPage.dbSize}" />
 				Computers found
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="" method="GET" class="form-inline">
-						
-						<input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" /> 
-						<input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
+
+						<input type="search" id="searchbox" name="search"
+							class="form-control" placeholder="Search name" /> <input
+							type="submit" id="searchsubmit" value="Filter by name"
+							class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
@@ -60,71 +62,81 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>
-							<c:if test="${requestComp.by eq \"computer.name\"}">
-								<c:if test="${requestComp.order eq \"ASC\"}">
-									<a id="orderComputerName" href="dashboard?search=${requestComp.search}&by=computer.name&order=DESC">Computer name</a>
+						<th><c:if test="${webPage.by eq \"computer.name\"}">
+								<c:if test="${webPage.order eq \"ASC\"}">
+									<a id="orderComputerName"
+										href="dashboard?search=${webPage.search}&by=computer.name&order=DESC">Computer
+										name</a>
 								</c:if>
-								<c:if test="${requestComp.order eq \"DESC\"}">
-									<a id="orderComputerName" href="dashboard?search=${requestComp.search}&by=computer.name&order=ASC">Computer name</a>
+								<c:if test="${webPage.order eq \"DESC\"}">
+									<a id="orderComputerName"
+										href="dashboard?search=${webPage.search}&by=computer.name&order=ASC">Computer
+										name</a>
 								</c:if>
-							</c:if>
-							<c:if test="${requestComp.by ne \"computer.name\"}">
-							<a id="orderComputerName" href="dashboard?search=${requestComp.search}&by=computer.name&order=ASC">Computer name</a>
-							</c:if>
-						</th>
-						<th>
-							<c:if test="${requestComp.by eq \"computer.introduced\"}">
-								<c:if test="${requestComp.order eq \"ASC\"}">
-									<a id="orderComputerIntroduced" href="dashboard?search=${requestComp.search}&by=computer.introduced&order=DESC">Introduced date</a>
+							</c:if> <c:if test="${webPage.by ne \"computer.name\"}">
+								<a id="orderComputerName"
+									href="dashboard?search=${webPage.search}&by=computer.name&order=ASC">Computer
+									name</a>
+							</c:if></th>
+						<th><c:if test="${webPage.by eq \"computer.introduced\"}">
+								<c:if test="${webPage.order eq \"ASC\"}">
+									<a id="orderComputerIntroduced"
+										href="dashboard?search=${webPage.search}&by=computer.introduced&order=DESC">Introduced
+										date</a>
 								</c:if>
-								<c:if test="${requestComp.order eq \"DESC\"}">
-									<a id="orderComputerIntroduced" href="dashboard?search=${requestComp.search}&by=computer.introduced&order=ASC">Introduced date</a>
+								<c:if test="${webPage.order eq \"DESC\"}">
+									<a id="orderComputerIntroduced"
+										href="dashboard?search=${webPage.search}&by=computer.introduced&order=ASC">Introduced
+										date</a>
 								</c:if>
-							</c:if>
-							<c:if test="${requestComp.by ne \"computer.introduced\"}">
-							<a id="orderComputerIntroduced" href="dashboard?search=${requestComp.search}&by=computer.introduced&order=ASC">Introduced date</a>
-							</c:if>
-						</th>
-						<th>
-							<c:if test="${requestComp.by eq \"computer.discontinued\"}">
-								<c:if test="${requestComp.order eq \"ASC\"}">
-									<a id="orderComputerDiscontinued" href="dashboard?search=${requestComp.search}&by=computer.discontinued&order=DESC">Discontinued date</a>
+							</c:if> <c:if test="${webPage.by ne \"computer.introduced\"}">
+								<a id="orderComputerIntroduced"
+									href="dashboard?search=${webPage.search}&by=computer.introduced&order=ASC">Introduced
+									date</a>
+							</c:if></th>
+						<th><c:if test="${webPage.by eq \"computer.discontinued\"}">
+								<c:if test="${webPage.order eq \"ASC\"}">
+									<a id="orderComputerDiscontinued"
+										href="dashboard?search=${webPage.search}&by=computer.discontinued&order=DESC">Discontinued
+										date</a>
 								</c:if>
-								<c:if test="${requestComp.order eq \"DESC\"}">
-									<a id="orderComputerDiscontinued" href="dashboard?search=${requestComp.search}&by=computer.discontinued&order=ASC">Discontinued date</a>
+								<c:if test="${webPage.order eq \"DESC\"}">
+									<a id="orderComputerDiscontinued"
+										href="dashboard?search=${webPage.search}&by=computer.discontinued&order=ASC">Discontinued
+										date</a>
 								</c:if>
-							</c:if>
-							<c:if test="${requestComp.by ne \"computer.discontinued\"}">
-							<a id="orderComputerDiscontinued" href="dashboard?search=${requestComp.search}&by=computer.discontinued&order=ASC">Discontinued date</a>
-							</c:if>
-						</th>
-						<th>
-							<c:if test="${requestComp.by eq \"company.name\"}">
-								<c:if test="${requestComp.order eq \"ASC\"}">
-									<a id="orderCompanyName" href="dashboard?search=${requestComp.search}&by=company.name&order=DESC">Company</a>
+							</c:if> <c:if test="${webPage.by ne \"computer.discontinued\"}">
+								<a id="orderComputerDiscontinued"
+									href="dashboard?search=${webPage.search}&by=computer.discontinued&order=ASC">Discontinued
+									date</a>
+							</c:if></th>
+						<th><c:if test="${webPage.by eq \"company.name\"}">
+								<c:if test="${webPage.order eq \"ASC\"}">
+									<a id="orderCompanyName"
+										href="dashboard?search=${webPage.search}&by=company.name&order=DESC">Company</a>
 								</c:if>
-								<c:if test="${requestComp.order eq \"DESC\"}">
-									<a id="orderCompanyName" href="dashboard?search=${requestComp.search}&by=company.name&order=ASC">Company</a>
+								<c:if test="${webPage.order eq \"DESC\"}">
+									<a id="orderCompanyName"
+										href="dashboard?search=${webPage.search}&by=company.name&order=ASC">Company</a>
 								</c:if>
-							</c:if>
-							<c:if test="${requestComp.by ne \"company.name\"}">
-							<a id="orderCompanyName" href="dashboard?search=${requestComp.search}&by=company.name&order=ASC">Company</a>
-							</c:if>
-						</th>
+							</c:if> <c:if test="${webPage.by ne \"company.name\"}">
+								<a id="orderCompanyName"
+									href="dashboard?search=${webPage.search}&by=company.name&order=ASC">Company</a>
+							</c:if></th>
 					</tr>
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
 
-					<c:forEach items="${requestComp.computersDTO}" var="computer">
+					<c:forEach items="${webPage.computersDTO}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
-							<td name="computer"><a href="editComputer?id=${computer.id}" onclick=""><c:out
-										value="${computer.name}" /></a></td>
+							<td name="computer"><a href="editComputer?id=${computer.id}"
+								onclick=""><c:out value="${computer.name}" /></a></td>
 							<td name="introduced"><c:out value="${computer.introduced}" /></td>
-							<td name="discontinued"><c:out value="${computer.discontinued}" /></td>
+							<td name="discontinued"><c:out
+									value="${computer.discontinued}" /></td>
 							<td name="company"><c:out value="${computer.company}" /></td>
 						</tr>
 					</c:forEach>
@@ -135,7 +147,7 @@
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<mylib:pagination requestComp="${requestComp}" />
+		<mylib:pagination webPage="${webPage}" />
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

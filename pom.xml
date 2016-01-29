@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>c-db</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>0.1.0-REALEASE</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 
@@ -27,6 +27,7 @@
 		<!-- Plugins -->
 		<mavenCompiler-version>3.3</mavenCompiler-version>
 		<cobertura-version>2.7</cobertura-version>
+		<seleniumplugin-version>1.0.1</seleniumplugin-version>
 	</properties>
 
 	<dependencies>
@@ -126,13 +127,14 @@
 			<version>${seleniumjava-version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
 			<artifactId>selenium-java-client-driver</artifactId>
 			<version>${seleniumJCD-version}</version>
+			<scope>test</scope>
 		</dependency>
-	
+
 	</dependencies>
 
 
@@ -165,7 +167,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>selenium-maven-plugin</artifactId>
-				<version>1.0.1</version>
+				<version>${seleniumplugin-version}</version>
 			</plugin>
 		</plugins>
 

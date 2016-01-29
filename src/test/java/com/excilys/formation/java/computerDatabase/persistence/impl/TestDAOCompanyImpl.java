@@ -5,8 +5,6 @@ import java.nio.charset.StandardCharsets;
 
 import javax.sql.DataSource;
 
-
-
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
@@ -17,11 +15,11 @@ import org.h2.tools.RunScript;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.excilys.formation.java.computerDatabase.mapper.MapCompany;
-import com.excilys.formation.java.computerDatabase.persistence.CompanyDAO;
+import com.excilys.formation.java.computerdatabase.mapper.MapCompany;
+import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
+import com.excilys.formation.java.computerdatabase.persistence.impl.CompanyDAOImpl;
 
 public class TestDAOCompanyImpl {
 	

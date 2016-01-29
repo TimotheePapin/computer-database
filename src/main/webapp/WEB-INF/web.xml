@@ -5,17 +5,17 @@
 	<display-name>Computer Database</display-name>
 	<servlet>
 		<servlet-name>Dashboard</servlet-name>
-		<servlet-class>com.excilys.formation.java.computerDatabase.web.DashbordServlet
+		<servlet-class>com.excilys.formation.java.computerdatabase.web.DashbordServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>AddComputer</servlet-name>
-		<servlet-class>com.excilys.formation.java.computerDatabase.web.AddComputerServlet
+		<servlet-class>com.excilys.formation.java.computerdatabase.web.AddComputerServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>EditComputer</servlet-name>
-		<servlet-class>com.excilys.formation.java.computerDatabase.web.EditComputerServlet
+		<servlet-class>com.excilys.formation.java.computerdatabase.web.EditComputerServlet
 		</servlet-class>
 	</servlet>
 
