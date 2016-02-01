@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdatabase.service.impl;
 
-import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.model.Computer;
@@ -123,8 +122,8 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @param connection the connection
 	 */
 	@Override
-	public void deleteByCompanyId(int companyId, Connection connection) {
-		computerDAO.deleteByCompanyId(companyId, connection);
+	public void deleteByCompanyId(int companyId) {
+		computerDAO.deleteByCompanyId(companyId);
 	}
 
 	/**

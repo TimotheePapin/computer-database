@@ -28,6 +28,8 @@ public class CompanyServiceImpl implements CompanyService {
 	 * The database connection.
 	 */
 	private DatabaseConnection databaseConnection;
+	
+	public static ThreadLocal<Connection> connection = new ThreadLocal<Connection>();
 
 	/**
 	 * The service computer.
@@ -67,17 +69,16 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public void deleteById(int id) {
 		LOGGER.info("Starting deleteById");
-		Connection connection = null;
 		try {
-			connection = databaseConnection.getConnection();
-			connection.setAutoCommit(false);
-			serviceComputer.deleteByCompanyId(id, connection);
-			companyDAO.deleteById(id, connection);
-			connection.commit();
+			connection.set(databaseConnection.getConnection());
+			connection.get().setAutoCommit(false);
+			serviceComputer.deleteByCompanyId(id);
+			companyDAO.deleteById(id);
+			connection.get().commit();
 		} catch (SQLException | DatabaseException e) {
 			if (connection != null) {
 				try {
-					connection.rollback();
+					connection.get().rollback();
 					LOGGER.error("Failed to execute the Delete by Company Id : "
 							+ id);
 					throw new DatabaseException(
@@ -90,9 +91,9 @@ public class CompanyServiceImpl implements CompanyService {
 			}
 		} finally {
 			try {
-				connection.setAutoCommit(true);
+				connection.get().setAutoCommit(true);
 				if (connection != null) {
-					connection.close();
+					connection.get().close();
 				}
 			} catch (SQLException e) {
 				LOGGER.error("Failed to set back the autoCommit");

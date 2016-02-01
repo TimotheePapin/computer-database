@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdatabase.persistence;
 
-import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.model.Computer;
@@ -86,5 +85,5 @@ public interface ComputerDAO {
 	 * @param companyId the company id
 	 * @param connection the connection
 	 */
-	void deleteByCompanyId(int companyId, Connection connection);
+	void deleteByCompanyId(int companyId);
 }

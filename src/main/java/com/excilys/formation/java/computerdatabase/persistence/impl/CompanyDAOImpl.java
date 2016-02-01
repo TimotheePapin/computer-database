@@ -14,6 +14,7 @@ import com.excilys.formation.java.computerdatabase.mapper.MapCompany;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
 import com.excilys.formation.java.computerdatabase.persistence.DatabaseConnection;
+import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
 
 /**
  * The Class CompanyDAOImpl.
@@ -85,9 +86,9 @@ public class CompanyDAOImpl implements CompanyDAO {
 	}
 
 	@Override
-	public void deleteById(int id, Connection connection) {
+	public void deleteById(int id) {
 		LOGGER.info("Starting Company deleteById");
-		try (PreparedStatement statement = connection
+		try (PreparedStatement statement = CompanyServiceImpl.connection.get()
 				.prepareStatement("DELETE FROM company where id= ?")) {
 			statement.setInt(1, id);
 			statement.executeUpdate();

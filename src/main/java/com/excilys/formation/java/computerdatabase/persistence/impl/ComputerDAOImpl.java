@@ -14,6 +14,7 @@ import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.persistence.DatabaseConnection;
+import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
 import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
 
 /**
@@ -248,9 +249,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public void deleteByCompanyId(int companyId, Connection connection) {
+	public void deleteByCompanyId(int companyId) {
 		LOGGER.info("Starting Computer deleteByCompanyId");
-		try (PreparedStatement statement = connection
+		try (PreparedStatement statement = CompanyServiceImpl.connection.get()
 				.prepareStatement("DELETE FROM computer where company_id= ?")) {
 			statement.setInt(1, companyId);
 			statement.executeUpdate();

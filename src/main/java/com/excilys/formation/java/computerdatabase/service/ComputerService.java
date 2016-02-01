@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdatabase.service;
 
-import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.model.Computer;
@@ -78,7 +77,7 @@ public interface ComputerService {
 	 * @param companyId the company id
 	 * @param connection the connection
 	 */
-	void deleteByCompanyId(int companyId, Connection connection);
+	void deleteByCompanyId(int companyId);
 
 	/**
 	 * Gets the size.

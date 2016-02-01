@@ -1,6 +1,5 @@
 package com.excilys.formation.java.computerdatabase.persistence;
 
-import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.model.Company;
@@ -31,5 +30,5 @@ public interface CompanyDAO {
 	 * @param id the id
 	 * @param connection the connection
 	 */
-	void deleteById(int id, Connection connection);
+	void deleteById(int id);
 }
