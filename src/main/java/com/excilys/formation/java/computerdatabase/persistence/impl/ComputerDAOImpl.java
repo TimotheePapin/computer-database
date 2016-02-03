@@ -62,7 +62,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	@Override
 	public List<Computer> getPage(PageProperties prop) {
-		LOGGER.info("Starting Computer getPage");
+		LOGGER.info("Starting Computer getPage {}", prop);
 		ResultSet result = null;
 		try (Connection connection = databaseConnection.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
@@ -93,7 +93,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	@Override
 	public Computer getById(int id) {
-		LOGGER.info("Starting Computer getById");
+		LOGGER.info("Starting Computer getById {}", id);
 		ResultSet result = null;
 		try (Connection connection = databaseConnection.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
@@ -175,7 +175,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	@Override
 	public Computer update(Computer computer) {
-		LOGGER.info("Starting Computer update");
+		LOGGER.info("Starting Computer update {}", computer);
 		try (Connection connection = databaseConnection.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?")) {
@@ -229,13 +229,10 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public int getSize(String search) {
 		LOGGER.info("Starting Computer getSize");
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet result;
-		try {
-			connection = databaseConnection.getConnection();
-			statement = connection.prepareStatement(
-					"SELECT COUNT(*) AS count FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ?");
+		ResultSet result = null;
+		try (Connection connection = databaseConnection.getConnection();
+				PreparedStatement statement = connection.prepareStatement(
+						"SELECT COUNT(*) AS count FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ?")) {
 			statement.setString(1, "%" + search + "%");
 			statement.setString(2, "%" + search + "%");
 			result = statement.executeQuery();
@@ -245,6 +242,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 			LOGGER.error("Failed to execute the getSize Query");
 			throw new DatabaseException("Failed to execute the getSize Query",
 					e);
+		} finally {
+			if (result != null) {
+				try {
+					result.close();
+				} catch (SQLException e) {
+					LOGGER.error("Failed to close ResultSet");
+					throw new DatabaseException("Failed to close ResultSet", e);
+				}
+			}
 		}
 	}
 

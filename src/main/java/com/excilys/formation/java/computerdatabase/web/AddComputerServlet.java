@@ -47,7 +47,7 @@ public class AddComputerServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String error = request.getParameter("error");
-		if(error == null) {
+		if (error == null) {
 			error = "";
 		}
 		request.setAttribute("error", error);
@@ -67,11 +67,12 @@ public class AddComputerServlet extends HttpServlet {
 					request.getParameter("discontinued"),
 					request.getParameter("companyId"));
 			serviceComputer.create(computer);
-			response.sendRedirect("dashboard?search="+computer.getName());
+			response.sendRedirect("dashboard?search="
+					+ (computer.getName().replace(" ", "+")));
 		} catch (ValidationException e) {
 			LOGGER.error(
 					"\n" + e.getMessage() + "\nFailed to Add the Computer;");
-			response.sendRedirect("addComputer?error="+computer.getName());
+			response.sendRedirect("addComputer?error=" + computer.getName());
 		}
 	}
 

@@ -50,7 +50,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 		try (Connection connection = databaseConnection.getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("SELECT * FROM company");
-				ResultSet result = statement.executeQuery();) {
+				ResultSet result = statement.executeQuery()) {
 			return MapCompany.mapCompanies(result);
 		} catch (SQLException e) {
 			LOGGER.error("Failed to execute the getAll Query");

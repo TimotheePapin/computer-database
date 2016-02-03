@@ -133,4 +133,12 @@ public class PageProperties {
 	public void setBy(By by) {
 		this.by = by;
 	}
+
+	@Override
+	public String toString() {
+		return "PageProperties [min=" + min + ", size=" + size + ", search="
+				+ search + ", order=" + order + ", by=" + by + "]";
+	}
+	
+	
 }

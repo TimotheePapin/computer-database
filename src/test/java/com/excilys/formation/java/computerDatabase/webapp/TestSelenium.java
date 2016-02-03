@@ -13,12 +13,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceImpl;
 
 public class TestSelenium {
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(TestSelenium.class);
 
 	boolean acceptNextAlert = true;
 
@@ -48,11 +52,13 @@ public class TestSelenium {
 
 	@Test
 	public void testDashboardAccess() {
+		LOGGER.info("testDashboardAccess");
 		assertEquals("Computer Database", driver.getTitle());
 	}
 
 	@Test
 	public void testSize() {
+		LOGGER.info("testSize");
 		driver.findElement(By.id("orderCompanyName")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 		assertEquals(100, driver.findElements(By.name("computer")).size());
@@ -60,6 +66,7 @@ public class TestSelenium {
 
 	@Test
 	public void testNameOrdering() {
+		LOGGER.info("testNameOrdering");
 		boolean sup = false;
 		driver.findElement(By.id("orderComputerName")).click();
 		String un = driver.findElements(By.name("computer")).get(0).getText();
@@ -72,6 +79,7 @@ public class TestSelenium {
 
 	@Test
 	public void testCompanyOrdering() {
+		LOGGER.info("testCompanyOrdering");
 		boolean sup = false;
 		driver.findElement(By.id("orderCompanyName")).click();
 		driver.findElement(By.id("orderCompanyName")).click();
@@ -85,6 +93,7 @@ public class TestSelenium {
 
 	@Test
 	public void testAddComputer() {
+		LOGGER.info("testAddComputer");
 		driver.findElement(By.id("addComputer")).click();
 		driver.findElement(By.id("computerName")).clear();
 		driver.findElement(By.id("computerName")).sendKeys("TestSelenium");
@@ -106,6 +115,8 @@ public class TestSelenium {
 
 	@Test
 	public void testEditComputer() {
+
+		LOGGER.info("testEditComputer");
 		serviceComputer.create(new Computer(0, "TestSelenium", null, null,
 				new Company(1, "")));
 		driver.findElement(By.id("searchbox")).clear();
@@ -129,6 +140,7 @@ public class TestSelenium {
 
 	@Test
 	public void testDeleteComputer() {
+		LOGGER.info("testDeleteComputer");
 		boolean sup = false;
 		serviceComputer.create(new Computer(0, "TestSelenium", null, null,
 				new Company(1, "")));

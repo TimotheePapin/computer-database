@@ -48,7 +48,10 @@ public class EditComputerServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String strId = request.getParameter("id");
-		int id = Integer.valueOf(strId);
+		int id = 0;
+		if (strId != null && !strId.isEmpty()) {
+			id = Integer.valueOf(strId);
+		}
 		request.setAttribute("Computer",
 				new ComputerDTO(serviceComputer.getById(id)));
 		request.setAttribute("Companies", serviceCompany.getAll());
@@ -61,21 +64,21 @@ public class EditComputerServlet extends HttpServlet {
 			throws ServletException, IOException {
 		Computer computer = new Computer();
 		try {
-			computer = ComputerValidation.validation(
-					request.getParameter("id"),
+			computer = ComputerValidation.validation(request.getParameter("id"),
 					request.getParameter("computerName"),
 					request.getParameter("introduced"),
 					request.getParameter("discontinued"),
 					request.getParameter("companyId"));
 			serviceComputer.update(computer);
-			response.sendRedirect("dashboard?search="+computer.getName());
+			response.sendRedirect("dashboard?search="
+					+ (computer.getName().replace(" ", "+")));
 		} catch (ValidationException e) {
 			LOGGER.error(
 					"\n" + e.getMessage() + "\nFailed to Edit the Computer;");
-			response.sendRedirect("editComputer?id="+computer.getId());
-			
+			response.sendRedirect("editComputer?id=" + computer.getId());
+
 		}
-		
+
 	}
 
 	/**
