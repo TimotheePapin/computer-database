@@ -113,8 +113,6 @@ public class DatabaseConnection {
 			config.setMinConnectionsPerPartition(MINCONNECTION);
 			config.setMaxConnectionsPerPartition(MAXCONNECTION);
 			config.setPartitionCount(PARTITIONS);
-			config.setCloseConnectionWatch(true);
-			config.setCloseConnectionWatchTimeoutInMs(0);
 			connectionPool = new BoneCP(config);
 		} catch (SQLException e) {
 			LOGGER.error("Configuration error of the connection pool.");
