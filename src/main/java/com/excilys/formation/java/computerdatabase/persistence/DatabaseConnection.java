@@ -1,21 +1,21 @@
 package com.excilys.formation.java.computerdatabase.persistence;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.formation.java.computerdatabase.exception.DatabaseException;
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
 
 /**
  * The Class DatabaseConnection.
  */
+@Service
 public class DatabaseConnection {
 
 	/**
@@ -23,120 +23,95 @@ public class DatabaseConnection {
 	 */
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DatabaseConnection.class);
+	
+	private ThreadLocal<Connection> threadLocalConnection;
 
-	/**
-	 * The connection pool.
-	 */
-	private BoneCP connectionPool = null;
-
-	/**
-	 * The Constant URL.
-	 */
-	private static final String URL;
-
-	/**
-	 * The Constant LOG.
-	 */
-	private static final String LOG;
-
-	/**
-	 * The Constant PSW.
-	 */
-	private static final String PSW;
-
-	/**
-	 * The Constant MINCONNECTION.
-	 */
-	private static final int MINCONNECTION;
-
-	/**
-	 * The Constant MAXCONNECTION.
-	 */
-	private static final int MAXCONNECTION;
-
-	/**
-	 * The Constant PARTITIONS.
-	 */
-	private static final int PARTITIONS;
-
-	static {
-		LOGGER.info("Loading Properties");
-		InputStream ips = null;
-		try {
-			Properties prop = new Properties();
-			ips = DatabaseConnection.class.getClassLoader()
-					.getResourceAsStream("sql.properties");
-			try {
-				prop.load(ips);
-			} catch (IOException e) {
-				LOGGER.error("Couldn't reach properties");
-				throw new DatabaseException("Couldn't reach properties", e);
-			}
-			Class.forName(prop.getProperty("mySQLdriver")).newInstance();
-			URL = new String(prop.getProperty("mySQLurl"));
-			LOG = new String(prop.getProperty("mySQLlog"));
-			PSW = new String(prop.getProperty("mySQLpsw"));
-			MINCONNECTION = Integer
-					.parseInt(prop.getProperty("boneCPminconnections"));
-			MAXCONNECTION = Integer
-					.parseInt(prop.getProperty("boneCPmaxconnections"));
-			PARTITIONS = Integer.parseInt(prop.getProperty("boneCPpartitions"));
-
-		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException e) {
-			LOGGER.error("Failed to load properties");
-			throw new DatabaseException("Failed to load properties", e);
-		} finally {
-			try {
-				ips.close();
-			} catch (IOException e) {
-				LOGGER.error("Failed to close the Stream");
-				throw new DatabaseException("Failed to close the Stream", e);
-			}
-		}
-	}
-
-	/**
-	 * The Constant INSTANCE.
-	 */
-	private static final DatabaseConnection INSTANCE = new DatabaseConnection();
+	@Autowired
+	private DataSource dataSource;
 
 	/**
 	 * Instantiates a new database connection.
 	 */
-	private DatabaseConnection() {
+	public DatabaseConnection() {
+		super();
+		LOGGER.info("Loading Driver");
+		threadLocalConnection = new ThreadLocal<>();
 		try {
-			BoneCPConfig config = new BoneCPConfig();
-			config.setJdbcUrl(URL);
-			config.setUsername(LOG);
-			config.setPassword(PSW);
-			config.setMinConnectionsPerPartition(MINCONNECTION);
-			config.setMaxConnectionsPerPartition(MAXCONNECTION);
-			config.setPartitionCount(PARTITIONS);
-			connectionPool = new BoneCP(config);
-		} catch (SQLException e) {
-			LOGGER.error("Configuration error of the connection pool.");
-			throw new DatabaseException(
-					"Configuration error of the connection pool.", e);
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException e) {
+			LOGGER.error("Failed to load Driver");
+			throw new DatabaseException("Failed to load Driver", e);
 		}
 	}
 
-	/**
-	 * Gets the connection.
-	 *
-	 * @return the connection
-	 * @throws SQLException the SQL exception
-	 */
-	public Connection getConnection() throws SQLException {
-		return connectionPool.getConnection();
+	public Connection getConnection() {
+		try {
+			if (threadLocalConnection.get() == null || threadLocalConnection.get().isClosed()) {
+				threadLocalConnection.set(dataSource.getConnection());
+			}
+			return threadLocalConnection.get();
+		} catch (SQLException e) {
+			throw new DatabaseException("Failed to get Connection", e);
+		}
 	}
 
-	/**
-	 * Gets the single instance of DatabaseConnection.
-	 *
-	 * @return single instance of DatabaseConnection
-	 */
-	public static DatabaseConnection getInstance() {
-		return INSTANCE;
+	public Connection startTransaction() {
+		Connection connection = getConnection();
+		try {
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			new DatabaseException("Failed to start Transaction", e);
+		}
+		return connection;
 	}
+	
+	public void closeConnection() {
+		closeConnection(getConnection());
+	}
+
+	public void commit() {
+		try {
+			getConnection().commit();
+		} catch (SQLException e) {
+			throw new DatabaseException("Failed to commit Transaction", e);
+		}
+	}
+	
+	public static void closeConnection(Connection connection) {
+		try {
+			if (connection != null && connection.getAutoCommit()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			throw new DatabaseException("Failed to close Transaction", e);
+		}
+	}
+
+	public void forcedCloseConnection() {
+		try {
+			if (getConnection() != null) {
+				getConnection().close();
+			}
+		} catch (SQLException e) {
+			throw new DatabaseException("Failed to close Transaction", e);
+		}
+	}
+	
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	public void rollback() {
+		try {
+			getConnection().rollback();
+		} catch (SQLException e) {
+			throw new DatabaseException("Failed to rollback", e);
+		}
+	}
+
 }

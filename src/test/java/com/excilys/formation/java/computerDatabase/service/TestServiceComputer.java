@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
@@ -18,15 +19,12 @@ import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceImpl;
 
 public class TestServiceComputer {
+	@Autowired
 	private ComputerServiceImpl serviceComputer;
 	private ComputerDAO daoComputer;
 	private List<Computer> list;
 	private LocalDateTime date = LocalDateTime.of(2016, 01, 15, 0, 0, 0, 0);
 	private Computer computer = new Computer(1, "test", date, null, new Company(1, "test"));
-	
-	public TestServiceComputer() {
-		this.serviceComputer = ComputerServiceImpl.getInstance();
-	}
 
 	@Before
 	public void setUp() {

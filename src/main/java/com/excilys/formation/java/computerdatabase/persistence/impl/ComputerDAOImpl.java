@@ -8,41 +8,39 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.java.computerdatabase.exception.DatabaseException;
 import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.persistence.DatabaseConnection;
-import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
 import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
 
 /**
  * The Class ComputerDAOImpl.
  */
+@Repository
 public class ComputerDAOImpl implements ComputerDAO {
-
-	/**
-	 * The Constant INSTANCE.
-	 */
-	private static final ComputerDAOImpl INSTANCE = new ComputerDAOImpl();
 
 	/**
 	 * The database connection.
 	 */
-	private static DatabaseConnection databaseConnection;
+	@Autowired
+	private DatabaseConnection databaseConnection;
 
+	private ThreadLocal<Connection> threadLocalConnection;
 	/**
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerDAOImpl.class);
 
-	/**
-	 * Instantiates a new computer dao impl.
-	 */
-	private ComputerDAOImpl() {
-		databaseConnection = DatabaseConnection.getInstance();
+	
+	public ComputerDAOImpl() {
+		super();
+		threadLocalConnection = new ThreadLocal<>();
 	}
 
 	@Override
@@ -257,7 +255,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void deleteByCompanyId(int companyId) {
 		LOGGER.info("Starting Computer deleteByCompanyId");
-		try (PreparedStatement statement = CompanyServiceImpl.connection.get()
+		try (PreparedStatement statement = threadLocalConnection.get()
 				.prepareStatement("DELETE FROM computer where company_id= ?")) {
 			statement.setInt(1, companyId);
 			statement.executeUpdate();
@@ -270,14 +268,4 @@ public class ComputerDAOImpl implements ComputerDAO {
 					e);
 		}
 	}
-
-	/**
-	 * Gets the single instance of ComputerDAOImpl.
-	 *
-	 * @return single instance of ComputerDAOImpl
-	 */
-	public static ComputerDAOImpl getInstance() {
-		return INSTANCE;
-	}
-
 }

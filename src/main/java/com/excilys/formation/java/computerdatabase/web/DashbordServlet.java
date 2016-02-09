@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import com.excilys.formation.java.computerdatabase.mapper.MapEnum;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceImpl;
@@ -17,7 +20,15 @@ import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
 /**
  * The Class DashbordServlet.
  */
+
 public class DashbordServlet extends HttpServlet {
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
+	
 	/**
 	 * 
 	 */
@@ -26,6 +37,7 @@ public class DashbordServlet extends HttpServlet {
 	/**
 	 * The service computer.
 	 */
+	@Autowired
 	private ComputerServiceImpl serviceComputer;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,7 +46,6 @@ public class DashbordServlet extends HttpServlet {
 		int page = 1;
 		List<Computer> computers;
 		int dbSize;
-		serviceComputer = ComputerServiceImpl.getInstance();
 		String strPage = request.getParameter("page");
 		String strSize = request.getParameter("size");
 		String search = request.getParameter("search");
@@ -47,7 +58,6 @@ public class DashbordServlet extends HttpServlet {
 			page = Integer.valueOf(strPage);
 			pageProps.setMin((page - 1) * pageProps.getSize());
 		}
-
 		if (order != null) {
 			pageProps.setOrder(MapEnum.toOrder(order));
 		}

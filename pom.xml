@@ -3,19 +3,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>c-db</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.1.3-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 
 	<properties>
-		<java-version>1.8</java-version>
+		<java.version>1.8</java.version>
 		<mySQL-version>5.1.6</mySQL-version>
 		<slf4j-version>1.7.13</slf4j-version>
 		<servlet-version>3.1.0</servlet-version>
 		<jstl-version>1.2</jstl-version>
 		<taglibs-version>1.1.2</taglibs-version>
+		<jcloverslf4j-version>1.7.0</jcloverslf4j-version>
 		<boneCp-version>0.8.0.RELEASE</boneCp-version>
 		<guava-version>19.0</guava-version>
+		<spring-version>4.2.4.RELEASE</spring-version>
 		<!-- Tests -->
 		<junit-version>4.12</junit-version>
 		<mockito-version>1.10.19</mockito-version>
@@ -73,11 +75,48 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcloverslf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
 		<!-- Connection Pool -->
 		<dependency>
 			<groupId>com.jolbox</groupId>
 			<artifactId>bonecp</artifactId>
 			<version>${boneCp-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring-version}</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -145,8 +184,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${mavenCompiler-version}</version>
 				<configuration>
-					<source>${java-version}</source>
-					<target>${java-version}</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.formation.java.computerdatabase.exception.ValidationException;
 import com.excilys.formation.java.computerdatabase.model.Computer;
@@ -21,6 +23,12 @@ import com.excilys.formation.java.computerdatabase.web.DTO.ComputerDTO;
  * The Class EditComputerServlet.
  */
 public class EditComputerServlet extends HttpServlet {
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
 
 	/**
 	 * The Constant serialVersionUID.
@@ -36,14 +44,14 @@ public class EditComputerServlet extends HttpServlet {
 	/**
 	 * The service computer.
 	 */
-	private ComputerServiceImpl serviceComputer = ComputerServiceImpl
-			.getInstance();
+	@Autowired
+	private ComputerServiceImpl serviceComputer;
 
 	/**
 	 * The service company.
 	 */
-	private CompanyServiceImpl serviceCompany = CompanyServiceImpl
-			.getInstance();
+	@Autowired
+	private CompanyServiceImpl serviceCompany;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

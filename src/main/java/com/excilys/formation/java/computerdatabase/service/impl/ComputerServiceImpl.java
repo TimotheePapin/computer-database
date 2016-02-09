@@ -2,33 +2,25 @@ package com.excilys.formation.java.computerdatabase.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
-import com.excilys.formation.java.computerdatabase.persistence.impl.ComputerDAOImpl;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
 
 /**
  * The Class ComputerServiceImpl.
  */
+@Service
 public class ComputerServiceImpl implements ComputerService {
-
-	/**
-	 * The instance.
-	 */
-	private static ComputerServiceImpl instance = new ComputerServiceImpl();;
 
 	/**
 	 * The computer dao.
 	 */
+	@Autowired
 	private ComputerDAO computerDAO;
-
-	/**
-	 * Instantiates a new computer service impl.
-	 */
-	private ComputerServiceImpl() {
-		computerDAO = ComputerDAOImpl.getInstance();
-	}
 
 	/**
 	 * Gets the all.
@@ -124,15 +116,6 @@ public class ComputerServiceImpl implements ComputerService {
 	@Override
 	public void deleteByCompanyId(int companyId) {
 		computerDAO.deleteByCompanyId(companyId);
-	}
-
-	/**
-	 * Gets the single instance of ComputerServiceImpl.
-	 *
-	 * @return single instance of ComputerServiceImpl
-	 */
-	public static ComputerServiceImpl getInstance() {
-		return instance;
 	}
 
 	/**

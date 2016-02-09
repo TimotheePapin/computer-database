@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
@@ -12,11 +15,13 @@ import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceI
 /**
  * The Class CLI.
  */
+@Repository
 public class CLI {
 
+	@Autowired
 	/** The service company. */
 	private static CompanyServiceImpl serviceCompany;
-
+	@Autowired
 	/** The service computer. */
 	private static ComputerServiceImpl serviceComputer;
 
@@ -26,8 +31,6 @@ public class CLI {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		serviceCompany = CompanyServiceImpl.getInstance();
-		serviceComputer = ComputerServiceImpl.getInstance();
 		Scanner sc = new Scanner(System.in);
 		Computer computer;
 		while (true) {

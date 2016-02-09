@@ -10,20 +10,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
 import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
 
 public class TestServiceCompany {
+	@Autowired
 	private CompanyServiceImpl serviceCompany;
 	private CompanyDAO daoCompany;
 	private List<Company> list;
-
-	public TestServiceCompany() {
-		this.serviceCompany = CompanyServiceImpl.getInstance();
-	}
-
 
 	@Before
 	public void setUp() {

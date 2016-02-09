@@ -8,27 +8,32 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.java.computerdatabase.exception.DatabaseException;
 import com.excilys.formation.java.computerdatabase.mapper.MapCompany;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
 import com.excilys.formation.java.computerdatabase.persistence.DatabaseConnection;
-import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
 
 /**
  * The Class CompanyDAOImpl.
  */
+@Repository
 public class CompanyDAOImpl implements CompanyDAO {
-
-	/**
-	 * The Constant INSTANCE.
-	 */
-	private static final CompanyDAO INSTANCE = new CompanyDAOImpl();
+	
+	private ThreadLocal<Connection> threadLocalConnection;
+	
+	public CompanyDAOImpl() {
+		super();
+		threadLocalConnection = new ThreadLocal<>();
+	}
 
 	/**
 	 * The database connection.
 	 */
+	@Autowired
 	private DatabaseConnection databaseConnection;
 
 	/**
@@ -37,12 +42,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CompanyDAOImpl.class);
 
-	/**
-	 * Instantiates a new company dao impl.
-	 */
-	private CompanyDAOImpl() {
-		databaseConnection = DatabaseConnection.getInstance();
-	}
 
 	@Override
 	public List<Company> getAll() {
@@ -88,7 +87,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	@Override
 	public void deleteById(int id) {
 		LOGGER.info("Starting Company deleteById");
-		try (PreparedStatement statement = CompanyServiceImpl.connection.get()
+		try (PreparedStatement statement = threadLocalConnection.get()
 				.prepareStatement("DELETE FROM company where id= ?")) {
 			statement.setInt(1, id);
 			statement.executeUpdate();
@@ -98,14 +97,4 @@ public class CompanyDAOImpl implements CompanyDAO {
 					"Failed to execute the deleteById Query :" + id, e);
 		}
 	}
-
-	/**
-	 * Gets the single instance of CompanyDAOImpl.
-	 *
-	 * @return single instance of CompanyDAOImpl
-	 */
-	public static CompanyDAO getInstance() {
-		return INSTANCE;
-	}
-
 }
