@@ -12,7 +12,6 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.h2.jdbcx.JdbcDataSource;
 import org.h2.tools.RunScript;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.mockito.Mockito;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.formation.java.computerdatabase.mapper.MapCompany;
 import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
-import com.excilys.formation.java.computerdatabase.persistence.impl.CompanyDAOImpl;
 
 public class TestCompanyDAOImpl {
 	

@@ -31,4 +31,12 @@ public interface CompanyDAO {
 	 * @param connection the connection
 	 */
 	void deleteById(int id);
+
+	/**
+	 * Adds the Company
+	 *
+	 * @param company the company
+	 * @return the company
+	 */
+	Company add(Company company);
 }

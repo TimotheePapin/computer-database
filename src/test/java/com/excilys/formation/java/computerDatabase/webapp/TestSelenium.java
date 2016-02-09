@@ -16,7 +16,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,7 +23,6 @@ import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceImpl;
 
-@Repository
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( locations = {"classpath:/spring-context.xml"})
 public class TestSelenium {

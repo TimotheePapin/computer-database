@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.java.computerdatabase.exception.DatabaseException;
@@ -18,6 +19,7 @@ import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
+import com.mysql.jdbc.Statement;
 
 /**
  * The Class ComputerDAOImpl.
@@ -165,6 +167,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public Computer update(Computer computer) {
 		LOGGER.info("Starting Computer update {}", computer);
+		ResultSet result = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?")) {
@@ -180,21 +183,31 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 			statement.setInt(5, computer.getId());
 			statement.execute();
-			computer = getById(computer.getId());
 			return computer;
 		} catch (SQLException e) {
 			LOGGER.error("Failed to execute the update Query :" + computer);
 			throw new DatabaseException(
 					"Failed to execute the update Query :" + computer, e);
+		} finally {
+			if (result != null) {
+				try {
+					result.close();
+				} catch (SQLException e) {
+					LOGGER.error("Failed to close ResultSet");
+					throw new DatabaseException("Failed to close ResultSet", e);
+				}
+			}
 		}
 	}
 
 	@Override
 	public Computer add(Computer computer) {
 		LOGGER.info("Starting Computer addComputer");
+		ResultSet result = null;
 		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
-						"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?, ?, ?, ?)")) {
+						"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?, ?, ?, ?)",
+						Statement.RETURN_GENERATED_KEYS)) {
 			statement.setString(1, computer.getName());
 			statement.setTimestamp(2,
 					MapComputer.toTimestamp(computer.getIntroduced()));
@@ -206,12 +219,23 @@ public class ComputerDAOImpl implements ComputerDAO {
 				statement.setInt(4, computer.getCompany().getId());
 			}
 			statement.execute();
-			computer = getByName(computer.getName());
+			result = statement.getGeneratedKeys();
+			result.next();
+			computer.setId(result.getInt(1));
 			return computer;
 		} catch (SQLException e) {
 			LOGGER.error("Failed to execute the add Query :" + computer);
 			throw new DatabaseException(
 					"Failed to execute the add Query :" + computer, e);
+		} finally {
+			if (result != null) {
+				try {
+					result.close();
+				} catch (SQLException e) {
+					LOGGER.error("Failed to close ResultSet");
+					throw new DatabaseException("Failed to close ResultSet", e);
+				}
+			}
 		}
 	}
 
@@ -219,8 +243,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public int getSize(String search) {
 		LOGGER.info("Starting Computer getSize");
 		ResultSet result = null;
-		try (Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection.prepareStatement(
+		try (PreparedStatement statement = dataSource.getConnection().prepareStatement(
 						"SELECT COUNT(*) AS count FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ?")) {
 			statement.setString(1, "%" + search + "%");
 			statement.setString(2, "%" + search + "%");
@@ -246,7 +269,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void deleteByCompanyId(int companyId) {
 		LOGGER.info("Starting Computer deleteByCompanyId");
-		try (PreparedStatement statement = dataSource.getConnection()
+		try (PreparedStatement statement = DataSourceUtils
+				.getConnection(dataSource)
 				.prepareStatement("DELETE FROM computer where company_id= ?")) {
 			statement.setInt(1, companyId);
 			statement.executeUpdate();

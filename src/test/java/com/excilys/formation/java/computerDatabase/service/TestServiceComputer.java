@@ -10,14 +10,20 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceImpl;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration( locations = {"classpath:/spring-context.xml"})
 public class TestServiceComputer {
 	@Autowired
 	private ComputerServiceImpl serviceComputer;
