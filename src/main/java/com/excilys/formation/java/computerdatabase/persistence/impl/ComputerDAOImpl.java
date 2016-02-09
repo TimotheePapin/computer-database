@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import com.excilys.formation.java.computerdatabase.exception.DatabaseException;
 import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
-import com.excilys.formation.java.computerdatabase.persistence.DatabaseConnection;
 import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
 
 /**
@@ -24,29 +25,19 @@ import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
 @Repository
 public class ComputerDAOImpl implements ComputerDAO {
 
-	/**
-	 * The database connection.
-	 */
 	@Autowired
-	private DatabaseConnection databaseConnection;
+	private DataSource dataSource;
 
-	private ThreadLocal<Connection> threadLocalConnection;
 	/**
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerDAOImpl.class);
 
-	
-	public ComputerDAOImpl() {
-		super();
-		threadLocalConnection = new ThreadLocal<>();
-	}
-
 	@Override
 	public List<Computer> getAll() {
 		LOGGER.info("Starting Computer getAll");
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id;");
 				ResultSet result = statement.executeQuery()) {
@@ -62,7 +53,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public List<Computer> getPage(PageProperties prop) {
 		LOGGER.info("Starting Computer getPage {}", prop);
 		ResultSet result = null;
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ? ORDER BY "
 								+ prop.getBy() + " " + prop.getOrder()
@@ -93,7 +84,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public Computer getById(int id) {
 		LOGGER.info("Starting Computer getById {}", id);
 		ResultSet result = null;
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.id= ?;");) {
 			statement.setInt(1, id);
@@ -119,7 +110,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public Computer getByName(String name) {
 		LOGGER.info("Starting Computer getByName");
 		ResultSet result = null;
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name= ?")) {
 			statement.setString(1, name);
@@ -144,7 +135,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void deleteByName(String name) {
 		LOGGER.info("Starting Computer deleteByName");
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"DELETE FROM computer where name= ?")) {
 			statement.setString(1, name);
@@ -159,7 +150,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void deleteById(int id) {
 		LOGGER.info("Starting Computer deleteById");
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("DELETE FROM computer where id= ?")) {
 			statement.setInt(1, id);
@@ -174,7 +165,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public Computer update(Computer computer) {
 		LOGGER.info("Starting Computer update {}", computer);
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?")) {
 			statement.setString(1, computer.getName());
@@ -201,7 +192,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public Computer add(Computer computer) {
 		LOGGER.info("Starting Computer addComputer");
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?, ?, ?, ?)")) {
 			statement.setString(1, computer.getName());
@@ -228,7 +219,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public int getSize(String search) {
 		LOGGER.info("Starting Computer getSize");
 		ResultSet result = null;
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"SELECT COUNT(*) AS count FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ?")) {
 			statement.setString(1, "%" + search + "%");
@@ -255,7 +246,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void deleteByCompanyId(int companyId) {
 		LOGGER.info("Starting Computer deleteByCompanyId");
-		try (PreparedStatement statement = threadLocalConnection.get()
+		try (PreparedStatement statement = dataSource.getConnection()
 				.prepareStatement("DELETE FROM computer where company_id= ?")) {
 			statement.setInt(1, companyId);
 			statement.executeUpdate();

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import com.excilys.formation.java.computerdatabase.exception.DatabaseException;
 import com.excilys.formation.java.computerdatabase.mapper.MapCompany;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
-import com.excilys.formation.java.computerdatabase.persistence.DatabaseConnection;
 
 /**
  * The Class CompanyDAOImpl.
@@ -23,18 +24,8 @@ import com.excilys.formation.java.computerdatabase.persistence.DatabaseConnectio
 @Repository
 public class CompanyDAOImpl implements CompanyDAO {
 	
-	private ThreadLocal<Connection> threadLocalConnection;
-	
-	public CompanyDAOImpl() {
-		super();
-		threadLocalConnection = new ThreadLocal<>();
-	}
-
-	/**
-	 * The database connection.
-	 */
 	@Autowired
-	private DatabaseConnection databaseConnection;
+	private DataSource dataSource;
 
 	/**
 	 * The Constant LOGGER.
@@ -46,7 +37,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	@Override
 	public List<Company> getAll() {
 		LOGGER.info("Starting Company getAll");
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection
 						.prepareStatement("SELECT * FROM company");
 				ResultSet result = statement.executeQuery()) {
@@ -62,7 +53,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	public Company getByName(String name) {
 		LOGGER.info("Starting Company getByName");
 		ResultSet result = null;
-		try (Connection connection = databaseConnection.getConnection();
+		try (Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
 						"SELECT * FROM company WHERE name=?")) {
 			statement.setString(1, name);
@@ -87,7 +78,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	@Override
 	public void deleteById(int id) {
 		LOGGER.info("Starting Company deleteById");
-		try (PreparedStatement statement = threadLocalConnection.get()
+		try (PreparedStatement statement = dataSource.getConnection()
 				.prepareStatement("DELETE FROM company where id= ?")) {
 			statement.setInt(1, id);
 			statement.executeUpdate();

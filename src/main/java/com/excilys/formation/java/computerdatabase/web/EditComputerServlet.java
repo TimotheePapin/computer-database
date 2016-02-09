@@ -10,18 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.formation.java.computerdatabase.exception.ValidationException;
 import com.excilys.formation.java.computerdatabase.model.Computer;
-import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
-import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceImpl;
+import com.excilys.formation.java.computerdatabase.service.CompanyService;
+import com.excilys.formation.java.computerdatabase.service.ComputerService;
 import com.excilys.formation.java.computerdatabase.utils.ComputerValidation;
 import com.excilys.formation.java.computerdatabase.web.DTO.ComputerDTO;
 
 /**
  * The Class EditComputerServlet.
  */
+@Component
 public class EditComputerServlet extends HttpServlet {
 	
 	@Override
@@ -45,13 +47,13 @@ public class EditComputerServlet extends HttpServlet {
 	 * The service computer.
 	 */
 	@Autowired
-	private ComputerServiceImpl serviceComputer;
+	private ComputerService serviceComputer;
 
 	/**
 	 * The service company.
 	 */
 	@Autowired
-	private CompanyServiceImpl serviceCompany;
+	private CompanyService serviceCompany;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -86,7 +88,6 @@ public class EditComputerServlet extends HttpServlet {
 			response.sendRedirect("editComputer?id=" + computer.getId());
 
 		}
-
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class EditComputerServlet extends HttpServlet {
 	 *
 	 * @return the service computer
 	 */
-	public ComputerServiceImpl getServiceComputer() {
+	public ComputerService getServiceComputer() {
 		return serviceComputer;
 	}
 
@@ -103,7 +104,7 @@ public class EditComputerServlet extends HttpServlet {
 	 *
 	 * @param serviceComputer the new service computer
 	 */
-	public void setServiceComputer(ComputerServiceImpl serviceComputer) {
+	public void setServiceComputer(ComputerService serviceComputer) {
 		this.serviceComputer = serviceComputer;
 	}
 }

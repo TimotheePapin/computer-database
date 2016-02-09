@@ -4,26 +4,33 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
-import com.excilys.formation.java.computerdatabase.service.impl.CompanyServiceImpl;
-import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceImpl;
+import com.excilys.formation.java.computerdatabase.service.CompanyService;
+import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
 /**
  * The Class CLI.
  */
-@Repository
+@Component
 public class CLI {
 
-	@Autowired
 	/** The service company. */
-	private static CompanyServiceImpl serviceCompany;
 	@Autowired
+	private CompanyService serviceCompany;
+	
 	/** The service computer. */
-	private static ComputerServiceImpl serviceComputer;
+	@Autowired
+	private ComputerService serviceComputer;
+	
+	public CLI() {
+		super();
+	}
 
 	/**
 	 * The main method.
@@ -31,6 +38,13 @@ public class CLI {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
+		@SuppressWarnings("resource")
+		BeanFactory factory = new ClassPathXmlApplicationContext("spring-context.xml");
+		CLI cli = factory.getBean(CLI.class);
+		cli.displayMenu();
+	}
+
+	private void displayMenu() {
 		Scanner sc = new Scanner(System.in);
 		Computer computer;
 		while (true) {
@@ -81,7 +95,7 @@ public class CLI {
 		}
 	}
 
-	private static void deleteByCompany(Scanner sc) {
+	private void deleteByCompany(Scanner sc) {
 		System.out.println("Enter the id of the company :");
 		int rep = sc.nextInt();
 		serviceCompany.deleteById(rep);
@@ -92,7 +106,7 @@ public class CLI {
 	 *
 	 * @param sc the sc
 	 */
-	private static void deleteComputer(Scanner sc) {
+	private void deleteComputer(Scanner sc) {
 		int rep;
 		System.out.println("Delete Computer : \n 1-By name \n 2-By id");
 		rep = sc.nextInt();
@@ -114,7 +128,7 @@ public class CLI {
 	 * @param sc the sc
 	 * @return the computer
 	 */
-	private static Computer updateComputer(Scanner sc) {
+	private Computer updateComputer(Scanner sc) {
 		boolean date;
 		int rep;
 		Computer computer = null;
@@ -205,7 +219,7 @@ public class CLI {
 	 * @param sc the sc
 	 * @return the computer
 	 */
-	private static Computer addComputer(Scanner sc) {
+	private Computer addComputer(Scanner sc) {
 		boolean date;
 		System.out.println("Enter Computer name :");
 		sc.nextLine();
@@ -266,7 +280,7 @@ public class CLI {
 	 * @param sc the sc
 	 * @return the computer
 	 */
-	private static Computer showComputer(Scanner sc) {
+	private Computer showComputer(Scanner sc) {
 		int rep;
 		System.out.println("Get Computer : \n 1-By name \n 2-By id");
 		rep = sc.nextInt();

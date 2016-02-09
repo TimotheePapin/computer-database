@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.formation.java.computerdatabase.model.Company;
@@ -25,6 +26,7 @@ import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceI
 
 @Repository
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration( locations = {"classpath:/spring-context.xml"})
 public class TestSelenium {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TestSelenium.class);
@@ -116,7 +118,6 @@ public class TestSelenium {
 
 	@Test
 	public void testEditComputer() {
-
 		LOGGER.info("testEditComputer");
 		serviceComputer.create(new Computer(0, "TestSelenium", null, null,
 				new Company(1, "")));
