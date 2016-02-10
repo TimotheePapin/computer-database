@@ -1,6 +1,9 @@
-package com.excilys.formation.java.computerDatabase.service;
+package com.excilys.formation.java.computerdatabase.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import javax.annotation.PostConstruct;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,15 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.excilys.formation.java.computerdatabase.database.FakeDatabase;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
-import com.excilys.formation.java.computerdatabase.service.CompanyService;
-import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( locations = {"classpath:/spring-context.xml"})
+@ContextConfiguration( locations = {"classpath:/spring-test-context.xml"})
 public class TestServiceCompany {
+	
+	@Autowired
+	private FakeDatabase fakeDatabase;
+	
 	@Autowired
 	private ComputerService computerService;
 	
@@ -31,6 +37,11 @@ public class TestServiceCompany {
 	//private CompanyDAOImpl companyDAO;
 
 	//private List<Company> list;
+	
+	@PostConstruct
+	public void init() {
+		fakeDatabase.initTestDb();
+	}
 	
 	@Before
 	public void setUp() {
@@ -64,8 +75,7 @@ public class TestServiceCompany {
 //		assertEquals(list, companyService.getAll());
 //	}
 	
-	
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void testFailTransaction() {
 		Company company = companyService.create(new Company (0,"CompanyTest"));
 		Computer computer = computerService.create(new Computer(0,"ComputerTest",null,null,company));
@@ -74,8 +84,12 @@ public class TestServiceCompany {
 		Mockito.doThrow(new RuntimeException()).when(companyDAO).deleteById(company.getId());
 		
 		companyService.setCompanyDAO(companyDAO);
-		companyService.deleteById(company.getId());
-		
+		try {
+			companyService.deleteById(company.getId());
+			fail("no exception");
+		} catch (RuntimeException expected) {
+			
+		}
 		assertEquals(computer, computerService.getById(computer.getId()));
 	}
 	

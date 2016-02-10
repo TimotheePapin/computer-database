@@ -7,6 +7,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Component;
+
 import com.excilys.formation.java.computerdatabase.exception.MappingException;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
@@ -14,7 +18,8 @@ import com.excilys.formation.java.computerdatabase.model.Computer;
 /**
  * The Class MapComputer.
  */
-public class MapComputer {
+@Component
+public class MapComputer implements ResultSetExtractor<List <Computer> >{
 
 	/**
 	 * Map computers.
@@ -22,7 +27,7 @@ public class MapComputer {
 	 * @param result the result
 	 * @return the list
 	 */
-	public static List<Computer> mapComputers(ResultSet result) {
+	private List<Computer> mapComputers(ResultSet result) {
 		List<Computer> computers = new ArrayList<Computer>();
 		try {
 			while (!result.isLast()) {
@@ -40,7 +45,7 @@ public class MapComputer {
 	 * @param result the result
 	 * @return the computer
 	 */
-	public static Computer mapComputer(ResultSet result) {
+	private Computer mapComputer(ResultSet result) {
 		Computer computer = new Computer();
 		Company company = new Company();
 		try {
@@ -79,5 +84,11 @@ public class MapComputer {
 			return Timestamp.valueOf(date);
 		}
 		return null;
+	}
+
+	@Override
+	public List<Computer> extractData(ResultSet result)
+			throws SQLException, DataAccessException {
+		return mapComputers(result);
 	}
 }

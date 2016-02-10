@@ -5,21 +5,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Component;
+
 import com.excilys.formation.java.computerdatabase.exception.MappingException;
 import com.excilys.formation.java.computerdatabase.model.Company;
 
 /**
  * The Class MapCompany.
  */
-public class MapCompany {
-
+@Component
+public class MapCompany implements ResultSetExtractor<List <Company> >{
+	
 	/**
 	 * Map companies.
 	 *
 	 * @param result the result
 	 * @return the list
 	 */
-	public static List<Company> mapCompanies(ResultSet result) {
+	private List<Company> mapCompanies(ResultSet result) {
 		List<Company> companies = new ArrayList<Company>();
 		try {
 			while (result.next()) {
@@ -37,7 +42,7 @@ public class MapCompany {
 	 * @param result the result
 	 * @return the company
 	 */
-	public static Company mapCompany(ResultSet result) {
+	private Company mapCompany(ResultSet result) {
 		Company company = new Company();
 		try {
 			company.setId(result.getInt("id"));
@@ -46,5 +51,11 @@ public class MapCompany {
 			throw new MappingException("Failed to Map a Company", e);
 		}
 		return company;
+	}
+
+	@Override
+	public List <Company> extractData(ResultSet resultSet)
+			throws SQLException, DataAccessException {
+		return mapCompanies(resultSet);
 	}
 }

@@ -97,6 +97,7 @@ public class DashbordServlet extends HttpServlet {
 	 * @return the service computer
 	 */
 	public ComputerService getServiceComputer() {
+		System.out.println("Been there GET");
 		return serviceComputer;
 	}
 
@@ -106,6 +107,7 @@ public class DashbordServlet extends HttpServlet {
 	 * @param serviceComputer the new service computer
 	 */
 	public void setServiceComputer(ComputerService serviceComputer) {
+		System.out.println("Been there SET");
 		this.serviceComputer = serviceComputer;
 	}
 }

@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerDatabase.service;
+package com.excilys.formation.java.computerdatabase.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;

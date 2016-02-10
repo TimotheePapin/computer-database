@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerDatabase.webapp;
+package com.excilys.formation.java.computerdatabase.webapp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -21,10 +21,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
-import com.excilys.formation.java.computerdatabase.service.impl.ComputerServiceImpl;
+import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( locations = {"classpath:/spring-context.xml"})
+@ContextConfiguration( locations = {"classpath:/spring-test-context.xml"})
 public class TestSelenium {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TestSelenium.class);
@@ -32,7 +32,7 @@ public class TestSelenium {
 	boolean acceptNextAlert = true;
 	
 	@Autowired
-	private ComputerServiceImpl serviceComputer;
+	private ComputerService serviceComputer;
 
 	private WebDriver driver;
 	

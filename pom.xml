@@ -8,6 +8,8 @@
 
 
 	<properties>
+		<boneCp-version>0.8.0.RELEASE</boneCp-version>
+
 		<java.version>1.8</java.version>
 		<mySQL-version>5.1.6</mySQL-version>
 		<slf4j-version>1.7.13</slf4j-version>
@@ -15,16 +17,13 @@
 		<jstl-version>1.2</jstl-version>
 		<taglibs-version>1.1.2</taglibs-version>
 		<jcloverslf4j-version>1.7.0</jcloverslf4j-version>
-		<boneCp-version>0.8.0.RELEASE</boneCp-version>
-		<guava-version>19.0</guava-version>
 		<spring-version>4.2.4.RELEASE</spring-version>
 		<!-- Tests -->
+		<guava-version>19.0</guava-version>
 		<junit-version>4.12</junit-version>
 		<mockito-version>1.10.19</mockito-version>
-		<dbunit-version>2.5.1</dbunit-version>
-		<h2Database-version>1.4.190</h2Database-version>
 		<checkstyle-version>5.0</checkstyle-version>
-		<seleniumjava-version>2.49.1</seleniumjava-version>
+		<seleniumjava-version>2.51.0</seleniumjava-version>
 		<seleniumJCD-version>1.0.2</seleniumJCD-version>
 		<!-- Plugins -->
 		<mavenCompiler-version>3.3</mavenCompiler-version>
@@ -34,6 +33,7 @@
 
 	<dependencies>
 		<!-- Driver MySQL -->
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -82,12 +82,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Connection Pool -->
-		<dependency>
-			<groupId>com.jolbox</groupId>
-			<artifactId>bonecp</artifactId>
-			<version>${boneCp-version}</version>
-		</dependency>
+		<!-- Spring -->
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -119,7 +114,20 @@
 			<version>${spring-version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
 		<!-- Test dependencies -->
+		<!-- Selenium Dependency -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava-version}</version>
+		</dependency>
+
 		<!-- Unit Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -133,21 +141,6 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito-version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Database simulation dependencies -->
-		<dependency>
-			<groupId>org.dbunit</groupId>
-			<artifactId>dbunit</artifactId>
-			<version>${dbunit-version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>${h2Database-version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -173,9 +166,7 @@
 			<version>${seleniumJCD-version}</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
-
 
 	<build>
 		<plugins>
