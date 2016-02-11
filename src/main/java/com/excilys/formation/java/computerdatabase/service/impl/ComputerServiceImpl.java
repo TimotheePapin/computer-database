@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
-import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
+import com.excilys.formation.java.computerdatabase.web.dto.PageProperties;
 
 /**
  * The Class ComputerServiceImpl.

@@ -24,7 +24,7 @@ import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration( locations = {"classpath:/spring-test-context.xml"})
+@ContextConfiguration( locations = {"classpath:/spring-context.xml"})
 public class TestSelenium {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TestSelenium.class);
@@ -38,9 +38,9 @@ public class TestSelenium {
 	
 	@Before
 	public void setUp() {
+		serviceComputer.deleteByName("TestSelenium");
 		driver = new FirefoxDriver();
 		driver.get("http://localhost:7575/computer-database/dashboard");
-		serviceComputer.deleteByName("TestSelenium");
 	}
 
 	@After
@@ -142,8 +142,8 @@ public class TestSelenium {
 	public void testDeleteComputer() {
 		LOGGER.info("testDeleteComputer");
 		boolean sup = false;
-		serviceComputer.create(new Computer(0, "TestSelenium", null, null,
-				new Company(1, "")));
+		System.out.println(serviceComputer.create(new Computer(0, "TestSelenium", null, null,
+				new Company(1, ""))));
 		driver.findElement(By.cssSelector("a.navbar-brand")).click();
 		String start = driver.findElements(By.id("homeTitle")).get(0).getText();
 		driver.findElement(By.id("searchbox")).clear();

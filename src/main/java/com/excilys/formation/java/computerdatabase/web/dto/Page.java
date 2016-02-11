@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.web.DTO;
+package com.excilys.formation.java.computerdatabase.web.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -75,9 +75,11 @@ public class Page implements Serializable {
 			PageProperties pageProps) {
 		super();
 		this.computersDTO = new ArrayList<ComputerDTO>();
-		for (Computer computer : computers) {
-			ComputerDTO computerDTO = new ComputerDTO(computer);
-			this.computersDTO.add(computerDTO);
+		if(computers.get(0) != null) {
+			for (Computer computer : computers) {
+				ComputerDTO computerDTO = new ComputerDTO(computer);
+				this.computersDTO.add(computerDTO);
+			}
 		}
 		this.listSize = pageProps.getSize();
 		this.page = page;

@@ -7,41 +7,27 @@
 	<!-- Spring Contexts -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/spring-context.xml</param-value>
+		<param-value>classpath:/spring-context.xml  /WEB-INF/mvc-dispatcher-context.xml</param-value>
 	</context-param>
 	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
-	<servlet>
-		<servlet-name>Dashboard</servlet-name>
-		<servlet-class>com.excilys.formation.java.computerdatabase.web.DashbordServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>AddComputer</servlet-name>
-		<servlet-class>com.excilys.formation.java.computerdatabase.web.AddComputerServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>EditComputer</servlet-name>
-		<servlet-class>com.excilys.formation.java.computerdatabase.web.EditComputerServlet
-		</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>Dashboard</servlet-name>
-		<url-pattern>/dashboard</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>AddComputer</servlet-name>
-		<url-pattern>/addComputer</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>EditComputer</servlet-name>
-		<url-pattern>/editComputer</url-pattern>
-	</servlet-mapping>
+    <servlet>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value></param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>	
 	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>

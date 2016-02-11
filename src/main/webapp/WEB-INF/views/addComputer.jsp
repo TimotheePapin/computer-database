@@ -29,7 +29,7 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
-									type="text" name="computerName" class="form-control"
+									type="text" name="name" class="form-control"
 									id="computerName" placeholder="Computer name"
 									onblur="checkName(this)">
 							</div>
@@ -47,7 +47,7 @@
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId" name="companyId">
+									class="form-control" id="companyId" name="company">
 									<option value="0">--</option>
 									<c:forEach items="${Companies}" var="company">
 										<option value="${company.id}"><c:out

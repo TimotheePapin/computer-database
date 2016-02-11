@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.web.DTO;
+package com.excilys.formation.java.computerdatabase.web.dto;
 
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;

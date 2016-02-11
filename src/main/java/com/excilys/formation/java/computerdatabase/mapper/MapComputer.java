@@ -27,11 +27,17 @@ public class MapComputer implements ResultSetExtractor<List <Computer> >{
 	 * @param result the result
 	 * @return the list
 	 */
+	
 	private List<Computer> mapComputers(ResultSet result) {
+		boolean firstRow = true;
 		List<Computer> computers = new ArrayList<Computer>();
 		try {
-			while (!result.isLast()) {
+			while (!result.isLast() && result.next()) {
+				firstRow = false;
 				computers.add(mapComputer(result));
+			}
+			if(firstRow == true) {
+				computers.add(null);
 			}
 		} catch (SQLException e) {
 			throw new MappingException("Failed to Map Computers", e);
@@ -49,7 +55,6 @@ public class MapComputer implements ResultSetExtractor<List <Computer> >{
 		Computer computer = new Computer();
 		Company company = new Company();
 		try {
-			result.next();
 			computer.setId(result.getInt("id"));
 			computer.setName((result.getString("computer.name")));
 			if (result.getTimestamp("introduced") == null) {

@@ -3,7 +3,7 @@ package com.excilys.formation.java.computerdatabase.persistence;
 import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.model.Computer;
-import com.excilys.formation.java.computerdatabase.web.DTO.PageProperties;
+import com.excilys.formation.java.computerdatabase.web.dto.PageProperties;
 
 /**
  * The Interface ComputerDAO.

@@ -8,6 +8,7 @@ import java.util.Locale;
 import com.excilys.formation.java.computerdatabase.exception.ValidationException;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
+import com.excilys.formation.java.computerdatabase.web.dto.ComputerDTO;
 
 /**
  * The Interface ComputerValidation.
@@ -24,18 +25,16 @@ public interface ComputerValidation {
 	 * @param strCompanyId the str company id
 	 * @return the computer
 	 */
-	public static Computer validation(String strId, String name,
-			String strIntroduced, String strDiscontinued, String strCompanyId) {
-		int id = 0, companyId = 0;
+	public static Computer validation(ComputerDTO computerDTO) {
+		int companyId = 0;
 		LocalDateTime introduced = null, discontinued = null;
-		id = toInteger(strId, "Computer");
-		if (name == null || name.trim().isEmpty()) {
+		if (computerDTO.getName() == null || computerDTO.getName().trim().isEmpty()) {
 			throw new ValidationException("Computer's Name missing");
 		}
-		introduced = toDateTime(strIntroduced, "introduced");
-		discontinued = toDateTime(strDiscontinued, "discontinued");
-		companyId = toInteger(strCompanyId, "Company");
-		return new Computer(id, name, introduced, discontinued,
+		introduced = toDateTime(computerDTO.getIntroduced(), "introduced");
+		discontinued = toDateTime(computerDTO.getDiscontinued(), "discontinued");
+		companyId = toInteger(computerDTO.getCompany(), "Company");
+		return new Computer(computerDTO.getId(), computerDTO.getName(), introduced, discontinued,
 				new Company(companyId, ""));
 	}
 

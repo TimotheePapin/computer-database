@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.web.DTO;
+package com.excilys.formation.java.computerdatabase.web.dto;
 
 import com.excilys.formation.java.computerdatabase.persistence.enumeration.By;
 import com.excilys.formation.java.computerdatabase.persistence.enumeration.Order;
