@@ -14,10 +14,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.excilys.formation.java.computerdatabase.dto.model.PageProperties;
 import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
-import com.excilys.formation.java.computerdatabase.web.dto.PageProperties;
 import com.mysql.jdbc.Statement;
 
 /**

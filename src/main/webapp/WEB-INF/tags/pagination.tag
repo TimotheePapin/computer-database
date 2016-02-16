@@ -2,7 +2,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
 
 <%@ attribute name="webPage"
-	type="com.excilys.formation.java.computerdatabase.web.dto.Page"
+	type="com.excilys.formation.java.computerdatabase.dto.model.Page"
 	description="Contains all the information of the page"%>
 
 

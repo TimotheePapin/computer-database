@@ -1,10 +1,12 @@
-package com.excilys.formation.java.computerdatabase.web.dto;
+package com.excilys.formation.java.computerdatabase.dto.page;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.excilys.formation.java.computerdatabase.dto.model.Page;
+import com.excilys.formation.java.computerdatabase.dto.model.PageProperties;
 import com.excilys.formation.java.computerdatabase.mapper.MapEnum;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
@@ -19,6 +21,9 @@ public class DashboardPageCreator {
 		List<Computer> computers;
 		int dbSize;
 		PageProperties pageProps = new PageProperties();
+		if (currentPage.getPage() < 1) {
+			currentPage.setPage(1);
+		}
 		if (currentPage.getListSize() != 0) {
 			pageProps.setSize(currentPage.getListSize());
 		}

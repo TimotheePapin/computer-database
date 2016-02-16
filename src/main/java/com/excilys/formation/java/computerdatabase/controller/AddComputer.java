@@ -1,15 +1,18 @@
 package com.excilys.formation.java.computerdatabase.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.excilys.formation.java.computerdatabase.dto.model.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.dto.page.AddComputerPageCreator;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
-import com.excilys.formation.java.computerdatabase.web.dto.AddComputerPageCreator;
-import com.excilys.formation.java.computerdatabase.web.dto.ComputerDTO;
 
 @Controller
 @RequestMapping("/addComputer")
@@ -22,17 +25,22 @@ public class AddComputer {
 	private AddComputerPageCreator addComputerPageCreator;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGet(String error, ModelMap modelMap) {
-		if(error == null || error.trim().isEmpty()) {
-			error="";
-		}
+	public String doGet(ModelMap modelMap) {
 		modelMap.addAttribute("Companies", companyService.getAll());
-		modelMap.addAttribute("error", error);
 		return "addComputer";
 	}
 	
+	@ModelAttribute("ComputerDTO")
+	public ComputerDTO getComputerDTO() {
+		return new ComputerDTO();
+	}
+	
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(@ModelAttribute("computerDTO") ComputerDTO computerDTO, ModelMap modelMap) {
+	public String doPost(@Valid @ModelAttribute("ComputerDTO") ComputerDTO computerDTO, 
+			BindingResult result, ModelMap modelMap) {
+		if(result.hasErrors()) {
+			return "addComputer";
+		} 
 		return addComputerPageCreator.postRequest(computerDTO);	
 	}
 }

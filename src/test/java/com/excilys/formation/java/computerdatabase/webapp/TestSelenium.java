@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDateTime;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +52,7 @@ public class TestSelenium {
 			driver.close();
 		}
 	}
-
+	
 	@Test
 	public void testDashboardAccess() {
 		LOGGER.info("testDashboardAccess");
@@ -95,17 +97,19 @@ public class TestSelenium {
 	@Test
 	public void testAddComputer() {
 		LOGGER.info("testAddComputer");
+		driver.findElement(By.cssSelector("img.flags")).click();
 		driver.findElement(By.id("addComputer")).click();
 		driver.findElement(By.id("computerName")).clear();
 		driver.findElement(By.id("computerName")).sendKeys("TestSelenium");
 		driver.findElement(By.id("introduced")).clear();
-		driver.findElement(By.id("introduced")).sendKeys("50/01/2016");
+		driver.findElement(By.id("introduced")).sendKeys("13/10/2016");
 		driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
 		assertEquals("Some field isn't fill correctly",
 				closeAlertAndGetItsText());
 		driver.findElement(By.id("introduced")).clear();
-		driver.findElement(By.id("introduced")).sendKeys("27/01/2016");
+		driver.findElement(By.id("introduced")).sendKeys("01/27/2016");
 		driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
+		driver.findElement(By.xpath("//img[@alt='fr flag']")).click();
 		driver.findElement(By.id("searchbox")).clear();
 		driver.findElement(By.id("searchbox")).sendKeys("TestSelenium");
 		driver.findElement(By.id("searchsubmit")).click();
@@ -119,6 +123,7 @@ public class TestSelenium {
 		LOGGER.info("testEditComputer");
 		serviceComputer.create(new Computer(0, "TestSelenium", null, null,
 				new Company(1, "")));
+		driver.findElement(By.xpath("//img[@alt='fr flag']")).click();
 		driver.findElement(By.id("searchbox")).clear();
 		driver.findElement(By.id("searchbox")).sendKeys("TestSelenium");
 		driver.findElement(By.id("searchsubmit")).click();
@@ -142,8 +147,8 @@ public class TestSelenium {
 	public void testDeleteComputer() {
 		LOGGER.info("testDeleteComputer");
 		boolean sup = false;
-		System.out.println(serviceComputer.create(new Computer(0, "TestSelenium", null, null,
-				new Company(1, ""))));
+		serviceComputer.create(new Computer(0, "TestSelenium", null, null,
+				new Company(1, "")));
 		driver.findElement(By.cssSelector("a.navbar-brand")).click();
 		String start = driver.findElements(By.id("homeTitle")).get(0).getText();
 		driver.findElement(By.id("searchbox")).clear();
@@ -159,6 +164,49 @@ public class TestSelenium {
 			sup = true;
 		}
 		assertTrue(sup);
+	}
+	
+	@Test
+	public void testLanguage() {
+		LOGGER.info("testLanguage");
+		driver.findElement(By.cssSelector("img.flags")).click();
+		assertEquals("Computer Name", driver.findElement(By.id("orderComputerName")).getText());
+		driver.findElement(By.xpath("//img[@alt='fr flag']")).click();
+		assertEquals("Nom de l'Ordinateur", driver.findElement(By.id("orderComputerName")).getText());
+	}
+	
+	@Test
+	public void testDateLanguage() {
+		LOGGER.info("testDateLanguage");
+		LocalDateTime date = LocalDateTime.of(2016, 05, 26, 0, 0);
+		serviceComputer.create(new Computer(0, "TestSelenium", date, null,
+				new Company(1, "")));
+		driver.findElement(By.cssSelector("img.flags")).click();
+		driver.findElement(By.id("searchbox")).clear();
+		driver.findElement(By.id("searchbox")).sendKeys("TestSelenium");
+		driver.findElement(By.id("searchsubmit")).click();
+		assertEquals("05/26/2016", driver.findElements(By.name("introduced")).get(0).getText());
+		driver.findElement(By.xpath("//img[@alt='fr flag']")).click();
+		driver.findElement(By.id("searchbox")).clear();
+		driver.findElement(By.id("searchbox")).sendKeys("TestSelenium");
+		driver.findElement(By.id("searchsubmit")).click();
+		assertEquals("26/05/2016", driver.findElements(By.name("introduced")).get(0).getText());
+	}
+	
+	@Test
+	public void testDateLanguageEdit() throws Exception{
+		LOGGER.info("testDateLanguage");
+		LocalDateTime date = LocalDateTime.of(2016, 05, 26, 0, 0);
+		serviceComputer.create(new Computer(0, "TestSelenium", date, null,
+				new Company(1, "")));
+		driver.findElement(By.cssSelector("img.flags")).click();
+		driver.findElement(By.id("searchbox")).clear();
+		driver.findElement(By.id("searchbox")).sendKeys("TestSelenium");
+		driver.findElement(By.id("searchsubmit")).click();
+		driver.findElement(By.linkText("TestSelenium")).click();
+		assertEquals("05/26/2016", driver.findElements(By.id("introduced")).get(0).getAttribute("value"));
+		driver.findElement(By.xpath("//img[@alt='fr flag']")).click();
+		assertEquals("26/05/2016", driver.findElements(By.id("introduced")).get(0).getAttribute("value"));
 	}
 
 	private String closeAlertAndGetItsText() {

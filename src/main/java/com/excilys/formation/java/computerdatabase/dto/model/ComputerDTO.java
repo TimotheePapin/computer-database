@@ -1,9 +1,15 @@
-package com.excilys.formation.java.computerdatabase.web.dto;
+package com.excilys.formation.java.computerdatabase.dto.model;
 
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import javax.validation.constraints.Size;
+
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.excilys.formation.java.computerdatabase.model.Computer;
+import com.excilys.formation.java.computerdatabase.validator.Date;
 
 /**
  * The Class ComputerDTO.
@@ -23,16 +29,19 @@ public class ComputerDTO implements Serializable {
 	/**
 	 * The name.
 	 */
+	@Size(min=2, max=255) //= "{add.error.name}"
 	private String name;
 
 	/**
 	 * The introduced.
 	 */
+	@Date(message = "{add.error.date}")
 	private String introduced;
 
 	/**
 	 * The discontinued.
 	 */
+	@Date(message = "{add.error.date}")
 	private String discontinued;
 
 	/**
@@ -53,10 +62,14 @@ public class ComputerDTO implements Serializable {
 	 * @param computer the computer
 	 */
 	public ComputerDTO(Computer computer) {
-		super();
 		this.id = computer.getId();
 		this.name = computer.getName();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter formatter;
+		if(LocaleContextHolder.getLocaleContext().getLocale().equals(new Locale("fr", ""))) {
+			formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		} else {
+			formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		}
 		if (computer.getIntroduced() == null) {
 			this.introduced = null;
 		} else {

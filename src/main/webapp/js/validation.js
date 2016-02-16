@@ -1,4 +1,4 @@
-function highlite(champ, error) {
+function highlight(champ, error) {
 	if (error) {
 		champ.style.backgroundColor = "#fba";
 	} else {
@@ -7,37 +7,41 @@ function highlite(champ, error) {
 }
 
 function checkName(champ) {
+	console.log(checkName)
 	if (champ.value.length < 1 || champ.value.legth > 255) {
-		highlite(champ, true);
+		highlight(champ, true);
 		return false;
 	} else {
-		highlite(champ, false);
+		highlight(champ, false);
 		return true;
 	}
 }
 
 function checkIntroduced(champ) {
-	var regex = new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/);
-	if (regex.exec(champ.value) || champ.value.length == 0) {
-		highlite(champ, false);
+	console.log(checkIntroduced)
+	var regex = new RegExp(regex_date);
+	console.log(regex)
+	if (champ.value.match(regex) || champ.value.length == 0) {
+		highlight(champ, false);
 		return true;
 	} else {
-		highlite(champ, true);
+		highlight(champ, true);
 		return false;
 	}
 }
 
 function checkDiscontinued(champ) {
-	var regex = new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/);
-	if (regex.exec(champ.value) || champ.value.length == 0) {
-		highlite(champ, false);
+	console.log(checkDiscontinued)
+	var regex = new RegExp(regex_date);
+	console.log(regex)
+	if (champ.value.match(regex) || champ.value.length == 0) {
+		highlight(champ, false);
 		return true;
 	} else {
-		highlite(champ, true);
+		highlight(champ, true);
 		return false;
 	}
 }
-
 
 function validation(f) {
 	var nameOk =checkName(f.computerName);
@@ -46,7 +50,7 @@ function validation(f) {
 	if (nameOk && introducedOk && discontinuedOk) {
 		return true;
 	} else {
-		alert("Some field isn't fill correctly")
+		alert(warning)
 		return false;
 	}
 }

@@ -5,10 +5,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import com.excilys.formation.java.computerdatabase.dto.model.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.exception.ValidationException;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
-import com.excilys.formation.java.computerdatabase.web.dto.ComputerDTO;
 
 /**
  * The Interface ComputerValidation.
@@ -67,8 +69,14 @@ public interface ComputerValidation {
 		if (strDate != null && !strDate.isEmpty()) {
 			try {
 				strDate += " 00:00:00";
-				DateTimeFormatter formatter = DateTimeFormatter
-						.ofPattern("dd/MM/uuuu HH:mm:ss", new Locale("fr"));
+				DateTimeFormatter formatter;
+				if(LocaleContextHolder.getLocaleContext().getLocale().equals(new Locale("fr", ""))) {
+					formatter = DateTimeFormatter
+							.ofPattern("dd/MM/uuuu HH:mm:ss", new Locale("fr"));
+				} else {
+					formatter = DateTimeFormatter
+							.ofPattern("MM/dd/uuuu HH:mm:ss", new Locale("en"));
+				}
 				return LocalDateTime.parse(strDate.trim(), formatter);
 			} catch (DateTimeParseException e) {
 				throw new ValidationException("Incorrect " + msg + " Date", e);

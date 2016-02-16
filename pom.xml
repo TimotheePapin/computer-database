@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>c-db</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>0.2.1-RELEASE</version>
+	<version>0.3.0-RELEASE</version>
 	<packaging>war</packaging>
 
 
@@ -18,6 +18,8 @@
 		<taglibs-version>1.1.2</taglibs-version>
 		<jcloverslf4j-version>1.7.0</jcloverslf4j-version>
 		<spring-version>4.2.4.RELEASE</spring-version>
+		<hibernatevalidator-version>5.2.3.Final</hibernatevalidator-version>
+		<validation-version>1.1.0.Final</validation-version>
 		<!-- Tests -->
 		<guava-version>19.0</guava-version>
 		<junit-version>4.12</junit-version>
@@ -120,6 +122,20 @@
 			<version>${spring-version}</version>
 		</dependency>
 
+		<!--  Validation Dependencies -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernatevalidator-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${validation-version}</version>
+		</dependency>
+
+
 		<!-- Test dependencies -->
 		<!-- Selenium Dependency -->
 		<dependency>
@@ -193,12 +209,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Selenium Plugin -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>selenium-maven-plugin</artifactId>
-				<version>${seleniumplugin-version}</version>
-			</plugin>
+
 		</plugins>
 
 	</build>

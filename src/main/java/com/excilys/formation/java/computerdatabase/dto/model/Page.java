@@ -1,4 +1,4 @@
-package com.excilys.formation.java.computerdatabase.web.dto;
+package com.excilys.formation.java.computerdatabase.dto.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

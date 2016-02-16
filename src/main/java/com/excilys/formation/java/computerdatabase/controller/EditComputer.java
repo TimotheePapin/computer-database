@@ -1,16 +1,19 @@
 package com.excilys.formation.java.computerdatabase.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.excilys.formation.java.computerdatabase.dto.model.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.dto.page.EditComputerPageCreator;
 import com.excilys.formation.java.computerdatabase.service.CompanyService;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
-import com.excilys.formation.java.computerdatabase.web.dto.ComputerDTO;
-import com.excilys.formation.java.computerdatabase.web.dto.EditComputerPageCreator;
 
 @Controller
 @RequestMapping("/editComputer")
@@ -32,10 +35,19 @@ public class EditComputer {
 		modelMap.addAttribute("Companies", companyService.getAll());
 		return "editComputer";
 	}
+	
+	@ModelAttribute("ComputerDTO")
+	public ComputerDTO getComputerDTO() {
+		return new ComputerDTO();
+	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(@ModelAttribute("computerDTO") ComputerDTO computerDTO,
-			ModelMap modelMap) {
+	public String doPost(@Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO,
+			BindingResult result, ModelMap modelMap) {
+		if(result.hasErrors()) {
+			System.out.println("TEST");
+			return "editComputer";
+		} 
 		return editComputerPageCreator.postRequest(computerDTO);
 	}
 }

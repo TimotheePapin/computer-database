@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,10 @@
 		<div class="container">
 			<a class="navbar-brand" href="dashboard"> Application - Computer
 				Database </a>
+				<div id="langue">
+					<a href="?language=en"><img class="flags" src="fonts/english.jpeg" alt="uk flag"></a>
+					<a href="?language=fr"><img class="flags" src="fonts/french.jpeg" alt="fr flag"></a>
+				</div>
 		</div>
 	</header>
 
@@ -24,22 +29,25 @@
 		<div class="container">
 			<h1 id="homeTitle">
 				<c:out value="${webPage.dbSize}" />
-				Computers found
+				<spring:message code="computer.found" />
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="" method="GET" class="form-inline">
-
-						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
-							class="btn btn-primary" />
+						<input type="search" id="searchbox" name="search" class="form-control"
+							placeholder="<spring:message code="search.name"/>"
+							<c:if test="${webPage.search ne \"\"}">
+							value="${webPage.search}"
+							</c:if>/> 
+							<input type="submit" id="searchsubmit"
+							value="<spring:message code="filter"/>" class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="addComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+					<a class="btn btn-success" id="addComputer" href="addComputer"><spring:message
+							code="add.computer" /></a> <a class="btn btn-default"
+						id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
+						<spring:message code="edit"/></a>
 				</div>
 			</div>
 		</div>
@@ -65,63 +73,66 @@
 						<th><c:if test="${webPage.by eq \"computer.name\"}">
 								<c:if test="${webPage.order eq \"ASC\"}">
 									<a id="orderComputerName"
-										href="dashboard?search=${webPage.search}&by=computer.name&order=DESC">Computer
-										name</a>
+										href="dashboard?search=${webPage.search}&by=computer.name&order=DESC">
+										<spring:message code="computer.name"/></a>
 								</c:if>
 								<c:if test="${webPage.order eq \"DESC\"}">
 									<a id="orderComputerName"
-										href="dashboard?search=${webPage.search}&by=computer.name&order=ASC">Computer
-										name</a>
+										href="dashboard?search=${webPage.search}&by=computer.name&order=ASC">
+										<spring:message code="computer.name"/></a>
 								</c:if>
 							</c:if> <c:if test="${webPage.by ne \"computer.name\"}">
 								<a id="orderComputerName"
-									href="dashboard?search=${webPage.search}&by=computer.name&order=ASC">Computer
-									name</a>
+									href="dashboard?search=${webPage.search}&by=computer.name&order=ASC">
+									<spring:message code="computer.name"/></a>
 							</c:if></th>
 						<th><c:if test="${webPage.by eq \"computer.introduced\"}">
 								<c:if test="${webPage.order eq \"ASC\"}">
 									<a id="orderComputerIntroduced"
-										href="dashboard?search=${webPage.search}&by=computer.introduced&order=DESC">Introduced
-										date</a>
+										href="dashboard?search=${webPage.search}&by=computer.introduced&order=DESC">
+										<spring:message code="introduced.date"/></a>
 								</c:if>
 								<c:if test="${webPage.order eq \"DESC\"}">
 									<a id="orderComputerIntroduced"
-										href="dashboard?search=${webPage.search}&by=computer.introduced&order=ASC">Introduced
-										date</a>
+										href="dashboard?search=${webPage.search}&by=computer.introduced&order=ASC">
+										<spring:message code="introduced.date"/></a>
 								</c:if>
 							</c:if> <c:if test="${webPage.by ne \"computer.introduced\"}">
 								<a id="orderComputerIntroduced"
-									href="dashboard?search=${webPage.search}&by=computer.introduced&order=ASC">Introduced
-									date</a>
+									href="dashboard?search=${webPage.search}&by=computer.introduced&order=ASC">
+									<spring:message code="introduced.date"/></a>
 							</c:if></th>
 						<th><c:if test="${webPage.by eq \"computer.discontinued\"}">
 								<c:if test="${webPage.order eq \"ASC\"}">
 									<a id="orderComputerDiscontinued"
-										href="dashboard?search=${webPage.search}&by=computer.discontinued&order=DESC">Discontinued
-										date</a>
+										href="dashboard?search=${webPage.search}&by=computer.discontinued&order=DESC">
+										<spring:message code="discontinued.date"/></a>
 								</c:if>
 								<c:if test="${webPage.order eq \"DESC\"}">
 									<a id="orderComputerDiscontinued"
-										href="dashboard?search=${webPage.search}&by=computer.discontinued&order=ASC">Discontinued
-										date</a>
+										href="dashboard?search=${webPage.search}&by=computer.discontinued&order=ASC">
+										<spring:message code="discontinued.date"/></a>
 								</c:if>
 							</c:if> <c:if test="${webPage.by ne \"computer.discontinued\"}">
 								<a id="orderComputerDiscontinued"
-									href="dashboard?search=${webPage.search}&by=computer.discontinued&order=ASC">Discontinued
-									date</a>
+									href="dashboard?search=${webPage.search}&by=computer.discontinued&order=ASC">
+									<spring:message code="discontinued.date"/></a>
 							</c:if></th>
 						<th><c:if test="${webPage.by eq \"company.name\"}">
 								<c:if test="${webPage.order eq \"ASC\"}">
 									<a id="orderCompanyName"
-										href="dashboard?search=${webPage.search}&by=company.name&order=DESC">Company</a>
+										href="dashboard?search=${webPage.search}&by=company.name&order=DESC">
+										<spring:message code="company"/></a>
 								</c:if>
 								<c:if test="${webPage.order eq \"DESC\"}">
 									<a id="orderCompanyName"
-										href="dashboard?search=${webPage.search}&by=company.name&order=ASC">Company</a>
+										href="dashboard?search=${webPage.search}&by=company.name&order=ASC">
+										<spring:message code="company"/></a>
 								</c:if>
 							</c:if> <c:if test="${webPage.by ne \"company.name\"}">
 								<a id="orderCompanyName"
-									href="dashboard?search=${webPage.search}&by=company.name&order=ASC">Company</a>
+									href="dashboard?search=${webPage.search}&by=company.name&order=ASC">
+									<spring:message code="company"/></a>
 							</c:if></th>
 					</tr>
 				</thead>
@@ -145,10 +156,12 @@
 			</table>
 		</div>
 	</section>
-
 	<footer class="navbar-fixed-bottom">
 		<mylib:pagination webPage="${webPage}" />
 	</footer>
+	<script type="text/javascript">
+		var delete_message = "<spring:message code='delete.message'/>";
+	</script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>

@@ -35,10 +35,6 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
-		<url-pattern>*.html</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
 		<url-pattern>*.js</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -51,19 +47,19 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
-		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.jpeg</url-pattern>
 	</servlet-mapping>
 	
 	<error-page>
         <error-code>403</error-code>
-        <location>/WEB-INF/views/403.html</location>
+        <location>/WEB-INF/views/403.jsp</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/views/404.html</location>
+        <location>/WEB-INF/views/404.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/WEB-INF/views/500.html</location>
+        <location>/WEB-INF/views/500.jsp</location>
     </error-page>
 </web-app>

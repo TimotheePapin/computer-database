@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.excilys.formation.java.computerdatabase.dto.model.Page;
+import com.excilys.formation.java.computerdatabase.dto.page.DashboardPageCreator;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
-import com.excilys.formation.java.computerdatabase.web.dto.DashboardPageCreator;
-import com.excilys.formation.java.computerdatabase.web.dto.Page;
 
 @Controller
 @RequestMapping("/dashboard")
