@@ -47,7 +47,7 @@
 					<a class="btn btn-success" id="addComputer" href="addComputer"><spring:message
 							code="add.computer" /></a> <a class="btn btn-default"
 						id="editComputer" href="#" onclick="$.fn.toggleEditMode();">
-						<spring:message code="edit"/></a>
+						<spring:message code="delete"/></a>
 				</div>
 			</div>
 		</div>

@@ -85,5 +85,5 @@ public interface ComputerDAO {
 	 * @param companyId the company id
 	 * @param connection the connection
 	 */
-	void deleteByCompanyId(int companyId);
+	List<Computer> getByCompanyId(int companyId);
 }

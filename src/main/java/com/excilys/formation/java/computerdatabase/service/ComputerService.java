@@ -21,7 +21,7 @@ public interface ComputerService {
 	 * Gets the page.
 	 *
 	 * @param prop the prop
-	 * @return the page
+	 * @return computers
 	 */
 	List<Computer> getPage(PageProperties prop);
 
@@ -72,10 +72,17 @@ public interface ComputerService {
 	Computer update(Computer computer);
 
 	/**
+	 * Get by company id.
+	 *
+	 * @param companyId the company id
+	 * @return computers
+	 */
+	List<Computer> getByCompanyId(int companyId);
+	
+	/**
 	 * Delete by company id.
 	 *
 	 * @param companyId the company id
-	 * @param connection the connection
 	 */
 	void deleteByCompanyId(int companyId);
 

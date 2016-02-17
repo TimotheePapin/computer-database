@@ -3,21 +3,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>c-db</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>0.3.0-RELEASE</version>
+	<version>0.3.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 
 	<properties>
-		<boneCp-version>0.8.0.RELEASE</boneCp-version>
-
 		<java.version>1.8</java.version>
 		<mySQL-version>5.1.6</mySQL-version>
 		<slf4j-version>1.7.13</slf4j-version>
+		<logback-version>1.1.5</logback-version>
 		<servlet-version>3.1.0</servlet-version>
 		<jstl-version>1.2</jstl-version>
 		<taglibs-version>1.1.2</taglibs-version>
 		<jcloverslf4j-version>1.7.0</jcloverslf4j-version>
 		<spring-version>4.2.4.RELEASE</spring-version>
+		<springjpa-version>1.9.2.RELEASE</springjpa-version>
+		<hibernate-version>4.3.11.Final</hibernate-version>
 		<hibernatevalidator-version>5.2.3.Final</hibernatevalidator-version>
 		<validation-version>1.1.0.Final</validation-version>
 		<!-- Tests -->
@@ -27,11 +28,20 @@
 		<checkstyle-version>5.0</checkstyle-version>
 		<seleniumjava-version>2.51.0</seleniumjava-version>
 		<seleniumJCD-version>1.0.2</seleniumJCD-version>
+		<javaxel-version>2.2.4</javaxel-version>
 		<!-- Plugins -->
 		<mavenCompiler-version>3.3</mavenCompiler-version>
 		<cobertura-version>2.7</cobertura-version>
 		<seleniumplugin-version>1.0.1</seleniumplugin-version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>version99</id>
+			<!-- highly available repository serving empty artifacts -->
+			<url>http://version99.qos.ch/</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<!-- Driver MySQL -->
@@ -51,9 +61,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j-version}</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback-version}</version>
 		</dependency>
 
 		<dependency>
@@ -84,17 +94,22 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Spring -->
+		<dependency>
+			<groupId>commons-logging</groupId><!-- Empty jar for create a bridge -->
+			<artifactId>commons-logging</artifactId>
+			<version>99-empty</version>
+		</dependency>
 
+		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
+			<artifactId>spring-core</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
+			<artifactId>spring-context</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
 
@@ -122,7 +137,28 @@
 			<version>${spring-version}</version>
 		</dependency>
 
-		<!--  Validation Dependencies -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${springjpa-version}</version>
+		</dependency>
+
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!--<dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-entitymanager</artifactId> 
+			<version>${hibernate-version}</version> </dependency> -->
+
+		<!-- Validation Dependencies -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -137,13 +173,19 @@
 
 
 		<!-- Test dependencies -->
-		<!-- Selenium Dependency -->
+		<!-- Selenium Dependencies -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${guava-version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>${javaxel-version}</version>
+		</dependency>
+		
 		<!-- Unit Testing -->
 		<dependency>
 			<groupId>junit</groupId>

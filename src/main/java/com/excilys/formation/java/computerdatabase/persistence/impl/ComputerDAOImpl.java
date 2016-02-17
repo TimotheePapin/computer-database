@@ -1,42 +1,36 @@
 package com.excilys.formation.java.computerdatabase.persistence.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.java.computerdatabase.dto.model.PageProperties;
-import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.persistence.ComputerDAO;
-import com.mysql.jdbc.Statement;
+import com.excilys.formation.java.computerdatabase.persistence.enumeration.Order;
 
 /**
  * The Class ComputerDAOImpl.
  */
 @Repository
+@SuppressWarnings("unchecked")
 public class ComputerDAOImpl implements ComputerDAO {
 
 	/**
 	 * The jdbc template.
 	 */
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
-
-	/**
-	 * The map computer.
-	 */
-	@Autowired
-	private MapComputer mapComputer;
+	private SessionFactory sf;
 
 	/**
 	 * The Constant LOGGER.
@@ -47,170 +41,108 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public List<Computer> getAll() {
 		LOGGER.info("Starting Computer getAll");
-		return jdbcTemplate.query("SELECT * FROM computer", mapComputer);
+		Session session = sf.getCurrentSession();
+		return session.createCriteria(Computer.class,"computer").createCriteria("company", "company",JoinType.LEFT_OUTER_JOIN).list();
 	}
 
 	@Override
 	public List<Computer> getPage(PageProperties prop) {
 		LOGGER.info("Starting Computer getPage {}", prop);
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement(
-						"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ? ORDER BY "
-								+ prop.getBy() + " " + prop.getOrder()
-								+ " LIMIT ? OFFSET ?");
-				statement.setString(1, "%" + prop.getSearch() + "%");
-				statement.setString(2, "%" + prop.getSearch() + "%");
-				statement.setInt(3, prop.getSize());
-				statement.setInt(4, prop.getMin());
-				return statement;
-			}
-		};
-		return jdbcTemplate.query(preparedStatement, mapComputer);
+		Session session = sf.getCurrentSession();
+		org.hibernate.criterion.Order order = null;
+		if(prop.getOrder() == Order.ASC) {
+			order = org.hibernate.criterion.Order.asc(prop.getBy().toString());
+		} else {
+			order = org.hibernate.criterion.Order.desc(prop.getBy().toString());
+		}
+		StringBuilder stringBuilder = new StringBuilder("%").append(prop.getSearch()).append("%");
+		Criterion computerCrit = Restrictions.like("computer.name", stringBuilder.toString());
+		Criterion companyCrit = Restrictions.like("company.name", stringBuilder.toString());
+		LogicalExpression or = Restrictions.or(computerCrit, companyCrit);
+		System.out.println(session.createCriteria(Computer.class,"computer").createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
+				.addOrder(order).add(or).setFirstResult(prop.getMin()).setMaxResults(prop.getSize()).list());
+		return session.createCriteria(Computer.class,"computer").createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
+				.addOrder(order).add(or).setFirstResult(prop.getMin()).setMaxResults(prop.getSize()).list();
 	}
 
 	@Override
 	public Computer getById(int id) {
 		LOGGER.info("Starting Computer getById {}", id);
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement(
-						"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.id= ?");
-				statement.setInt(1, id);
-				return statement;
-			}
-		};
-		return jdbcTemplate.query(preparedStatement, mapComputer).get(0);
+		Session session = sf.getCurrentSession();
+		return (Computer) session.get(Computer.class, id);
+		
 	}
 
 	@Override
 	public Computer getByName(String name) {
 		LOGGER.info("Starting Computer getByName");
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement(
-						"SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name= ?");
-				statement.setString(1, name);
-				return statement;
-			}
-		};
-		return jdbcTemplate.query(preparedStatement, mapComputer).get(0);
+		Session session = sf.getCurrentSession();
+		Criterion computerName = Restrictions.like("computer.name", name);
+		return (Computer) session.createCriteria(Computer.class,"computer")
+				.add(computerName).list().get(0);
 	}
 
 	@Override
 	public void deleteByName(String name) {
 		LOGGER.info("Starting Computer deleteByName");
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection
-						.prepareStatement("DELETE FROM computer where name= ?");
-				statement.setString(1, name);
-				return statement;
-			}
-		};
-		jdbcTemplate.update(preparedStatement);
+		Session session = sf.getCurrentSession();
+		Criterion computerName = Restrictions.like("computer.name", name);
+		List<Computer> computers = (List<Computer>) session.createCriteria(Computer.class,"computer")
+				.add(computerName).list();
+		if(!computers.isEmpty()) {
+			session.delete(computers.get(0));
+		}
 	}
 
 	@Override
 	public void deleteById(int id) {
 		LOGGER.info("Starting Computer deleteById");
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM computer where id= ?");
-				statement.setInt(1, id);
-			return statement;
-			}
-		};
-		jdbcTemplate.update(preparedStatement);
+		Session session = sf.getCurrentSession();
+		Computer computer = (Computer) session.get(Computer.class, id);
+		if(computer != null) {
+			session.delete(computer);
+		}
 	}
 
 	@Override
 	public Computer update(Computer computer) {
 		LOGGER.info("Starting Computer update {}", computer);
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement(
-						"UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?");
-			statement.setString(1, computer.getName());
-			statement.setTimestamp(2,
-					MapComputer.toTimestamp(computer.getIntroduced()));
-			statement.setTimestamp(3,
-					MapComputer.toTimestamp(computer.getDiscontinued()));
-			if (computer.getCompany().getId() == 0) {
-				statement.setNull(4, java.sql.Types.BIGINT);
-			} else {
-				statement.setInt(4, computer.getCompany().getId());
-			}
-			statement.setInt(5, computer.getId());
-			return statement;
-			}
-		};
-		jdbcTemplate.update(preparedStatement);
-		return computer;
+		Session session = sf.getCurrentSession();
+		if(computer.getCompany() != null && computer.getCompany().getId() == 0) {
+			computer.setCompany(null);
+		}
+		return (Computer) session.merge(computer);
 	}
 
 	@Override
 	public Computer add(Computer computer) {
 		LOGGER.info("Starting Computer addComputer");
-		KeyHolder holder = new GeneratedKeyHolder();
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement(
-						"INSERT INTO computer (name,introduced,discontinued,company_id) VALUES (?, ?, ?, ?)",
-						Statement.RETURN_GENERATED_KEYS);
-				statement.setString(1, computer.getName());
-				statement.setTimestamp(2,
-						MapComputer.toTimestamp(computer.getIntroduced()));
-				statement.setTimestamp(3,
-						MapComputer.toTimestamp(computer.getDiscontinued()));
-				if (computer.getCompany().getId() == 0) {
-					statement.setNull(4, java.sql.Types.BIGINT);
-				} else {
-					statement.setInt(4, computer.getCompany().getId());
-				}
-				return statement;
-			}
-		};
-		jdbcTemplate.update(preparedStatement, holder);
-		computer.setId(holder.getKey().intValue());
+		Session session = sf.getCurrentSession();
+		if(computer.getCompany() != null && computer.getCompany().getId() == 0) {
+			computer.setCompany(null);
+		}
+		computer.setId((int)session.save(computer));
 		return computer;
 	}
 
 	@Override
 	public int getSize(String search) {
 		LOGGER.info("Starting Computer getSize");
-		StringBuilder stringBuilder = new StringBuilder()
-						.append("SELECT COUNT(*) AS count FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE company.name LIKE ? OR computer.name LIKE ?");
-		StringBuilder likeStringBuilder = new StringBuilder().append("%").append(search).append("%");
-		return jdbcTemplate.queryForObject(stringBuilder.toString(), Integer.class, new Object[] {likeStringBuilder.toString(), likeStringBuilder.toString()});
+		Session session = sf.getCurrentSession();
+		StringBuilder stringBuilder = new StringBuilder("%").append(search).append("%");
+		Criterion computerCrit = Restrictions.like("computer.name", stringBuilder.toString());
+		Criterion companyCrit = Restrictions.like("company.name", stringBuilder.toString());
+		LogicalExpression or = Restrictions.or(computerCrit, companyCrit);
+		return ((Long)session.createCriteria(Computer.class, "computer")
+				.createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
+				.add(or).setProjection(Projections.rowCount()).uniqueResult()).intValue();
 	}
 
 	@Override
-	public void deleteByCompanyId(int companyId) {
+	public List<Computer> getByCompanyId(int companyId) {
 		LOGGER.info("Starting Computer deleteByCompanyId");
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM computer where id= ?");
-				statement.setInt(1, companyId);
-			return statement;
-			}
-		};
-		jdbcTemplate.update(preparedStatement);
+		Session session = sf.getCurrentSession();
+		return session.createCriteria(Computer.class)
+				.add(Restrictions.like("company_id", companyId)).list();
 	}
 }

@@ -62,6 +62,7 @@ public class ComputerDTO implements Serializable {
 	 * @param computer the computer
 	 */
 	public ComputerDTO(Computer computer) {
+		System.out.println(computer);
 		this.id = computer.getId();
 		this.name = computer.getName();
 		DateTimeFormatter formatter;
@@ -81,7 +82,9 @@ public class ComputerDTO implements Serializable {
 			this.discontinued = computer.getDiscontinued().toString();
 			discontinued = computer.getDiscontinued().format(formatter);
 		}
-		this.company = computer.getCompany().getName();
+		if (computer.getCompany() != null) {
+			this.company = computer.getCompany().getName();
+		}
 	}
 
 	/**

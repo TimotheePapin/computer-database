@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.formation.java.computerdatabase.dto.model.PageProperties;
 import com.excilys.formation.java.computerdatabase.model.Computer;
@@ -28,6 +29,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @return the all
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public List<Computer> getAll() {
 		return computerDAO.getAll();
 	}
@@ -39,6 +41,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @return the page
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public List<Computer> getPage(PageProperties prop) {
 		return computerDAO.getPage(prop);
 	}
@@ -50,6 +53,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @return the by name
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Computer getByName(String name) {
 		return computerDAO.getByName(name);
 	}
@@ -61,6 +65,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @return the by id
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Computer getById(int id) {
 		return computerDAO.getById(id);
 	}
@@ -71,6 +76,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @param name the name
 	 */
 	@Override
+	@Transactional
 	public void deleteByName(String name) {
 		computerDAO.deleteByName(name);
 	}
@@ -81,6 +87,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @param id the id
 	 */
 	@Override
+	@Transactional
 	public void deleteById(int id) {
 		computerDAO.deleteById(id);
 	}
@@ -92,6 +99,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @return the computer
 	 */
 	@Override
+	@Transactional
 	public Computer create(Computer computer) {
 		return computerDAO.add(computer);
 	}
@@ -103,6 +111,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @return the computer
 	 */
 	@Override
+	@Transactional
 	public Computer update(Computer computer) {
 		return computerDAO.update(computer);
 	}
@@ -114,8 +123,17 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @param connection the connection
 	 */
 	@Override
+	@Transactional
 	public void deleteByCompanyId(int companyId) {
-		computerDAO.deleteByCompanyId(companyId);
+		for (Computer computer : getByCompanyId(companyId)) {
+			computerDAO.deleteById(computer.getId());
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Computer> getByCompanyId(int companyId) {
+		return computerDAO.getByCompanyId(companyId);
 	}
 
 	/**
@@ -125,6 +143,7 @@ public class ComputerServiceImpl implements ComputerService {
 	 * @return the size
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public int getSize(String search) {
 		return computerDAO.getSize(search);
 	}

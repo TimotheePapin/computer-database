@@ -1,21 +1,14 @@
 package com.excilys.formation.java.computerdatabase.persistence.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.excilys.formation.java.computerdatabase.mapper.MapCompany;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
 
@@ -23,13 +16,11 @@ import com.excilys.formation.java.computerdatabase.persistence.CompanyDAO;
  * The Class CompanyDAOImpl.
  */
 @Repository
+@SuppressWarnings("unchecked")
 public class CompanyDAOImpl implements CompanyDAO {
 
 	@Autowired
-	private JdbcTemplate jdbcTempalte;
-
-	@Autowired
-	private MapCompany mapCompany;
+	private SessionFactory sf;
 
 	/**
 	 * The Constant LOGGER.
@@ -40,56 +31,32 @@ public class CompanyDAOImpl implements CompanyDAO {
 	@Override
 	public List<Company> getAll() {
 		LOGGER.info("Starting Company getAll");
-		return jdbcTempalte.query("SELECT * FROM company", mapCompany);
+		Session session = sf.getCurrentSession();
+		return session.createCriteria(Company.class).list();
 	}
 
 	@Override
 	public Company getByName(String name) {
 		LOGGER.info("Starting Company getByName");
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM company WHERE name=?");
-				statement.setString(1, name);
-				return statement;
-			}
-		};
-		return jdbcTempalte.query(preparedStatement, mapCompany).get(0);
+		Session session = sf.getCurrentSession();
+		return (Company) session.get(Company.class, name);	
 	}
 
 	@Override
 	public void deleteById(int id) {
 		LOGGER.info("Starting Company deleteById");
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM company where id= ?");
-			statement.setInt(1, id);
-			return statement;
-			}
-		};
-		jdbcTempalte.update(preparedStatement);
+		Session session = sf.getCurrentSession();
+		Company company = (Company) session.get(Company.class, id);
+		if(company != null) {
+			session.delete(company);
+		}
 	}
 
 	@Override
 	public Company add(Company company) {
 		LOGGER.info("Starting Company addCompany");
-		KeyHolder holder = new GeneratedKeyHolder();
-		PreparedStatementCreator preparedStatement = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(
-					Connection connection) throws SQLException {
-				PreparedStatement statement = connection.prepareStatement(
-						"INSERT INTO company (name) VALUES (?)",
-						Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, company.getName());
-			return statement;	
-			}
-		};
-		jdbcTempalte.update(preparedStatement, holder);
-		company.setId(holder.getKey().intValue());
+		Session session = sf.getCurrentSession();
+		company.setId((int)session.save(company));
 		return company;
 	}
 }

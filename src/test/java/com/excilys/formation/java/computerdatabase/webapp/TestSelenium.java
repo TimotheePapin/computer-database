@@ -95,7 +95,7 @@ public class TestSelenium {
 	}
 
 	@Test
-	public void testAddComputer() {
+	public void testAddComputer() throws InterruptedException {
 		LOGGER.info("testAddComputer");
 		driver.findElement(By.cssSelector("img.flags")).click();
 		driver.findElement(By.id("addComputer")).click();

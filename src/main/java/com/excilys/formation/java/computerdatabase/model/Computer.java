@@ -3,9 +3,18 @@ package com.excilys.formation.java.computerdatabase.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Type;
+
 /**
  * The Class Computer.
  */
+@Entity(name="computer")
 public class Computer implements Serializable {
 
 	/**
@@ -13,29 +22,15 @@ public class Computer implements Serializable {
 	 */
 	private static final long serialVersionUID = 3479179590110537100L;
 
-	/**
-	 * The id.
-	 */
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-
-	/**
-	 * The name.
-	 */
 	private String name;
-
-	/**
-	 * The introduced.
-	 */
+	@Type(type="com.excilys.formation.java.computerdatabase.mapper.LocalDateTimeUserType")
 	private LocalDateTime introduced;
-
-	/**
-	 * The discontinued.
-	 */
+	@Type(type="com.excilys.formation.java.computerdatabase.mapper.LocalDateTimeUserType")
 	private LocalDateTime discontinued;
 
-	/**
-	 * The company.
-	 */
+	@OneToOne
 	private Company company;
 
 	/**

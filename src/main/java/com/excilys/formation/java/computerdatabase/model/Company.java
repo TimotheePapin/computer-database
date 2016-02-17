@@ -2,9 +2,15 @@ package com.excilys.formation.java.computerdatabase.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * The Class Company.
  */
+@Entity(name="company")
 public class Company implements Serializable {
 
 	/**
@@ -15,6 +21,7 @@ public class Company implements Serializable {
 	/**
 	 * The id.
 	 */
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	/**
