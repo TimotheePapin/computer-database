@@ -14,14 +14,12 @@
 		base-package="com.excilys.formation.java.computerdatabase.database" />
 	<context:component-scan
 		base-package="com.excilys.formation.java.computerdatabase.persistence.impl" />
+		<context:component-scan
+		base-package="com.excilys.formation.java.computerdatabase.model" />
 	<context:component-scan
 		base-package="com.excilys.formation.java.computerdatabase.mapper" />
 	<context:component-scan
 		base-package="com.excilys.formation.java.computerdatabase.service.impl" />
-	<context:component-scan
-		base-package="com.excilys.formation.java.computerdatabase.web" />
-	<context:component-scan
-		base-package="com.excilys.formation.java.computerdatabase.ui" />
 
 	<context:property-placeholder location="classpath:/sqltest.properties" />
 
@@ -33,14 +31,20 @@
 		<property name="password" value="${mySQLpsw}" />
 	</bean>
 
-	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" >
+	  <property name="dataSource" ref="dataSource" />
+	  <property name="packagesToScan" value="com.excilys.formation.java.computerdatabase.model" />
+		<property name="hibernateProperties">
+	    <props>
+	      <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+	      <prop key="hibernate.show_sql">false</prop>
+	    </props>
+	  </property> 
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
-	<tx:annotation-driven transaction-manager="txManager" />
-	
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource"></property>
-	</bean>
 </beans>

@@ -1,99 +1,53 @@
 package com.excilys.formation.java.computerdatabase.mapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.stereotype.Component;
+import org.springframework.context.i18n.LocaleContextHolder;
 
+import com.excilys.formation.java.computerdatabase.dto.model.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.exception.MappingException;
 import com.excilys.formation.java.computerdatabase.model.Company;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 
-/**
- * The Class MapComputer.
- */
-@Component
-public class MapComputer implements ResultSetExtractor<List <Computer> >{
-
-	/**
-	 * Map computers.
-	 *
-	 * @param result the result
-	 * @return the list
-	 */
+public interface MapComputer {
 	
-	private List<Computer> mapComputers(ResultSet result) {
-		boolean firstRow = true;
-		List<Computer> computers = new ArrayList<Computer>();
-		try {
-			while (!result.isLast() && result.next()) {
-				firstRow = false;
-				computers.add(mapComputer(result));
-			}
-			if(firstRow == true) {
-				computers.add(null);
-			}
-		} catch (SQLException e) {
-			throw new MappingException("Failed to Map Computers", e);
-		}
-		return computers;
-	}
-
-	/**
-	 * Map computer.
-	 *
-	 * @param result the result
-	 * @return the computer
-	 */
-	private Computer mapComputer(ResultSet result) {
+	public static Computer dtoToComputer(ComputerDTO computerDTO) {
 		Computer computer = new Computer();
-		Company company = new Company();
 		try {
-			computer.setId(result.getInt("id"));
-			computer.setName((result.getString("computer.name")));
-			if (result.getTimestamp("introduced") == null) {
-				computer.setIntroduced(null);
-			} else {
-				computer.setIntroduced(
-						(result.getTimestamp("introduced").toLocalDateTime()));
-			}
-			if (result.getTimestamp("discontinued") == null) {
-				computer.setDiscontinued(null);
-			} else {
-				computer.setDiscontinued((result.getTimestamp("discontinued")
-						.toLocalDateTime()));
-			}
-			company.setId(result.getInt("company.id"));
-			company.setName(result.getString("company.name"));
-			computer.setCompany(company);
-		} catch (SQLException e) {
-			throw new MappingException("Failed to Map a Computer", e);
+			computer.setId(computerDTO.getId());
+			computer.setName(computerDTO.getName());
+			computer.setIntroduced(toDateTime(computerDTO.getIntroduced(), "introduced"));
+			computer.setDiscontinued(toDateTime(computerDTO.getDiscontinued(), "discontinued"));
+			computer.setCompany(new Company(toInteger(computerDTO.getCompany(), "Company"),""));
+			return computer;
+		} catch (NumberFormatException | DateTimeParseException e) {
+			throw new MappingException("Failed to convert the DTO into a Computer", e);
 		}
-		return computer;
+	}
+	
+	public static int toInteger(String strId, String msg) throws NumberFormatException {
+		if (strId != null) {
+			return Integer.parseInt(strId);
+		}
+		return 0;
 	}
 
-	/**
-	 * To timestamp.
-	 *
-	 * @param date the date
-	 * @return the timestamp
-	 */
-	public static Timestamp toTimestamp(LocalDateTime date) {
-		if (date != null) {
-			return Timestamp.valueOf(date);
+	public static LocalDateTime toDateTime(String strDate, String msg) throws DateTimeParseException {
+		if (strDate != null && !strDate.isEmpty()) {
+			strDate += " 00:00:00";
+			DateTimeFormatter formatter;
+			if(LocaleContextHolder.getLocaleContext().getLocale().equals(new Locale("fr", ""))) {
+				formatter = DateTimeFormatter
+						.ofPattern("dd/MM/uuuu HH:mm:ss", new Locale("fr"));
+			} else {
+				formatter = DateTimeFormatter
+						.ofPattern("MM/dd/uuuu HH:mm:ss", new Locale("en"));
+			}
+			return LocalDateTime.parse(strDate.trim(), formatter);
 		}
 		return null;
-	}
-
-	@Override
-	public List<Computer> extractData(ResultSet result)
-			throws SQLException, DataAccessException {
-		return mapComputers(result);
 	}
 }

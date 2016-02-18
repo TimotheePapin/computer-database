@@ -29,7 +29,7 @@ public class ComputerDTO implements Serializable {
 	/**
 	 * The name.
 	 */
-	@Size(min=2, max=255) //= "{add.error.name}"
+	@Size(min=2, max=255, message="{add.error.name}")
 	private String name;
 
 	/**
@@ -62,7 +62,6 @@ public class ComputerDTO implements Serializable {
 	 * @param computer the computer
 	 */
 	public ComputerDTO(Computer computer) {
-		System.out.println(computer);
 		this.id = computer.getId();
 		this.name = computer.getName();
 		DateTimeFormatter formatter;

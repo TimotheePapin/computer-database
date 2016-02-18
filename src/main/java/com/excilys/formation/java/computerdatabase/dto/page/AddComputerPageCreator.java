@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.excilys.formation.java.computerdatabase.dto.model.ComputerDTO;
-import com.excilys.formation.java.computerdatabase.exception.ValidationException;
+import com.excilys.formation.java.computerdatabase.exception.MappingException;
+import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.service.ComputerService;
-import com.excilys.formation.java.computerdatabase.utils.ComputerValidation;
 
 @Service
 public class AddComputerPageCreator {
@@ -24,11 +24,11 @@ public class AddComputerPageCreator {
 		Computer computer = new Computer();
 		
 		try {
-			computer = ComputerValidation.validation(computerDTO);
+			computer = MapComputer.dtoToComputer(computerDTO);
 			computerService.create(computer);
 			return "redirect:/dashboard?search="
 					+ (computer.getName().replace(" ", "+"));
-		} catch (ValidationException e) {
+		} catch (MappingException e) {
 			LOGGER.error(
 					"\n" + e.getMessage() + "\nFailed to Add the Computer;");
 			return "addComputer";

@@ -59,8 +59,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 		Criterion computerCrit = Restrictions.like("computer.name", stringBuilder.toString());
 		Criterion companyCrit = Restrictions.like("company.name", stringBuilder.toString());
 		LogicalExpression or = Restrictions.or(computerCrit, companyCrit);
-		System.out.println(session.createCriteria(Computer.class,"computer").createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
-				.addOrder(order).add(or).setFirstResult(prop.getMin()).setMaxResults(prop.getSize()).list());
 		return session.createCriteria(Computer.class,"computer").createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
 				.addOrder(order).add(or).setFirstResult(prop.getMin()).setMaxResults(prop.getSize()).list();
 	}

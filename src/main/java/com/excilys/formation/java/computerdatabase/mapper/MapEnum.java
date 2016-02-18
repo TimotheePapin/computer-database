@@ -1,6 +1,6 @@
 package com.excilys.formation.java.computerdatabase.mapper;
 
-import com.excilys.formation.java.computerdatabase.exception.ValidationException;
+import com.excilys.formation.java.computerdatabase.exception.MappingException;
 import com.excilys.formation.java.computerdatabase.persistence.enumeration.By;
 import com.excilys.formation.java.computerdatabase.persistence.enumeration.Order;
 
@@ -22,7 +22,7 @@ public class MapEnum {
 		if (order.equals("DESC")) {
 			return Order.DESC;
 		}
-		throw new ValidationException("Incorrect Order");
+		throw new MappingException("Incorrect Order");
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class MapEnum {
 		if (by.equals("computer.id")) {
 			return By.COMPUTERID;
 		}
-		throw new ValidationException("Incorrect By");
+		throw new MappingException("Incorrect By");
 	}
 
 }
