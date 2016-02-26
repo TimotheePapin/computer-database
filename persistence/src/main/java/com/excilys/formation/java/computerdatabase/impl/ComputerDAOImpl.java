@@ -26,9 +26,6 @@ import com.excilys.formation.java.computerdatabase.model.Computer;
 @SuppressWarnings("unchecked")
 public class ComputerDAOImpl implements ComputerDAO {
 
-	/**
-	 * The jdbc template.
-	 */
 	@Autowired
 	private SessionFactory sf;
 

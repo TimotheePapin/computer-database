@@ -10,9 +10,11 @@
   		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
 	<import resource="classpath:/service-context.xml" />
-
+	
 	<context:component-scan
 		base-package="com.excilys.formation.java.computerdatabase.page" />
+	<context:component-scan
+		base-package="com.excilys.formation.java.computerdatabase.security" />
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

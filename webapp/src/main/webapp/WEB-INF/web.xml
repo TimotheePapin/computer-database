@@ -3,32 +3,69 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 	<display-name>Computer Database</display-name>
-	
+
 	<!-- Spring Contexts -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/webapp-context.xml  /WEB-INF/mvc-dispatcher-context.xml</param-value>
+		<param-value>classpath:/webapp-context.xml
+			/WEB-INF/mvc-dispatcher-context.xml classpath:/security-context.xml
+		</param-value>
 	</context-param>
-	
+
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
 	</listener>
-	
-    <servlet>
-        <servlet-name>mvc-dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value></param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>mvc-dispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>	
-	
+
+	<servlet>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value></param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- UTF-8 Encoding -->
+	<filter>
+		<filter-name>encoding-filter</filter-name>
+		<filter-class>
+			org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>encoding-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Spring security -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.css</url-pattern>
@@ -49,17 +86,17 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.jpeg</url-pattern>
 	</servlet-mapping>
-	
+
 	<error-page>
-        <error-code>403</error-code>
-        <location>/WEB-INF/views/403.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/views/404.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/views/500.jsp</location>
-    </error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/views/403.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/500.jsp</location>
+	</error-page>
 </web-app>
