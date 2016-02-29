@@ -51,7 +51,7 @@ public class UserDAOImpl implements UserDAO {
 		LOGGER.info("Starting UserDetail deleteByName {}", username);
 		Session session = sf.getCurrentSession();
 		Criterion userDetailName = Restrictions.like("username", username);
-		List<UserDetail> UserDetails = (List<UserDetail>) session.createCriteria(UserDetail.class,"user")
+		List<UserDetail> UserDetails = (List<UserDetail>) session.createCriteria(UserDetail.class,"users")
 				.add(userDetailName).list();
 		if(!UserDetails.isEmpty()) {
 			session.delete(UserDetails.get(0));

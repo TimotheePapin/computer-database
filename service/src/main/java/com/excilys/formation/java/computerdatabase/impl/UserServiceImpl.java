@@ -4,7 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,12 +22,16 @@ import com.excilys.formation.java.computerdatabase.UserService;
 import com.excilys.formation.java.computerdatabase.model.Authority;
 import com.excilys.formation.java.computerdatabase.model.UserDetail;
 
+@EnableWebSecurity
 @Service("userDetailsService")
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
+	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(UserServiceImpl.class);
 
 	@Autowired
-	UserDAO userDAO;
+	private UserDAO userDAO;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -33,20 +40,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	@Transactional
 	public UserDetail add(UserDetail user) {
 		return userDAO.add(user);
 	}
 
 	@Override
-	@Transactional
 	public void deleteByUsername(String username) {
 		userDAO.deleteByUsername(username);
-
 	}
 
 	@Override
-	@Transactional
 	public UserDetail update(UserDetail user) {
 		return userDAO.update(user);
 	}
@@ -60,12 +63,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
+		LOGGER.info("Starting loadUserByUsername");
 		UserDetail userDetail = userDAO.getByUsername(username);
-		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		for(Authority role : userDetail.getUserRole()) {
-			grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+		if(userDetail != null) {
+			Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+			for (Authority role : userDetail.getUserRole()) {
+				grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+			}
+			LOGGER.info(grantedAuthorities.toString());
+			return new User(userDetail.getUsername(), userDetail.getPassword(),
+					grantedAuthorities);
 		}
-		return new User(userDetail.getUsername(),userDetail.getPassword(),grantedAuthorities );
+		throw new UsernameNotFoundException("User not found");
 	}
 
 }

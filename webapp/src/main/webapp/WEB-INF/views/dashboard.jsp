@@ -13,18 +13,8 @@
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
-<body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer
-				Database </a>
-				<div id="langue">
-					<a href="?language=en"><img class="flags" src="fonts/english.jpeg" alt="uk flag"></a>
-					<a href="?language=fr"><img class="flags" src="fonts/french.jpeg" alt="fr flag"></a>
-				</div>
-		</div>
-	</header>
-
+<body>	
+	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">

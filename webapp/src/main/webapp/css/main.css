@@ -6,6 +6,13 @@
 	margin-top:13px;
 }
 
+.logout {
+	float: right;
+	font-size: 15px;
+	margin-top: 14px;
+	margin-left: 20px:
+}
+
 body {
     background: #f2f2f2;
     padding-top: 70px;

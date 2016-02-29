@@ -10,11 +10,7 @@
     <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
-    <header class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
-        </div>
-    </header>
+    <jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
 
     <section id="main">
         <div class="container">
