@@ -70,9 +70,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			for (Authority role : userDetail.getUserRole()) {
 				grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
 			}
-			LOGGER.info(grantedAuthorities.toString());
-			return new User(userDetail.getUsername(), userDetail.getPassword(),
+			User user = new User(userDetail.getUsername(), userDetail.getPassword(),
 					grantedAuthorities);
+			LOGGER.info(user.toString());
+			return user;
 		}
 		throw new UsernameNotFoundException("User not found");
 	}

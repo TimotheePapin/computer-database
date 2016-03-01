@@ -69,6 +69,6 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserDetail> getAll() {
 		LOGGER.info("Starting UserDetail getAll");
 		Session session = sf.getCurrentSession();
-		return session.createCriteria(UserDetail.class).list();
+		return (List<UserDetail>) session.createCriteria(UserDetail.class).list();
 	}
 }

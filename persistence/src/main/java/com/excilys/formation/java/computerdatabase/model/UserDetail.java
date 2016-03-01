@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,7 +18,7 @@ public class UserDetail {
 	private String username;
 	@Column(name = "password", nullable = false, length = 255)
 	private String password;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(mappedBy = "user")
 	private Set<Authority> userRole = new HashSet<>(0);
 
 	public String getUsername() {

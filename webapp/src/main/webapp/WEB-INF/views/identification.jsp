@@ -4,15 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
-<head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
-</head>
+<jsp:include page="/WEB-INF/views/head.jsp"></jsp:include>
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
 	<c:url value="/j_spring_security_check" var="loginUrl" />

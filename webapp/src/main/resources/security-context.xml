@@ -13,9 +13,9 @@
 		<intercept-url pattern="/fonts/**" access="permitAll" />
 		<intercept-url pattern="/js/**" access="permitAll" />
 		<intercept-url pattern="/identification" access="permitAll" />
-
+		<intercept-url pattern="/logout" access="permitAll" />
+		<intercept-url pattern="/error/**" access="permitAll" />
 		<!-- USER -->
-		<intercept-url pattern="/" access="isAuthenticated()" />
 		<intercept-url pattern="/dashboard"
 			access="hasAnyRole('ADMIN', 'USER', 'SUPER_ADMIN')" />
 		<!-- ADMIN -->
@@ -24,11 +24,9 @@
 		<intercept-url pattern="/editComputer"
 			access="hasAnyRole('ADMIN', 'SUPER_ADMIN')" />
 
-		<intercept-url pattern="/**" access="isAuthenticated()" />
-
 		<form-login login-page="/identification"
 			login-processing-url="/j_spring_security_check" username-parameter="username"
-			password-parameter="password" authentication-failure-url="/identification?error=true" />
+			password-parameter="password" authentication-failure-url="/identification?error=true" default-target-url="/dashboard" />
 	</http>
 
 	<authentication-manager>

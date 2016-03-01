@@ -45,7 +45,6 @@ public class EditComputer {
 	public String doPost(@Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO,
 			BindingResult result, ModelMap modelMap) {
 		if(result.hasErrors()) {
-			System.out.println("TEST");
 			return "editComputer";
 		} 
 		return editComputerPageCreator.postRequest(computerDTO);

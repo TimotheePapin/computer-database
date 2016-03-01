@@ -4,20 +4,13 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
-<head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
-</head>
+<jsp:include page="/WEB-INF/views/head.jsp"></jsp:include>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="dashboard"> Application - Computer
 				Database </a>
-			<a class="logout" href="/logout?logout=true"><spring:message code="logout" /></a>
+			<a class="logout" href="/menu/logout?logout=true"><spring:message code="logout" /></a>
 			<div id="langue">
 				<a href="?language=en&id=${Computer.id}"><img class="flags"
 					src="fonts/english.jpeg" alt="uk flag"></a> <a

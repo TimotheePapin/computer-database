@@ -12,7 +12,7 @@
   constraint pk_authority primary key (id));
 
   alter table authority add constraint fk_authority_users foreign key(username) references users(username) on delete CASCADE on update restrict;
-  create index ix_role_username on authority (username,role);
+  create index ix_username on authority (username,role);
 
   INSERT INTO users(username,password) VALUES ('root','$2a$04$FWHb83NzSsXlGowiIogv9.R46Ws.lIUCq9XhZNYXfFNICZ4x7HfKG');
   INSERT INTO users(username,password) VALUES ('admin','$2a$04$wnAPJZJL1xDxJji24UnQcOuaJTHKEMPNbSY2C8I4oIbpFQ6qMRACq');
