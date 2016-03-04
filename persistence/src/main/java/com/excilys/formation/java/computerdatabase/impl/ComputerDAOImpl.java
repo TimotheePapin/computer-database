@@ -111,7 +111,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	@Override
 	public Computer add(Computer computer) {
-		LOGGER.info("Starting Computer addComputer");
+		LOGGER.info("Starting Computer addComputer {}", computer);
 		Session session = sf.getCurrentSession();
 		if(computer.getCompany() != null && computer.getCompany().getId() == 0) {
 			computer.setCompany(null);
@@ -135,9 +135,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	@Override
 	public List<Computer> getByCompanyId(int companyId) {
-		LOGGER.info("Starting Computer deleteByCompanyId");
+		LOGGER.info("Starting Computer getByCompanyId");
 		Session session = sf.getCurrentSession();
 		return session.createCriteria(Computer.class)
-				.add(Restrictions.like("company_id", companyId)).list();
+				.add(Restrictions.like("company.id", companyId)).list();
 	}
 }

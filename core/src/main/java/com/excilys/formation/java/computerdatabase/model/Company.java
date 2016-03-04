@@ -6,11 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * The Class Company.
  */
 @Entity(name="company")
+@XmlRootElement
 public class Company implements Serializable {
 
 	/**

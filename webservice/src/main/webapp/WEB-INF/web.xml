@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+	<display-name>webservice</display-name>
+	
+	<!-- Spring Contexts -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:/webservice-context.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>Root</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    	<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+		   	<param-value>com.excilys.computerdatabase.webservice</param-value>
+    	</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+</web-app>

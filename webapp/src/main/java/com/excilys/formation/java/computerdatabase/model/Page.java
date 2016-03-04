@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.properties.PageProperties;
 
@@ -79,7 +80,7 @@ public class Page implements Serializable {
 		this.computersDTO = new ArrayList<ComputerDTO>();
 		if(computers.get(0) != null) {
 			for (Computer computer : computers) {
-				ComputerDTO computerDTO = new ComputerDTO(computer);
+				ComputerDTO computerDTO = MapComputer.computerToDTO(computer);
 				this.computersDTO.add(computerDTO);
 			}
 		}

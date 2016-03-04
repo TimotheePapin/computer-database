@@ -57,8 +57,8 @@
 								<form:errors path="discontinued" id="discontinuedError" style="color:red"></form:errors>
 							</div>
 							<div class="form-group">
-								<form:label path="company" for="companyId"><spring:message code="company" /></form:label>
-								<form:select path="company" class="form-control" id="companyId" name="company">
+								<form:label path="companyId" for="companyId"><spring:message code="company" /></form:label>
+								<form:select path="companyId" class="form-control" id="companyId" name="companyId">
 									<option value="0">--</option>
 									<c:forEach items="${Companies}" var="company">
 										<option value="${company.id}"><c:out

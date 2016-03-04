@@ -34,20 +34,25 @@ public class TestSelenium {
 	boolean acceptNextAlert = true;
 	
 	@Autowired
-	private ComputerService serviceComputer;
+	private ComputerService computerService;
 
 	private WebDriver driver;
 	
 	@Before
 	public void setUp() {
-		serviceComputer.deleteByName("TestSelenium");
+		computerService.deleteByName("TestSelenium");
 		driver = new FirefoxDriver();
 		driver.get("http://localhost:7575/webapp/dashboard");
+		driver.findElement(By.id("username")).clear();
+	    driver.findElement(By.id("username")).sendKeys("admin");
+	    driver.findElement(By.id("password")).clear();
+	    driver.findElement(By.id("password")).sendKeys("admin");
+	    driver.findElement(By.cssSelector("button.btn")).click();
 	}
 
 	@After
 	public void close() {
-		serviceComputer.deleteByName("TestSelenium");
+		computerService.deleteByName("TestSelenium");
 		if (driver != null) {
 			driver.close();
 		}
@@ -60,9 +65,8 @@ public class TestSelenium {
 	}
 
 	@Test
-	public void testSize() {
+	public void testSize() throws InterruptedException {
 		LOGGER.info("testSize");
-		driver.findElement(By.id("orderCompanyName")).click();
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 		assertEquals(100, driver.findElements(By.name("computer")).size());
 	}
@@ -121,7 +125,7 @@ public class TestSelenium {
 	@Test
 	public void testEditComputer() {
 		LOGGER.info("testEditComputer");
-		serviceComputer.create(new Computer(0, "TestSelenium", null, null,
+		computerService.create(new Computer(0, "TestSelenium", null, null,
 				new Company(1, "")));
 		driver.findElement(By.xpath("//img[@alt='fr flag']")).click();
 		driver.findElement(By.id("searchbox")).clear();
@@ -144,14 +148,32 @@ public class TestSelenium {
 	}
 
 	@Test
-	public void testDeleteComputer() {
+	public void testDeleteComputer() throws InterruptedException {
 		LOGGER.info("testDeleteComputer");
 		boolean sup = false;
-		serviceComputer.create(new Computer(0, "TestSelenium", null, null,
+		computerService.create(new Computer(0, "TestSelenium", null, null,
 				new Company(1, "")));
 		driver.findElement(By.cssSelector("a.navbar-brand")).click();
 		String start = driver.findElements(By.id("homeTitle")).get(0).getText();
+		//TRY with ADMIN access
 		driver.findElement(By.id("searchbox")).clear();
+		driver.findElement(By.id("searchbox")).sendKeys("Testselenium");
+		driver.findElement(By.id("searchsubmit")).click();
+		driver.findElement(By.id("editComputer")).click();
+		driver.findElement(By.id("selectall")).click();
+		driver.findElement(By.xpath("//a[@id='deleteSelected']/i")).click();
+		assertTrue(closeAlertAndGetItsText().matches(
+				"^Are you sure you want to delete the selected computers[\\s\\S]$"));
+		assertTrue(driver.findElement(By.id("alert")).isDisplayed());
+		//Change rights to SUPER_ADMIN
+		driver.findElement(By.linkText("Logout")).click();
+		driver.findElement(By.id("username")).clear();
+	    driver.findElement(By.id("username")).sendKeys("root");
+	    driver.findElement(By.id("password")).clear();
+	    driver.findElement(By.id("password")).sendKeys("Socket77");
+	    driver.findElement(By.cssSelector("button.btn")).click();
+	    //TRY with SUPER_ADMIN access
+	    driver.findElement(By.id("searchbox")).clear();
 		driver.findElement(By.id("searchbox")).sendKeys("Testselenium");
 		driver.findElement(By.id("searchsubmit")).click();
 		driver.findElement(By.id("editComputer")).click();
@@ -179,7 +201,7 @@ public class TestSelenium {
 	public void testDateLanguage() {
 		LOGGER.info("testDateLanguage");
 		LocalDateTime date = LocalDateTime.of(2016, 05, 26, 0, 0);
-		serviceComputer.create(new Computer(0, "TestSelenium", date, null,
+		computerService.create(new Computer(0, "TestSelenium", date, null,
 				new Company(1, "")));
 		driver.findElement(By.cssSelector("img.flags")).click();
 		driver.findElement(By.id("searchbox")).clear();
@@ -197,7 +219,7 @@ public class TestSelenium {
 	public void testDateLanguageEdit() throws Exception{
 		LOGGER.info("testDateLanguage");
 		LocalDateTime date = LocalDateTime.of(2016, 05, 26, 0, 0);
-		serviceComputer.create(new Computer(0, "TestSelenium", date, null,
+		computerService.create(new Computer(0, "TestSelenium", date, null,
 				new Company(1, "")));
 		driver.findElement(By.cssSelector("img.flags")).click();
 		driver.findElement(By.id("searchbox")).clear();
@@ -207,6 +229,20 @@ public class TestSelenium {
 		assertEquals("05/26/2016", driver.findElements(By.id("introduced")).get(0).getAttribute("value"));
 		driver.findElement(By.xpath("//img[@alt='fr flag']")).click();
 		assertEquals("26/05/2016", driver.findElements(By.id("introduced")).get(0).getAttribute("value"));
+	}
+	
+	@Test
+	public void testUserRights() {
+		driver.findElement(By.id("addComputer")).click();
+		assertTrue(driver.findElement(By.id("computerName")).isDisplayed());
+		driver.findElement(By.linkText("Logout")).click();
+		driver.findElement(By.id("username")).clear();
+	    driver.findElement(By.id("username")).sendKeys("user");
+	    driver.findElement(By.id("password")).clear();
+	    driver.findElement(By.id("password")).sendKeys("user");
+	    driver.findElement(By.cssSelector("button.btn")).click();
+		driver.findElement(By.id("addComputer")).click();
+		assertTrue(driver.findElement(By.id("alert")).isDisplayed());
 	}
 
 	private String closeAlertAndGetItsText() {

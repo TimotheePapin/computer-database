@@ -1,19 +1,16 @@
 package com.excilys.formation.java.computerdatabase.dto;
 
 import java.io.Serializable;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import org.springframework.context.i18n.LocaleContextHolder;
-
-import com.excilys.formation.java.computerdatabase.model.Computer;
 import com.excilys.formation.java.computerdatabase.validator.Date;
 
 /**
  * The Class ComputerDTO.
  */
+@XmlRootElement
 public class ComputerDTO implements Serializable {
 
 	/**
@@ -48,42 +45,14 @@ public class ComputerDTO implements Serializable {
 	 * The company.
 	 */
 	private String company;
+	
+	private int companyId;
 
 	/**
 	 * Instantiates a new computer dto.
 	 */
 	public ComputerDTO() {
 		super();
-	}
-
-	/**
-	 * Instantiates a new computer dto.
-	 *
-	 * @param computer the computer
-	 */
-	public ComputerDTO(Computer computer) {
-		this.id = computer.getId();
-		this.name = computer.getName();
-		DateTimeFormatter formatter;
-		if(LocaleContextHolder.getLocaleContext().getLocale().equals(new Locale("fr", ""))) {
-			formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		} else {
-			formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		}
-		if (computer.getIntroduced() == null) {
-			this.introduced = null;
-		} else {
-			introduced = computer.getIntroduced().format(formatter);
-		}
-		if (computer.getDiscontinued() == null) {
-			this.discontinued = null;
-		} else {
-			this.discontinued = computer.getDiscontinued().toString();
-			discontinued = computer.getDiscontinued().format(formatter);
-		}
-		if (computer.getCompany() != null) {
-			this.company = computer.getCompany().getName();
-		}
 	}
 
 	/**
@@ -175,12 +144,21 @@ public class ComputerDTO implements Serializable {
 	public void setCompany(String company) {
 		this.company = company;
 	}
+	
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((company == null) ? 0 : company.hashCode());
+		result = prime * result + companyId;
 		result = prime * result
 				+ ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + id;
@@ -192,46 +170,37 @@ public class ComputerDTO implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
 		if (getClass() != obj.getClass())
 			return false;
 		ComputerDTO other = (ComputerDTO) obj;
 		if (company == null) {
-			if (other.company != null) {
+			if (other.company != null)
 				return false;
-			}
-		} else if (!company.equals(other.company)) {
+		} else if (!company.equals(other.company))
 			return false;
-		}
+		if (companyId != other.companyId)
+			return false;
 		if (discontinued == null) {
-			if (other.discontinued != null) {
+			if (other.discontinued != null)
 				return false;
-			}
-		} else if (!discontinued.equals(other.discontinued)) {
+		} else if (!discontinued.equals(other.discontinued))
 			return false;
-		}
-		if (id != other.id) {
+		if (id != other.id)
 			return false;
-		}
 		if (introduced == null) {
-			if (other.introduced != null) {
+			if (other.introduced != null)
 				return false;
-			}
-		} else if (!introduced.equals(other.introduced)) {
+		} else if (!introduced.equals(other.introduced))
 			return false;
-		}
 		if (name == null) {
-			if (other.name != null) {
+			if (other.name != null)
 				return false;
-			}
-		} else if (!name.equals(other.name)) {
+		} else if (!name.equals(other.name))
 			return false;
-		}
 		return true;
 	}
 
@@ -239,6 +208,6 @@ public class ComputerDTO implements Serializable {
 	public String toString() {
 		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced="
 				+ introduced + ", discontinued=" + discontinued + ", company="
-				+ company + "]";
+				+ company + ", companyId=" + companyId + "]";
 	}
 }

@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			}
 			User user = new User(userDetail.getUsername(), userDetail.getPassword(),
 					grantedAuthorities);
-			LOGGER.info(user.toString());
 			return user;
 		}
 		throw new UsernameNotFoundException("User not found");

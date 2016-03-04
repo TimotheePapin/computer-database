@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.excilys.formation.java.computerdatabase.CompanyService;
 import com.excilys.formation.java.computerdatabase.ComputerService;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
+import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.page.EditComputerPageCreator;
 
 @Controller
@@ -31,7 +32,7 @@ public class EditComputer {
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(int id, ModelMap modelMap) {
 		modelMap.addAttribute("Computer",
-				new ComputerDTO(computerService.getById(id)));
+				MapComputer.computerToDTO(computerService.getById(id)));
 		modelMap.addAttribute("Companies", companyService.getAll());
 		return "editComputer";
 	}

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>c-db</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>0.3.2-SNAPSHOT</version>
+	<version>0.4.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -13,6 +13,7 @@
 		<module>service</module>
 		<module>console</module>
 		<module>webapp</module>
+		<module>webservice</module>
 	</modules>
 
 	<repositories>
@@ -37,6 +38,10 @@
 		<hibernate-version>4.3.11.Final</hibernate-version>
 		<hibernatevalidator-version>5.2.3.Final</hibernatevalidator-version>
 		<validation-version>1.1.0.Final</validation-version>
+		<!-- JAX RS + Jersey -->
+		<javax-rs-version>2.0.1</javax-rs-version>
+		<jersey-version>1.19</jersey-version>
+		<glassfish-jersey-version>2.22.2</glassfish-jersey-version>
 		<!-- Tests -->
 		<guava-version>19.0</guava-version>
 		<junit-version>4.12</junit-version>
@@ -61,7 +66,7 @@
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
+			<artifactId>spring-web</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
 
@@ -150,7 +155,6 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>${servlet-version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<!-- Tags Management -->
@@ -167,12 +171,6 @@
 			</dependency>
 
 			<!-- Spring -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${spring-version}</version>
-			</dependency>
-
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
@@ -222,77 +220,152 @@
 				<version>${spring-security-version}</version>
 			</dependency>
 
-				<!-- Validation Dependencies -->
-				<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-validator</artifactId>
-					<version>${hibernatevalidator-version}</version>
-				</dependency>
+			<!-- Validation Dependencies -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernatevalidator-version}</version>
+			</dependency>
 
-				<dependency>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-					<version>${validation-version}</version>
-				</dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${validation-version}</version>
+			</dependency>
 
-				<!-- Test dependencies -->
-				<!-- Selenium Dependencies -->
-				<dependency>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-					<version>${guava-version}</version>
-				</dependency>
+			<!-- JAX RS + Jersey -->
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>${javax-rs-version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>${jersey-version}</version>
+			</dependency>
 
-				<dependency>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
-					<version>${javaxel-version}</version>
-				</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-servlet</artifactId>
+				<version>${glassfish-jersey-version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>${glassfish-jersey-version}</version>
+				<scope>provided</scope>
+			</dependency>
 
-				<!-- Unit Testing -->
-				<dependency>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
-					<version>${junit-version}</version>
-					<scope>test</scope>
-				</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.bundles</groupId>
+				<artifactId>jaxrs-ri</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
 
-				<!-- Objects simulation -->
-				<dependency>
-					<groupId>org.mockito</groupId>
-					<artifactId>mockito-all</artifactId>
-					<version>${mockito-version}</version>
-					<scope>test</scope>
-				</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-grizzly2-http</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
 
-				<!-- Checking coding standards -->
-				<dependency>
-					<groupId>checkstyle</groupId>
-					<artifactId>checkstyle</artifactId>
-					<version>${checkstyle-version}</version>
-					<scope>test</scope>
-				</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-grizzly2-servlet</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
 
-				<!-- WebApp Testing -->
-				<dependency>
-					<groupId>org.seleniumhq.selenium</groupId>
-					<artifactId>selenium-java</artifactId>
-					<version>${seleniumjava-version}</version>
-					<scope>test</scope>
-				</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-jdk-http</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
 
-				<dependency>
-					<groupId>org.seleniumhq.selenium.client-drivers</groupId>
-					<artifactId>selenium-java-client-driver</artifactId>
-					<version>${seleniumJCD-version}</version>
-					<scope>test</scope>
-				</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-simple-http</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
 
-				<dependency>
-					<groupId>xml-apis</groupId>
-					<artifactId>xml-apis</artifactId>
-					<version>${xml-apis-version}</version>
-				</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-jetty-http</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-jetty-servlet</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.jersey.ext</groupId>
+				<artifactId>jersey-spring3</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
+
+			<!-- Test dependencies -->
+			<!-- Selenium Dependencies -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.el</groupId>
+				<artifactId>javax.el-api</artifactId>
+				<version>${javaxel-version}</version>
+			</dependency>
+
+			<!-- Unit Testing -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit-version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Objects simulation -->
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${mockito-version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Checking coding standards -->
+			<dependency>
+				<groupId>checkstyle</groupId>
+				<artifactId>checkstyle</artifactId>
+				<version>${checkstyle-version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- WebApp Testing -->
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>${seleniumjava-version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.seleniumhq.selenium.client-drivers</groupId>
+				<artifactId>selenium-java-client-driver</artifactId>
+				<version>${seleniumJCD-version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>xml-apis</groupId>
+				<artifactId>xml-apis</artifactId>
+				<version>${xml-apis-version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
