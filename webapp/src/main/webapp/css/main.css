@@ -1,9 +1,27 @@
+.logger {
+	width: 50%;
+	margin-top: 5%;
+	margin-left: 25%;
+	background-color: gainsboro;
+	height: 200px;
+	display: flex;
+}
+
+.form {
+	margin: auto;
+}
+
+#logbtn {
+	width: 100%;
+	background-color: gray;
+}
+
 .flags {
-	float:right;
-	width:25px;
-	height:auto;
-	margin:3px;
-	margin-top:13px;
+	float: right;
+	width: 25px;
+	height: auto;
+	margin: 3px;
+	margin-top: 13px;
 }
 
 .logout {
@@ -14,31 +32,31 @@
 }
 
 body {
-    background: #f2f2f2;
-    padding-top: 70px;
-    padding-bottom: 70px;
+	background: #f2f2f2;
+	padding-top: 70px;
+	padding-bottom: 70px;
 }
 
 footer {
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:#FEFEFE;
-    border-top:1px solid #CCC;
-    height:60px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: #FEFEFE;
+	border-top: 1px solid #CCC;
+	height: 60px;
 }
 
 footer .pagination {
-    margin:10px 0px;
+	margin: 10px 0px;
 }
 
 footer .btn-group {
-    margin:10px 10px;
+	margin: 10px 10px;
 }
 
 input[type='checkbox'] {
-    margin: 0px;
-    padding:0px;
-    border-radius: 5px;
-    white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	border-radius: 5px;
+	white-space: nowrap;
 }

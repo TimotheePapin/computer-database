@@ -10,21 +10,21 @@ import com.excilys.formation.java.computerdatabase.model.Computer;
  * The Interface ConsoleService.
  */
 public interface ConsoleService {
-	
+
 	/**
 	 * Gets the all ComputerDTO.
 	 *
 	 * @return the all ComputerDTO
 	 */
 	public List<ComputerDTO> getAllComputer();
-	
+
 	/**
 	 * Gets the all company.
 	 *
 	 * @return the all company
 	 */
 	public List<Company> getAllCompany();
-	
+
 	/**
 	 * Gets the ComputerDTO by id.
 	 *
@@ -32,28 +32,28 @@ public interface ConsoleService {
 	 * @return the ComputerDTO by id
 	 */
 	public ComputerDTO getComputerById(int id);
-	
+
 	/**
 	 * Creates the Computer.
 	 *
 	 * @param Computer the Computer
 	 */
 	public ComputerDTO createComputer(Computer computer);
-	
+
 	/**
 	 * Update Computer.
 	 *
 	 * @param Computer the Computer
 	 */
 	public ComputerDTO updateComputer(Computer computer);
-	
+
 	/**
 	 * Delete Computer.
 	 *
 	 * @param id the id
 	 */
 	public void deleteComputer(int id);
-	
+
 	/**
 	 * Delete company.
 	 *

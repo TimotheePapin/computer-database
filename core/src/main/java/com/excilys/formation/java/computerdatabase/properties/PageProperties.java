@@ -139,6 +139,5 @@ public class PageProperties {
 		return "PageProperties [min=" + min + ", size=" + size + ", search="
 				+ search + ", order=" + order + ", by=" + by + "]";
 	}
-	
-	
+
 }

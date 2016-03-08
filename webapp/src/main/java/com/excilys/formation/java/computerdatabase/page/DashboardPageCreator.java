@@ -13,7 +13,7 @@ import com.excilys.formation.java.computerdatabase.properties.PageProperties;
 
 @Service
 public class DashboardPageCreator {
-	
+
 	@Autowired
 	private ComputerService serviceComputer;
 
@@ -36,11 +36,12 @@ public class DashboardPageCreator {
 		if (currentPage.getBy() != null) {
 			pageProps.setBy(MapEnum.toBy(currentPage.getBy()));
 		}
-		if (currentPage.getSearch() != null && !currentPage.getSearch().trim().isEmpty()) {
+		if (currentPage.getSearch() != null
+				&& !currentPage.getSearch().trim().isEmpty()) {
 			pageProps.setSearch(currentPage.getSearch());
 		}
 		computers = serviceComputer.getPage(pageProps);
 		dbSize = serviceComputer.getSize(pageProps.getSearch());
-		return  new Page(computers, dbSize, currentPage.getPage(), pageProps);
+		return new Page(computers, dbSize, currentPage.getPage(), pageProps);
 	}
 }

@@ -17,10 +17,10 @@ import com.excilys.formation.java.computerdatabase.page.AddComputerPageCreator;
 @Controller
 @RequestMapping("/addComputer")
 public class AddComputer {
-	
+
 	@Autowired
 	private CompanyService companyService;
-	
+
 	@Autowired
 	private AddComputerPageCreator addComputerPageCreator;
 
@@ -29,18 +29,19 @@ public class AddComputer {
 		modelMap.addAttribute("Companies", companyService.getAll());
 		return "addComputer";
 	}
-	
+
 	@ModelAttribute("ComputerDTO")
 	public ComputerDTO getComputerDTO() {
 		return new ComputerDTO();
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(@Valid @ModelAttribute("ComputerDTO") ComputerDTO computerDTO, 
+	public String doPost(
+			@Valid @ModelAttribute("ComputerDTO") ComputerDTO computerDTO,
 			BindingResult result, ModelMap modelMap) {
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return "addComputer";
-		} 
-		return addComputerPageCreator.postRequest(computerDTO);	
+		}
+		return addComputerPageCreator.postRequest(computerDTO);
 	}
 }

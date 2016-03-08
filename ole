@@ -1,0 +1,147 @@
+[1mdiff --git a/webservice/pom.xml b/webservice/pom.xml[m
+[1mindex 6db5776..9048c41 100644[m
+[1m--- a/webservice/pom.xml[m
+[1m+++ b/webservice/pom.xml[m
+[36m@@ -28,12 +28,6 @@[m
+ 		</dependency>[m
+ [m
+ 		<dependency>[m
+[31m-			<groupId>org.springframework.security</groupId>[m
+[31m-			<artifactId>spring-security-web</artifactId>[m
+[31m-		</dependency>[m
+[31m-[m
+[31m-[m
+[31m-		<dependency>[m
+ 			<groupId>javax.servlet</groupId>[m
+ 			<artifactId>javax.servlet-api</artifactId>[m
+ 		</dependency>[m
+[36m@@ -91,22 +85,5 @@[m
+ [m
+ 	<build>[m
+ 		<finalName>webservice</finalName>[m
+[31m-		<plugins>[m
+[31m-			<plugin>[m
+[31m-				<artifactId>maven-war-plugin</artifactId>[m
+[31m-			</plugin>[m
+[31m-			<plugin>[m
+[31m-				<groupId>org.apache.maven.plugins</groupId>[m
+[31m-				<artifactId>maven-surefire-plugin</artifactId>[m
+[31m-			</plugin>[m
+[31m-			<plugin>[m
+[31m-				<groupId>org.apache.maven.plugins</groupId>[m
+[31m-				<artifactId>maven-failsafe-plugin</artifactId>[m
+[31m-			</plugin>[m
+[31m-			<plugin>[m
+[31m-				<groupId>org.codehaus.cargo</groupId>[m
+[31m-				<artifactId>cargo-maven2-plugin</artifactId>[m
+[31m-			</plugin>[m
+[31m-		</plugins>[m
+ 	</build>[m
+ </project>[m
+[1mdiff --git a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/CompanyRessource.java b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/CompanyRessource.java[m
+[1mindex ee4002b..d420172 100644[m
+[1m--- a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/CompanyRessource.java[m
+[1m+++ b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/CompanyRessource.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package com.excilys.formation.java.computerdatabase.webservice.xml;[m
+[32m+[m[32mpackage com.excilys.formation.java.computerdatabase.webservice;[m
+ [m
+ import java.util.List;[m
+ [m
+[1mdiff --git a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/ComputerRessource.java b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/ComputerRessource.java[m
+[1mindex 2b27a1f..ff0976f 100644[m
+[1m--- a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/ComputerRessource.java[m
+[1m+++ b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/ComputerRessource.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package com.excilys.formation.java.computerdatabase.webservice.xml;[m
+[32m+[m[32mpackage com.excilys.formation.java.computerdatabase.webservice;[m
+ [m
+ import java.util.List;[m
+ [m
+[36m@@ -10,9 +10,9 @@[m [mpublic interface ComputerRessource {[m
+ 	[m
+ 	public List<ComputerDTO> getAll();[m
+ 	[m
+[31m-	public ComputerDTO getById(int i);[m
+[32m+[m	[32mpublic ComputerDTO getById(int id);[m
+ 	[m
+[31m-	public Response delete(int i);[m
+[32m+[m	[32mpublic Response delete(int id);[m
+ 	[m
+ 	public ComputerDTO update(ComputerDTO computerDTO);[m
+ 	[m
+[1mdiff --git a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/CompanyRessourceImpl.java b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/CompanyRessourceImpl.java[m
+[1mindex 491ca01..43a7606 100644[m
+[1m--- a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/CompanyRessourceImpl.java[m
+[1m+++ b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/CompanyRessourceImpl.java[m
+[36m@@ -17,7 +17,7 @@[m [mimport org.springframework.beans.factory.annotation.Autowired;[m
+ [m
+ import com.excilys.formation.java.computerdatabase.CompanyService;[m
+ import com.excilys.formation.java.computerdatabase.model.Company;[m
+[31m-import com.excilys.formation.java.computerdatabase.webservice.xml.CompanyRessource;[m
+[32m+[m[32mimport com.excilys.formation.java.computerdatabase.webservice.CompanyRessource;[m
+ [m
+ @Path("/company")[m
+ @Produces(MediaType.APPLICATION_XML)[m
+[1mdiff --git a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/ComputerRessourceImpl.java b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/ComputerRessourceImpl.java[m
+[1mindex fbfebcd..b11eda9 100644[m
+[1m--- a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/ComputerRessourceImpl.java[m
+[1m+++ b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/ComputerRessourceImpl.java[m
+[36m@@ -21,7 +21,7 @@[m [mimport com.excilys.formation.java.computerdatabase.ComputerService;[m
+ import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;[m
+ import com.excilys.formation.java.computerdatabase.mapper.MapComputer;[m
+ import com.excilys.formation.java.computerdatabase.model.Computer;[m
+[31m-import com.excilys.formation.java.computerdatabase.webservice.xml.ComputerRessource;[m
+[32m+[m[32mimport com.excilys.formation.java.computerdatabase.webservice.ComputerRessource;[m
+ [m
+ @Path("/computer")[m
+ @Produces(MediaType.APPLICATION_XML)[m
+[1mdiff --git a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/Entry.java b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/Entry.java[m
+[1mindex 6d38578..e06f691 100644[m
+[1m--- a/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/Entry.java[m
+[1m+++ b/webservice/src/main/java/com/excilys/formation/java/computerdatabase/webservice/xml/impl/Entry.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package com.excilys.formation.java.computerdatabase.webservice.xml;[m
+[32m+[m[32mpackage com.excilys.formation.java.computerdatabase.webservice.xml.impl;[m
+ [m
+ import javax.ws.rs.ApplicationPath;[m
+ import javax.ws.rs.core.Application;[m
+[1mdiff --git a/webservice/src/main/webapp/WEB-INF/web.xml b/webservice/src/main/webapp/WEB-INF/web.xml[m
+[1mindex 8cc7d40..fdc66ca 100644[m
+[1m--- a/webservice/src/main/webapp/WEB-INF/web.xml[m
+[1m+++ b/webservice/src/main/webapp/WEB-INF/web.xml[m
+[36m@@ -7,7 +7,7 @@[m
+ 	<!-- Spring Contexts -->[m
+ 	<context-param>[m
+ 		<param-name>contextConfigLocation</param-name>[m
+[31m-		<param-value>classpath:/webservice-context.xml</param-value>[m
+[32m+[m		[32m<param-value>classpath:/webservice-context.xml,  /WEB-INF/webservice-mvc-dispatcher-context.xml</param-value>[m
+ 	</context-param>[m
+ [m
+ 	<listener>[m
+[36m@@ -15,13 +15,18 @@[m
+ 	</listener>[m
+ [m
+ 	<servlet>[m
+[31m-		<servlet-name>Root</servlet-name>[m
+[31m-		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>[m
+[31m-    	<init-param>[m
+[31m-			<param-name>jersey.config.server.provider.packages</param-name>[m
+[31m-		   	<param-value>com.excilys.computerdatabase.webservice</param-value>[m
+[31m-    	</init-param>[m
+[32m+[m		[32m<servlet-name>webservice-mvc-dispatcher</servlet-name>[m
+[32m+[m		[32m<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>[m
+[32m+[m		[32m<init-param>[m
+[32m+[m			[32m<param-name>contextConfigLocation</param-name>[m
+[32m+[m			[32m<param-value></param-value>[m
+[32m+[m		[32m</init-param>[m
+ 		<load-on-startup>1</load-on-startup>[m
+ 	</servlet>[m
+[32m+[m[41m	[m
+[32m+[m	[32m<servlet-mapping>[m
+[32m+[m		[32m<servlet-name>webservice-mvc-dispatcher</servlet-name>[m
+[32m+[m		[32m<url-pattern>/</url-pattern>[m
+[32m+[m	[32m</servlet-mapping>[m
+ [m
+ </web-app>[m
+\ No newline at end of file[m

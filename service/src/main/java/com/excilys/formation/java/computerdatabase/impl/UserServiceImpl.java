@@ -26,7 +26,7 @@ import com.excilys.formation.java.computerdatabase.model.UserDetail;
 @Service("userDetailsService")
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
-	
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(UserServiceImpl.class);
 
@@ -65,13 +65,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			throws UsernameNotFoundException {
 		LOGGER.info("Starting loadUserByUsername");
 		UserDetail userDetail = userDAO.getByUsername(username);
-		if(userDetail != null) {
+		if (userDetail != null) {
 			Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 			for (Authority role : userDetail.getUserRole()) {
-				grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+				grantedAuthorities
+						.add(new SimpleGrantedAuthority(role.getRole()));
 			}
-			User user = new User(userDetail.getUsername(), userDetail.getPassword(),
-					grantedAuthorities);
+			User user = new User(userDetail.getUsername(),
+					userDetail.getPassword(), grantedAuthorities);
 			return user;
 		}
 		throw new UsernameNotFoundException("User not found");

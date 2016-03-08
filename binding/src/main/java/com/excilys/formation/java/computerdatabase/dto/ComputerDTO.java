@@ -26,7 +26,7 @@ public class ComputerDTO implements Serializable {
 	/**
 	 * The name.
 	 */
-	@Size(min=2, max=255, message="{add.error.name}")
+	@Size(min = 2, max = 255, message = "{add.error.name}")
 	private String name;
 
 	/**
@@ -45,7 +45,7 @@ public class ComputerDTO implements Serializable {
 	 * The company.
 	 */
 	private String company;
-	
+
 	private int companyId;
 
 	/**
@@ -144,7 +144,7 @@ public class ComputerDTO implements Serializable {
 	public void setCompany(String company) {
 		this.company = company;
 	}
-	
+
 	public int getCompanyId() {
 		return companyId;
 	}

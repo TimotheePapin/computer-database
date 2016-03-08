@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>c-db</groupId>
 	<artifactId>computer-database</artifactId>
-	<version>0.4.1-SNAPSHOT</version>
+	<version>1.0.0-RELEASE</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -36,7 +36,7 @@
 		<spring-version>4.2.4.RELEASE</spring-version>
 		<spring-security-version>4.0.3.RELEASE</spring-security-version>
 		<hibernate-version>4.3.11.Final</hibernate-version>
-		<hibernatevalidator-version>5.2.3.Final</hibernatevalidator-version>
+		<hibernate-validator-version>5.2.3.Final</hibernate-validator-version>
 		<validation-version>1.1.0.Final</validation-version>
 		<!-- JAX RS + Jersey -->
 		<javax-rs-version>2.0.1</javax-rs-version>
@@ -224,7 +224,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernatevalidator-version}</version>
+				<version>${hibernate-validator-version}</version>
 			</dependency>
 
 			<dependency>
@@ -239,7 +239,7 @@
 				<artifactId>javax.ws.rs-api</artifactId>
 				<version>${javax-rs-version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-client</artifactId>
@@ -252,7 +252,13 @@
 				<version>${glassfish-jersey-version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-common</artifactId>
+				<version>${glassfish-jersey-version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.glassfish.jersey.core</groupId>
 				<artifactId>jersey-client</artifactId>
@@ -263,42 +269,6 @@
 			<dependency>
 				<groupId>org.glassfish.jersey.bundles</groupId>
 				<artifactId>jaxrs-ri</artifactId>
-				<version>${glassfish-jersey-version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-grizzly2-http</artifactId>
-				<version>${glassfish-jersey-version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-grizzly2-servlet</artifactId>
-				<version>${glassfish-jersey-version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-jdk-http</artifactId>
-				<version>${glassfish-jersey-version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-simple-http</artifactId>
-				<version>${glassfish-jersey-version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-jetty-http</artifactId>
-				<version>${glassfish-jersey-version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-jetty-servlet</artifactId>
 				<version>${glassfish-jersey-version}</version>
 			</dependency>
 

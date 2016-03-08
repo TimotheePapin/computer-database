@@ -10,7 +10,7 @@
 		<div class="container">
 			<a class="navbar-brand" href="dashboard"> Application - Computer
 				Database </a>
-			<a class="logout" href="/menu/logout?logout=true"><spring:message code="logout" /></a>
+			<a class="logout" href="logout"><spring:message code="logout" /></a>
 			<div id="langue">
 				<a href="?language=en&id=${Computer.id}"><img class="flags"
 					src="fonts/english.jpeg" alt="uk flag"></a> <a

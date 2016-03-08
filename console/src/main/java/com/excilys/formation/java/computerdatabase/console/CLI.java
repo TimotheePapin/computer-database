@@ -202,7 +202,7 @@ public class CLI {
 		String name = sc.nextLine();
 		LocalDateTime introduced = null;
 		LocalDateTime discontinued = null;
-		boolean date = false; 
+		boolean date = false;
 		do {
 			try {
 				System.out.println(
@@ -213,7 +213,7 @@ public class CLI {
 			} catch (DateTimeParseException e) {
 				System.out.println("Wrong entry for the date :");
 			}
-		} while(!date);
+		} while (!date);
 		do {
 			try {
 				System.out.println(
@@ -224,7 +224,7 @@ public class CLI {
 			} catch (DateTimeParseException e) {
 				System.out.println("Wrong entry for the date :");
 			}
-		} while(!date);
+		} while (!date);
 		System.out.println("Enter Computer's companyId :");
 		int companyId = sc.nextInt();
 		sc.nextLine();

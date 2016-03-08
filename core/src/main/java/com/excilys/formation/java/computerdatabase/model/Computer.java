@@ -8,15 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Type;
 
 /**
  * The Class Computer.
  */
-@Entity(name="computer")
-@XmlRootElement
+@Entity(name = "computer")
 public class Computer implements Serializable {
 
 	/**
@@ -24,12 +22,13 @@ public class Computer implements Serializable {
 	 */
 	private static final long serialVersionUID = 3479179590110537100L;
 
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String name;
-	@Type(type="com.excilys.formation.java.computerdatabase.mapper.LocalDateTimeUserType")
+	@Type(type = "com.excilys.formation.java.computerdatabase.mapper.LocalDateTimeUserType")
 	private LocalDateTime introduced;
-	@Type(type="com.excilys.formation.java.computerdatabase.mapper.LocalDateTimeUserType")
+	@Type(type = "com.excilys.formation.java.computerdatabase.mapper.LocalDateTimeUserType")
 	private LocalDateTime discontinued;
 
 	@OneToOne

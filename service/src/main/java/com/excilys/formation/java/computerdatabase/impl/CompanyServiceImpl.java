@@ -18,7 +18,7 @@ import com.excilys.formation.java.computerdatabase.CompanyDAO;
  */
 @Service
 public class CompanyServiceImpl implements CompanyService {
-	
+
 	/**
 	 * The service computer.
 	 */
@@ -28,7 +28,8 @@ public class CompanyServiceImpl implements CompanyService {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(CompanyServiceImpl.class);
 
 	/**
 	 * The company dao.
@@ -42,7 +43,7 @@ public class CompanyServiceImpl implements CompanyService {
 	 * @return the all
 	 */
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public List<Company> getAll() {
 		return companyDAO.getAll();
 	}
@@ -54,19 +55,19 @@ public class CompanyServiceImpl implements CompanyService {
 		serviceComputer.deleteByCompanyId(id);
 		companyDAO.deleteById(id);
 	}
-	
+
 	@Override
 	@Transactional
 	public Company create(Company company) {
 		return companyDAO.add(company);
 	}
-	
+
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public Company getByName(String name) {
 		return companyDAO.getByName(name);
 	}
-	
+
 	/**
 	 * Gets the dao company.
 	 *

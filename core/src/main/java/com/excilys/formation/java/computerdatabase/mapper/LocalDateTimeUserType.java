@@ -25,7 +25,6 @@ public class LocalDateTimeUserType implements EnhancedUserType, Serializable {
 		return SQL_TYPES;
 	}
 
-	
 	@Override
 	@SuppressWarnings("rawtypes")
 	public Class returnedClass() {
@@ -53,7 +52,7 @@ public class LocalDateTimeUserType implements EnhancedUserType, Serializable {
 	@Override
 	public Object nullSafeGet(ResultSet resultSet, String[] names,
 			SessionImplementor session, Object owner)
-			throws HibernateException, SQLException {
+					throws HibernateException, SQLException {
 		Object timestamp = StandardBasicTypes.TIMESTAMP.nullSafeGet(resultSet,
 				names, session, owner);
 		if (timestamp == null) {
@@ -66,8 +65,8 @@ public class LocalDateTimeUserType implements EnhancedUserType, Serializable {
 
 	@Override
 	public void nullSafeSet(PreparedStatement preparedStatement, Object value,
-			int index, SessionImplementor session) throws HibernateException,
-			SQLException {
+			int index, SessionImplementor session)
+					throws HibernateException, SQLException {
 		if (value == null) {
 			StandardBasicTypes.TIMESTAMP.nullSafeSet(preparedStatement, null,
 					index, session);

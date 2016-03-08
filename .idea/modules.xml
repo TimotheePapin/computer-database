@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/webservice/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/WEB-INF/WEB-INF.iml" filepath="$PROJECT_DIR$/webservice/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/WEB-INF/WEB-INF.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webapp/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/WEB-INF/WEB-INF1.iml" filepath="$PROJECT_DIR$/webapp/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/WEB-INF/WEB-INF1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/binding/src/main/binding.iml" filepath="$PROJECT_DIR$/binding/src/main/binding.iml" />
+      <module fileurl="file://$PROJECT_DIR$/console/src/main/console.iml" filepath="$PROJECT_DIR$/console/src/main/console.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/src/main/core.iml" filepath="$PROJECT_DIR$/core/src/main/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webservice/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/WEB-INF/jsp/jsp.iml" filepath="$PROJECT_DIR$/webservice/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/WEB-INF/jsp/jsp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webapp/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/WEB-INF/jsp/jsp1.iml" filepath="$PROJECT_DIR$/webapp/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/WEB-INF/jsp/jsp1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/persistence/src/main/persistence.iml" filepath="$PROJECT_DIR$/persistence/src/main/persistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webapp/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/jsp/plugin/plugin.iml" filepath="$PROJECT_DIR$/webapp/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/jsp/plugin/plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webservice/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/jsp/plugin/plugin1.iml" filepath="$PROJECT_DIR$/webservice/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/examples/jsp/plugin/plugin1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webapp/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/docs/appdev/sample/sample.iml" filepath="$PROJECT_DIR$/webapp/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/docs/appdev/sample/sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webservice/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/docs/appdev/sample/sample1.iml" filepath="$PROJECT_DIR$/webservice/target/cargo/installs/apache-tomcat-8.0.26/apache-tomcat-8.0.26/webapps/docs/appdev/sample/sample1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/src/main/service.iml" filepath="$PROJECT_DIR$/service/src/main/service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/src/test/test.iml" filepath="$PROJECT_DIR$/service/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webapp/src/test/test1.iml" filepath="$PROJECT_DIR$/webapp/src/test/test1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webapp/src/main/webapp.iml" filepath="$PROJECT_DIR$/webapp/src/main/webapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webservice/src/main/webservice.iml" filepath="$PROJECT_DIR$/webservice/src/main/webservice.iml" />
+    </modules>
+  </component>
+</project>

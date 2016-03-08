@@ -21,26 +21,27 @@ import com.excilys.formation.java.computerdatabase.ComputerService;
 import com.excilys.formation.java.computerdatabase.dto.ComputerDTO;
 import com.excilys.formation.java.computerdatabase.mapper.MapComputer;
 import com.excilys.formation.java.computerdatabase.model.Computer;
-import com.excilys.formation.java.computerdatabase.webservice.xml.ComputerRessource;
+import com.excilys.formation.java.computerdatabase.webservice.ComputerRessource;
 
 @Path("/computer")
 @Produces(MediaType.APPLICATION_XML)
 @Consumes(MediaType.APPLICATION_XML)
-public class ComputerRessourceImpl implements ComputerRessource{
-	
+public class ComputerRessourceImpl implements ComputerRessource {
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerRessourceImpl.class);
 
 	@Autowired
 	private ComputerService computerService;
-	
+
 	@Override
 	@GET
 	@Path("getAll")
 	public List<ComputerDTO> getAll() {
 		LOGGER.info("Starting getAll");
-		List<ComputerDTO> computersDTO = new ArrayList<>();;
-		for(Computer computer : computerService.getAll()) {
+		List<ComputerDTO> computersDTO = new ArrayList<>();
+		;
+		for (Computer computer : computerService.getAll()) {
 			computersDTO.add(MapComputer.computerToDTO(computer));
 		}
 		return computersDTO;
@@ -69,7 +70,8 @@ public class ComputerRessourceImpl implements ComputerRessource{
 	@Path("update")
 	public ComputerDTO update(ComputerDTO computerDTO) {
 		LOGGER.info("Starting update {}", computerDTO.toString());
-		int id = computerService.update(MapComputer.dtoToComputer(computerDTO)).getId();
+		int id = computerService.update(MapComputer.dtoToComputer(computerDTO))
+				.getId();
 		return MapComputer.computerToDTO(computerService.getById(id));
 	}
 
@@ -78,7 +80,8 @@ public class ComputerRessourceImpl implements ComputerRessource{
 	@Path("create")
 	public ComputerDTO create(ComputerDTO computerDTO) {
 		LOGGER.info("Starting create {}", computerDTO.getName());
-		int id = computerService.create(MapComputer.dtoToComputer(computerDTO)).getId();
+		int id = computerService.create(MapComputer.dtoToComputer(computerDTO))
+				.getId();
 		return MapComputer.computerToDTO(computerService.getById(id));
 	}
 

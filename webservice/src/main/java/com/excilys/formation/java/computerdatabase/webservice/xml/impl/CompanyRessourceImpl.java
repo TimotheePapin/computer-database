@@ -17,16 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.formation.java.computerdatabase.CompanyService;
 import com.excilys.formation.java.computerdatabase.model.Company;
-import com.excilys.formation.java.computerdatabase.webservice.xml.CompanyRessource;
+import com.excilys.formation.java.computerdatabase.webservice.CompanyRessource;
 
 @Path("/company")
 @Produces(MediaType.APPLICATION_XML)
 @Consumes(MediaType.APPLICATION_XML)
-public class CompanyRessourceImpl implements CompanyRessource{
-	
+public class CompanyRessourceImpl implements CompanyRessource {
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CompanyRessourceImpl.class);
-	
+
 	@Autowired
 	CompanyService companyService;
 
@@ -44,7 +44,7 @@ public class CompanyRessourceImpl implements CompanyRessource{
 	@Path("delete/{id}")
 	public Response delete(@PathParam("id") int id) {
 		LOGGER.info("Starting deleteById {}", id);
-		companyService.deleteById(id);	
+		companyService.deleteById(id);
 		return Response.ok("Company and associat Computers deleted").build();
 	}
 

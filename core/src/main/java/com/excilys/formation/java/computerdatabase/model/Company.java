@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * The Class Company.
  */
-@Entity(name="company")
+@Entity(name = "company")
 @XmlRootElement
 public class Company implements Serializable {
 
@@ -23,7 +23,8 @@ public class Company implements Serializable {
 	/**
 	 * The id.
 	 */
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	/**

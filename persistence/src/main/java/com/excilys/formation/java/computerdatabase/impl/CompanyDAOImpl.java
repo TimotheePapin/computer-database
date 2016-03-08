@@ -39,7 +39,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	public Company getByName(String name) {
 		LOGGER.info("Starting Company getByName");
 		Session session = sf.getCurrentSession();
-		return (Company) session.get(Company.class, name);	
+		return (Company) session.get(Company.class, name);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 		LOGGER.info("Starting Company deleteById");
 		Session session = sf.getCurrentSession();
 		Company company = (Company) session.get(Company.class, id);
-		if(company != null) {
+		if (company != null) {
 			session.delete(company);
 		}
 	}
@@ -56,7 +56,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	public Company add(Company company) {
 		LOGGER.info("Starting Company addCompany");
 		Session session = sf.getCurrentSession();
-		company.setId((int)session.save(company));
+		company.setId((int) session.save(company));
 		return company;
 	}
 }

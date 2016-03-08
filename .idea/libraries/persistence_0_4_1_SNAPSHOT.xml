@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="persistence-0.4.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/persistence/target/persistence-0.4.1-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

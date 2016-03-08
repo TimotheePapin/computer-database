@@ -8,14 +8,14 @@ import com.excilys.formation.java.computerdatabase.model.UserDetail;
  * The Interface UserService.
  */
 public interface UserService {
-	
+
 	/**
 	 * Gets the all.
 	 *
 	 * @return the all
 	 */
 	List<UserDetail> getAll();
-	
+
 	/**
 	 * Gets the by username.
 	 *
@@ -23,7 +23,7 @@ public interface UserService {
 	 * @return the by username
 	 */
 	UserDetail getByUsername(String username);
-	
+
 	/**
 	 * Adds the user
 	 *
@@ -31,14 +31,14 @@ public interface UserService {
 	 * @return the user
 	 */
 	UserDetail add(UserDetail user);
-	
+
 	/**
 	 * Delete by username.
 	 *
 	 * @param username the username
 	 */
 	void deleteByUsername(String username);
-	
+
 	/**
 	 * Update.
 	 *

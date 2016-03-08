@@ -14,22 +14,23 @@ import com.excilys.formation.java.computerdatabase.model.Page;
 @Controller
 @RequestMapping("/dashboard")
 public class Dashboard {
-	
+
 	@Autowired
 	private DashboardPageCreator dashboardPageCreator;
-	
+
 	@Autowired
 	private ComputerService computerService;
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(Page webPage, ModelMap modelMap) {
 		webPage = dashboardPageCreator.getRequest(webPage);
 		modelMap.addAttribute("webPage", webPage);
 		return "dashboard";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(@RequestParam("selection") String selection, ModelMap modelMap) {
+	public String doPost(@RequestParam("selection") String selection,
+			ModelMap modelMap) {
 		if (selection != null && !selection.trim().isEmpty()) {
 			String[] ids = selection.split(",");
 			for (String id : ids) {

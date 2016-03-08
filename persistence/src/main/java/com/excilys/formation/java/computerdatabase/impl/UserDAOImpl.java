@@ -18,7 +18,7 @@ import com.excilys.formation.java.computerdatabase.model.UserDetail;
 @Repository
 @SuppressWarnings("unchecked")
 public class UserDAOImpl implements UserDAO {
-	
+
 	@Autowired
 	private SessionFactory sf;
 
@@ -32,7 +32,8 @@ public class UserDAOImpl implements UserDAO {
 	public UserDetail getByUsername(String username) {
 		LOGGER.info("Starting UserDetail getByName {}", username);
 		Session session = sf.getCurrentSession();
-		return (UserDetail) session.createCriteria(UserDetail.class).add(Restrictions.eq("username", username)).uniqueResult();
+		return (UserDetail) session.createCriteria(UserDetail.class)
+				.add(Restrictions.eq("username", username)).uniqueResult();
 	}
 
 	@Override
@@ -51,9 +52,10 @@ public class UserDAOImpl implements UserDAO {
 		LOGGER.info("Starting UserDetail deleteByName {}", username);
 		Session session = sf.getCurrentSession();
 		Criterion userDetailName = Restrictions.like("username", username);
-		List<UserDetail> UserDetails = (List<UserDetail>) session.createCriteria(UserDetail.class,"users")
-				.add(userDetailName).list();
-		if(!UserDetails.isEmpty()) {
+		List<UserDetail> UserDetails = (List<UserDetail>) session
+				.createCriteria(UserDetail.class, "users").add(userDetailName)
+				.list();
+		if (!UserDetails.isEmpty()) {
 			session.delete(UserDetails.get(0));
 		}
 	}
@@ -69,6 +71,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserDetail> getAll() {
 		LOGGER.info("Starting UserDetail getAll");
 		Session session = sf.getCurrentSession();
-		return (List<UserDetail>) session.createCriteria(UserDetail.class).list();
+		return (List<UserDetail>) session.createCriteria(UserDetail.class)
+				.list();
 	}
 }

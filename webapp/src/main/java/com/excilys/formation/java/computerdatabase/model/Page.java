@@ -78,7 +78,7 @@ public class Page implements Serializable {
 			PageProperties pageProps) {
 		super();
 		this.computersDTO = new ArrayList<ComputerDTO>();
-		if(computers.get(0) != null) {
+		if (computers.get(0) != null) {
 			for (Computer computer : computers) {
 				ComputerDTO computerDTO = MapComputer.computerToDTO(computer);
 				this.computersDTO.add(computerDTO);

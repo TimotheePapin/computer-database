@@ -36,18 +36,19 @@ public class EditComputer {
 		modelMap.addAttribute("Companies", companyService.getAll());
 		return "editComputer";
 	}
-	
+
 	@ModelAttribute("ComputerDTO")
 	public ComputerDTO getComputerDTO() {
 		return new ComputerDTO();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String doPost(@Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO,
+	public String doPost(
+			@Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO,
 			BindingResult result, ModelMap modelMap) {
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return "editComputer";
-		} 
+		}
 		return editComputerPageCreator.postRequest(computerDTO);
 	}
 }

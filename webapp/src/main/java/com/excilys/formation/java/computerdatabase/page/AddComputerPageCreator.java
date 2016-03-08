@@ -13,16 +13,16 @@ import com.excilys.formation.java.computerdatabase.model.Computer;
 
 @Service
 public class AddComputerPageCreator {
-	
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AddComputerPageCreator.class);
-	
+
 	@Autowired
 	private ComputerService computerService;
-	
+
 	public String postRequest(ComputerDTO computerDTO) {
 		Computer computer = new Computer();
-		
+
 		try {
 			computer = MapComputer.dtoToComputer(computerDTO);
 			computerService.create(computer);
@@ -32,6 +32,6 @@ public class AddComputerPageCreator {
 			LOGGER.error(
 					"\n" + e.getMessage() + "\nFailed to Add the Computer;");
 			return "addComputer";
-		}	
+		}
 	}
 }

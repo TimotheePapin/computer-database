@@ -78,7 +78,7 @@ public interface ComputerService {
 	 * @return computers
 	 */
 	List<Computer> getByCompanyId(int companyId);
-	
+
 	/**
 	 * Delete by company id.
 	 *

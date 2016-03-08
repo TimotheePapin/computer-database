@@ -39,7 +39,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public List<Computer> getAll() {
 		LOGGER.info("Starting Computer getAll");
 		Session session = sf.getCurrentSession();
-		return session.createCriteria(Computer.class,"computer").createCriteria("company", "company",JoinType.LEFT_OUTER_JOIN).list();
+		return session.createCriteria(Computer.class, "computer")
+				.createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
+				.list();
 	}
 
 	@Override
@@ -47,17 +49,22 @@ public class ComputerDAOImpl implements ComputerDAO {
 		LOGGER.info("Starting Computer getPage {}", prop);
 		Session session = sf.getCurrentSession();
 		org.hibernate.criterion.Order order = null;
-		if(prop.getOrder() == Order.ASC) {
+		if (prop.getOrder() == Order.ASC) {
 			order = org.hibernate.criterion.Order.asc(prop.getBy().toString());
 		} else {
 			order = org.hibernate.criterion.Order.desc(prop.getBy().toString());
 		}
-		StringBuilder stringBuilder = new StringBuilder("%").append(prop.getSearch()).append("%");
-		Criterion computerCrit = Restrictions.like("computer.name", stringBuilder.toString());
-		Criterion companyCrit = Restrictions.like("company.name", stringBuilder.toString());
+		StringBuilder stringBuilder = new StringBuilder("%")
+				.append(prop.getSearch()).append("%");
+		Criterion computerCrit = Restrictions.like("computer.name",
+				stringBuilder.toString());
+		Criterion companyCrit = Restrictions.like("company.name",
+				stringBuilder.toString());
 		LogicalExpression or = Restrictions.or(computerCrit, companyCrit);
-		return session.createCriteria(Computer.class,"computer").createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
-				.addOrder(order).add(or).setFirstResult(prop.getMin()).setMaxResults(prop.getSize()).list();
+		return session.createCriteria(Computer.class, "computer")
+				.createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
+				.addOrder(order).add(or).setFirstResult(prop.getMin())
+				.setMaxResults(prop.getSize()).list();
 	}
 
 	@Override
@@ -65,7 +72,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		LOGGER.info("Starting Computer getById {}", id);
 		Session session = sf.getCurrentSession();
 		return (Computer) session.get(Computer.class, id);
-		
+
 	}
 
 	@Override
@@ -73,7 +80,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		LOGGER.info("Starting Computer getByName");
 		Session session = sf.getCurrentSession();
 		Criterion computerName = Restrictions.like("computer.name", name);
-		return (Computer) session.createCriteria(Computer.class,"computer")
+		return (Computer) session.createCriteria(Computer.class, "computer")
 				.add(computerName).list().get(0);
 	}
 
@@ -82,9 +89,10 @@ public class ComputerDAOImpl implements ComputerDAO {
 		LOGGER.info("Starting Computer deleteByName");
 		Session session = sf.getCurrentSession();
 		Criterion computerName = Restrictions.like("computer.name", name);
-		List<Computer> computers = (List<Computer>) session.createCriteria(Computer.class,"computer")
-				.add(computerName).list();
-		if(!computers.isEmpty()) {
+		List<Computer> computers = (List<Computer>) session
+				.createCriteria(Computer.class, "computer").add(computerName)
+				.list();
+		if (!computers.isEmpty()) {
 			session.delete(computers.get(0));
 		}
 	}
@@ -94,7 +102,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		LOGGER.info("Starting Computer deleteById");
 		Session session = sf.getCurrentSession();
 		Computer computer = (Computer) session.get(Computer.class, id);
-		if(computer != null) {
+		if (computer != null) {
 			session.delete(computer);
 		}
 	}
@@ -103,7 +111,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public Computer update(Computer computer) {
 		LOGGER.info("Starting Computer update {}", computer);
 		Session session = sf.getCurrentSession();
-		if(computer.getCompany() != null && computer.getCompany().getId() == 0) {
+		if (computer.getCompany() != null
+				&& computer.getCompany().getId() == 0) {
 			computer.setCompany(null);
 		}
 		return (Computer) session.merge(computer);
@@ -113,10 +122,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public Computer add(Computer computer) {
 		LOGGER.info("Starting Computer addComputer {}", computer);
 		Session session = sf.getCurrentSession();
-		if(computer.getCompany() != null && computer.getCompany().getId() == 0) {
+		if (computer.getCompany() != null
+				&& computer.getCompany().getId() == 0) {
 			computer.setCompany(null);
 		}
-		computer.setId((int)session.save(computer));
+		computer.setId((int) session.save(computer));
 		return computer;
 	}
 
@@ -124,13 +134,17 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public int getSize(String search) {
 		LOGGER.info("Starting Computer getSize");
 		Session session = sf.getCurrentSession();
-		StringBuilder stringBuilder = new StringBuilder("%").append(search).append("%");
-		Criterion computerCrit = Restrictions.like("computer.name", stringBuilder.toString());
-		Criterion companyCrit = Restrictions.like("company.name", stringBuilder.toString());
+		StringBuilder stringBuilder = new StringBuilder("%").append(search)
+				.append("%");
+		Criterion computerCrit = Restrictions.like("computer.name",
+				stringBuilder.toString());
+		Criterion companyCrit = Restrictions.like("company.name",
+				stringBuilder.toString());
 		LogicalExpression or = Restrictions.or(computerCrit, companyCrit);
-		return ((Long)session.createCriteria(Computer.class, "computer")
+		return ((Long) session.createCriteria(Computer.class, "computer")
 				.createCriteria("company", "company", JoinType.LEFT_OUTER_JOIN)
-				.add(or).setProjection(Projections.rowCount()).uniqueResult()).intValue();
+				.add(or).setProjection(Projections.rowCount()).uniqueResult())
+						.intValue();
 	}
 
 	@Override

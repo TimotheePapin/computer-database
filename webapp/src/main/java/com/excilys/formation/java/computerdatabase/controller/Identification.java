@@ -12,7 +12,8 @@ public class Identification {
 
 	@RequestMapping(value = "/identification", method = RequestMethod.GET)
 	public String login(
-			@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout,
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout,
 			ModelMap modelMap) {
 		if (error == null || !"true".equals(error)) {
 			error = "false";
@@ -21,10 +22,12 @@ public class Identification {
 		modelMap.addAttribute("logout", logout);
 		return "identification";
 	}
-	
+
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(ModelMap modelMap) {;
-		SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+	public String logout(ModelMap modelMap) {
+		;
+		SecurityContextHolder.getContext().getAuthentication()
+				.setAuthenticated(false);
 		modelMap.addAttribute("logout", true);
 		return "redirect:/identification";
 	}

@@ -5,19 +5,14 @@
 	<parent>
 		<groupId>c-db</groupId>
 		<artifactId>computer-database</artifactId>
-		<version>0.4.1-SNAPSHOT</version>
+		<version>1.0.0-RELEASE</version>
 	</parent>
 
 	<dependencies>
-		<!-- Module -->
+		<!-- Module -->		
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>core</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>persistence</artifactId>
 		</dependency>
 
 		<dependency>
